@@ -548,6 +548,7 @@ const renderDChat=()=>{
           <button class="qbtn" onclick="qAct('end','${cp}')"><i class="fas fa-stop" style="color:#f87171"></i>إنهاء الشيفت</button>
           <button class="qbtn" onclick="qAct('break','${cp}')"><i class="fas fa-coffee" style="color:#fbbf24"></i>استراحة</button>
           <button class="qbtn" onclick="qAct('fix','${cp}')"><i class="fas fa-wrench" style="color:#a78bfa"></i>عطل سيارة</button>
+          <button class="qbtn" onclick="sendLoc('${cp}')"><i class="fas fa-location-dot" style="color:#34d399"></i>إرسال موقع</button>
           <button class="qbtn sos" onclick="doSOS('${cp}')"><i class="fas fa-triangle-exclamation"></i> طوارئ SOS</button>
         </div>
       </div>
@@ -657,11 +658,18 @@ window.selD=id=>{
 };
 
 /* ══ TRACK ══ */
-window.doTrack=dId=>{
-  const d=allDrvs[dId];if(!d)return;
-  const lat=d.lat||32.3226,lng=d.lng||35.1517;
-  $('mapf').src=`https://maps.google.com/maps?q=${lat},${lng}&z=15&output=embed`;
-  OM('Mmap');
+window.doTrack=async dId=>{
+  // always fetch fresh location from DB
+  const snap=await get(ref(db,`drivers/${dId}`));
+  if(!snap.exists())return toast('err','خطأ','لم يُعثر على السائق');
+  const d=snap.val();
+  if(!d.lat||!d.lng){
+    toast('warn','الموقع غير متوفر','السائق لم يُرسل موقعه بعد');
+    return;
+  }
+  const lat=d.lat,lng=d.lng;
+  // open in new tab for best accuracy on mobile
+  window.open(`https://www.google.com/maps?q=${lat},${lng}&z=16`,'_blank');
 };
 
 /* ══ CHAT ENGINE ══ */
@@ -688,6 +696,7 @@ const mkBubble=(mid,msg,myRole,cp)=>{
   let content='';
   if(msg.type==='image')content=`<div class="mbubble imgm"><img src="${msg.url}" onclick="vImg('${msg.url}')"></div>`;
   else if(msg.type==='video')content=`<div class="mbubble vidm"><video src="${msg.url}" controls playsinline></video></div>`;
+  else if(msg.type==='location')content=`<div class="mbubble" style="font-size:12px;line-height:1.6">${esc(msg.text||'').split('\n')[0]}<br><a href="${msg.url||''}" target="_blank" style="color:#60a5fa;font-size:11px;display:inline-flex;align-items:center;gap:4px;margin-top:4px;"><i class="fas fa-external-link-alt"></i> فتح في خرائط Google</a></div>`;
   else content=`<div class="mbubble">${esc(msg.text||'')}${msg.edited?'<span class="edtag">✏️ تم التعديل</span>':''}</div>`;
   const acts=mine?`<div class="macts">
     ${(msg.type!=='image'&&msg.type!=='video')?`<button class="mabtn medit" onclick="startEdit('${mid}','${cp}','${eAt(msg.text||'')}')">تعديل</button>`:''}
@@ -711,32 +720,43 @@ window.sendMsg=async(cp,role)=>{
   await push(ref(db,`chats/${cp}`),{text:txt,sender:role,senderName:CU.name,ts:Date.now(),type:'text'});
 };
 
-/* send media */
+/* send media — compress image then store as base64 chunks */
 window.sendMedia=async(e,cp,role)=>{
   const f=e.target.files[0];if(!f)return;
   const isVid=f.type.startsWith('video');
-  const MAX=isVid?12:3;
-  if(f.size>MAX*1024*1024){toast('err','الملف كبير',`الحد ${MAX}MB`);e.target.value='';return;}
+  // size limit
+  const MAX=isVid?8:5;
+  if(f.size>MAX*1024*1024){toast('err','الملف كبير جداً',`الحد ${MAX}MB`);e.target.value='';return;}
   toast('info','جار الإرسال...','');
-  const reader=new FileReader();
-  reader.onload=async ev=>{
-    let url=ev.target.result;
+  const toBase64=file=>new Promise((res,rej)=>{
+    const r=new FileReader();r.onload=ev=>res(ev.target.result);r.onerror=rej;r.readAsDataURL(file);
+  });
+  try{
     if(!isVid){
-      const c=document.createElement('canvas'),img=new Image();
-      img.onload=async()=>{
-        const M=750;let w=img.width,h=img.height;
-        if(w>h){if(w>M){h=h*M/w;w=M}}else{if(h>M){w=w*M/h;h=M}}
-        c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);
-        url=c.toDataURL('image/jpeg',.78);
-        await push(ref(db,`chats/${cp}`),{url,sender:role,senderName:CU.name,ts:Date.now(),type:'image'});
-        toast('ok','تم الإرسال','');
-      };img.src=url;
+      // compress image before storing
+      const raw=await toBase64(f);
+      const img2=new Image();
+      await new Promise(res=>{img2.onload=res;img2.src=raw;});
+      const M=900,c=document.createElement('canvas');
+      let w=img2.width,h=img2.height;
+      if(w>h){if(w>M){h=Math.round(h*M/w);w=M;}}else{if(h>M){w=Math.round(w*M/h);h=M;}}
+      c.width=w;c.height=h;
+      c.getContext('2d').drawImage(img2,0,0,w,h);
+      const url=c.toDataURL('image/jpeg',.75);
+      // check final size < 5MB (Firebase RTDB node limit)
+      if(url.length>5*1024*1024){toast('err','الصورة كبيرة جداً','حاول صورة أصغر');e.target.value='';return;}
+      await push(ref(db,`chats/${cp}`),{url,sender:role,senderName:CU.name,ts:Date.now(),type:'image'});
     } else {
+      const url=await toBase64(f);
+      if(url.length>9*1024*1024){toast('err','الفيديو كبير جداً','الحد 6MB تقريباً');e.target.value='';return;}
       await push(ref(db,`chats/${cp}`),{url,sender:role,senderName:CU.name,ts:Date.now(),type:'video'});
-      toast('ok','تم الإرسال','');
     }
-    e.target.value='';
-  };reader.readAsDataURL(f);
+    toast('ok','تم الإرسال','');
+  }catch(err){
+    console.error(err);
+    toast('err','فشل الإرسال','حاول مرة أخرى');
+  }
+  e.target.value='';
 };
 
 /* edit */
@@ -773,7 +793,36 @@ window.doSOS=async cp=>{
   if(!confirm('إرسال نداء طوارئ للمشرف؟'))return;
   await push(ref(db,`chats/${cp}`),{text:`🆘 نداء طوارئ من السائق ${CU.name}!`,sender:'driver',senderName:CU.name,ts:Date.now(),type:'sos'});
   await push(ref(db,'alerts'),{type:'sos',driverId:CU.id,driverName:CU.name,ts:Date.now(),resolved:false});
+  // also send current location with SOS
+  sendLoc(cp,true);
   toast('err','🆘 SOS','تم إرسال نداء الطوارئ');
+};
+
+/* ══ SEND LOCATION ══ */
+window.sendLoc=async(cp,silent=false)=>{
+  if(!navigator.geolocation){toast('err','GPS','المتصفح لا يدعم GPS');return;}
+  if(!silent)toast('info','جار تحديد موقعك...','');
+  navigator.geolocation.getCurrentPosition(
+    async pos=>{
+      const lat=pos.coords.latitude,lng=pos.coords.longitude,acc=Math.round(pos.coords.accuracy);
+      // save to driver node so supervisor can track
+      await update(ref(db,`drivers/${CU.id}`),{lat,lng,locUpdated:Date.now()});
+      // send as chat message
+      const mapsLink=`https://www.google.com/maps?q=${lat},${lng}`;
+      await push(ref(db,`chats/${cp}`),{
+        text:`📍 موقعي الحالي (دقة: ${acc}م)
+${mapsLink}`,
+        url:mapsLink,lat,lng,
+        sender:'driver',senderName:CU.name,ts:Date.now(),type:'location'
+      });
+      if(!silent)toast('ok','تم إرسال موقعك','');
+    },
+    err=>{
+      const msgs={1:'رُفض الإذن — افتح الإعدادات وأذن للموقع',2:'تعذّر تحديد الموقع',3:'انتهت مهلة GPS'};
+      toast('err','GPS',msgs[err.code]||'خطأ غير معروف');
+    },
+    {enableHighAccuracy:true,timeout:12000,maximumAge:0}
+  );
 };
 
 /* ══ DRIVER PROFILE ══ */
@@ -856,10 +905,15 @@ window.saveEac=async()=>{
   CM('Meditacc');toast('ok','تم التعديل','تم تحديث بيانات السائق');loadAccs();
 };
 window.delAcc=async id=>{
-  const d=allDrvs[id]||{};
-  if(!confirm(`حذف حساب ${d.name||id}؟ لا يمكن التراجع!`))return;
+  // fetch fresh data (allDrvs may be empty when in Accounts tab)
+  const snap=await get(ref(db,`drivers/${id}`));
+  const nm=snap.exists()?snap.val().name:id;
+  if(!confirm(`حذف حساب ${nm}؟ لا يمكن التراجع!`))return;
   await remove(ref(db,`drivers/${id}`));
-  toast('ok','تم الحذف','تم حذف حساب السائق');loadAccs();
+  // also remove chat history
+  await remove(ref(db,`chats/driver_supervisor_${id}`)).catch(()=>{});
+  toast('ok','تم الحذف','تم حذف حساب السائق');
+  loadAccs();
 };
 
 /* ══ SUPERVISOR PROFILE ══ */
