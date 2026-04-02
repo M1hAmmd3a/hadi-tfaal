@@ -462,6 +462,11 @@ import{getDatabase,ref,set,get,push,onValue,update,remove,off,serverTimestamp}
 const app=initializeApp({databaseURL:"https://hadialtfal-default-rtdb.firebaseio.com/"});
 const db=getDatabase(app);
 
+// ══ تأكد من أن Firebase Rules تسمح بالقراءة والكتابة ══
+// في Firebase Console → Realtime Database → Rules، ضع:
+// { "rules": { ".read": true, ".write": true } }
+// ═════════════════════════════════════════════════════
+
 let CU=null,CR=null,selDrv=null,allDrvs={};
 const LSNRS=[];
 let editMid=null,editPath=null,avData='';
@@ -506,7 +511,9 @@ window.prevAv=e=>{
 /* ── tabs ── */
 window.dtab=t=>{
   $('dt1').classList.toggle('on',t==='li');$('dt2').classList.toggle('on',t==='rg');
-  H('dli',t!=='li');H('drg',t!=='rg');clrAl();avData='';
+  H('dli',t!=='li');H('drg',t!=='rg');clrAl();
+  // reset avatar preview only when opening register tab fresh
+  if(t==='rg'){avData='';const w=$('avpw');if(w){w.innerHTML='📷';w.style='';}}
 };
 window.stab=t=>{
   $('st1').classList.toggle('on',t==='li');$('st2').classList.toggle('on',t==='rg');
@@ -522,53 +529,101 @@ window.chkSec=()=>{
 
 /* ── driver register ── */
 window.dReg=async()=>{
-  const nm=$('dr-nm').value.trim(),ph=$('dr-ph').value.trim(),pw=$('dr-pw').value,pw2=$('dr-pw2').value;
+  const nm=($('dr-nm').value||'').trim();
+  const ph=($('dr-ph').value||'').trim();
+  const pw=$('dr-pw').value||'';
+  const pw2=$('dr-pw2').value||'';
   if(!nm||!ph||!pw)return shAl('al-drv','err','يرجى ملء جميع الحقول المطلوبة');
   if(pw!==pw2)return shAl('al-drv','err','كلمات المرور غير متطابقة');
-  if(ph.length<9)return shAl('al-drv','err','رقم الهاتف يجب أن يكون 9 أرقام على الأقل');
-  const snap=await get(ref(db,`drivers/${ph}`));
-  if(snap.exists())return shAl('al-drv','err','رقم الهاتف مسجل مسبقاً، سجل الدخول');
-  await set(ref(db,`drivers/${ph}`),{name:nm,phone:ph,password:pw,avatar:avData||'',status:'online',createdAt:Date.now(),role:'driver',lastSeen:Date.now()});
-  avData='';shAl('al-drv','ok','✅ تم إنشاء الحساب! يمكنك تسجيل الدخول الآن');
-  setTimeout(()=>dtab('li'),1600);
+  if(ph.length<7)return shAl('al-drv','err','رقم الهاتف قصير جداً');
+  // sanitize phone key — Firebase keys can't have dots, #, $, [, ]
+  const phKey=ph.replace(/[.#$\[\]\/]/g,'_');
+  const btn=$('dr-nm').closest('.mdl').querySelector('.bp');
+  const origTxt=btn.innerHTML;
+  btn.innerHTML='<span class="spin"></span> جار الإنشاء...';btn.disabled=true;
+  try{
+    const snap=await get(ref(db,`drivers/${phKey}`));
+    if(snap.exists()){shAl('al-drv','err','رقم الهاتف مسجل مسبقاً — سجل الدخول');btn.innerHTML=origTxt;btn.disabled=false;return;}
+    const userData={name:nm,phone:ph,password:pw,avatar:avData||'',status:'online',createdAt:Date.now(),role:'driver',lastSeen:Date.now()};
+    await set(ref(db,`drivers/${phKey}`),userData);
+    avData='';
+    shAl('al-drv','ok','✅ تم إنشاء الحساب بنجاح! سجل الدخول الآن');
+    // clear fields
+    ['dr-nm','dr-ph','dr-pw','dr-pw2'].forEach(id=>{const el=$(id);if(el)el.value='';});
+    setTimeout(()=>dtab('li'),1800);
+  }catch(err){
+    console.error('dReg error:',err);
+    shAl('al-drv','err','حدث خطأ أثناء الإنشاء: '+( err.message||'تحقق من الاتصال'));
+  }
+  btn.innerHTML=origTxt;btn.disabled=false;
 };
 
 /* ── driver login ── */
 window.dLogin=async()=>{
-  const ph=$('dl-ph').value.trim(),pw=$('dl-pw').value;
+  const ph=($('dl-ph').value||'').trim(),pw=$('dl-pw').value||'';
   if(!ph||!pw)return shAl('al-drv','err','يرجى ملء جميع الحقول');
-  const snap=await get(ref(db,`drivers/${ph}`));
-  if(!snap.exists())return shAl('al-drv','err','رقم الهاتف غير مسجل');
-  const d=snap.val();
-  if(d.password!==pw)return shAl('al-drv','err','كلمة المرور غير صحيحة');
-  await update(ref(db,`drivers/${ph}`),{status:'online',lastSeen:Date.now()});
-  CU={...d,id:ph};CR='driver';CM('Mdriver');initDash();
-  toast('ok','أهلاً وسهلاً '+d.name,'مرحباً بك في نظام هادي التفال 🚕');
+  const phKey=ph.replace(/[.#$\[\]\/]/g,'_');
+  const btn=$('dl-pw').closest('.mdl').querySelector('.bp');
+  const origTxt=btn.innerHTML;
+  btn.innerHTML='<span class="spin"></span> جار الدخول...';btn.disabled=true;
+  try{
+    const snap=await get(ref(db,`drivers/${phKey}`));
+    if(!snap.exists()){shAl('al-drv','err','رقم الهاتف غير مسجل');btn.innerHTML=origTxt;btn.disabled=false;return;}
+    const d=snap.val();
+    if(d.password!==pw){shAl('al-drv','err','كلمة المرور غير صحيحة');btn.innerHTML=origTxt;btn.disabled=false;return;}
+    await update(ref(db,`drivers/${phKey}`),{status:'online',lastSeen:Date.now()});
+    CU={...d,id:phKey};CR='driver';CM('Mdriver');initDash();
+    toast('ok','أهلاً وسهلاً '+d.name,'مرحباً بك في نظام هادي التفال 🚕');
+  }catch(err){
+    console.error('dLogin error:',err);
+    shAl('al-drv','err','خطأ في الاتصال: '+(err.message||'حاول مرة أخرى'));
+    btn.innerHTML=origTxt;btn.disabled=false;
+  }
 };
 
 /* ── supervisor register ── */
 window.sReg=async()=>{
-  const nm=$('sr-nm').value.trim(),em=$('sr-em').value.trim(),pw=$('sr-pw').value,pw2=$('sr-pw2').value;
+  const nm=($('sr-nm').value||'').trim(),em=($('sr-em').value||'').trim(),pw=$('sr-pw').value||'',pw2=$('sr-pw2').value||'';
   if(!nm||!em||!pw)return shAl('al-sup','err','يرجى ملء جميع الحقول');
   if(pw!==pw2)return shAl('al-sup','err','كلمات المرور غير متطابقة');
-  const key=em.replace(/[.@#$/[\]]/g,'_');
-  const snap=await get(ref(db,`supervisors/${key}`));
-  if(snap.exists())return shAl('al-sup','err','اسم المستخدم مسجل مسبقاً');
-  await set(ref(db,`supervisors/${key}`),{name:nm,email:em,password:pw,role:'supervisor',createdAt:Date.now()});
-  shAl('al-sup','ok','تم إنشاء الحساب بنجاح!');setTimeout(()=>stab('li'),1600);
+  const key=em.replace(/[.@#$\/\[\]]/g,'_');
+  const btn=$('sr-nm').closest('.mdl').querySelector('.ba');
+  const origTxt=btn.innerHTML;
+  btn.innerHTML='<span class="spin"></span> جار الإنشاء...';btn.disabled=true;
+  try{
+    const snap=await get(ref(db,`supervisors/${key}`));
+    if(snap.exists()){shAl('al-sup','err','اسم المستخدم مسجل مسبقاً');btn.innerHTML=origTxt;btn.disabled=false;return;}
+    await set(ref(db,`supervisors/${key}`),{name:nm,email:em,password:pw,role:'supervisor',createdAt:Date.now()});
+    shAl('al-sup','ok','✅ تم إنشاء الحساب بنجاح! سجل الدخول الآن');
+    ['sr-nm','sr-em','sr-pw','sr-pw2'].forEach(id=>{const el=$(id);if(el)el.value='';});
+    setTimeout(()=>stab('li'),1800);
+  }catch(err){
+    console.error('sReg error:',err);
+    shAl('al-sup','err','خطأ: '+(err.message||'تحقق من الاتصال'));
+  }
+  btn.innerHTML=origTxt;btn.disabled=false;
 };
 
 /* ── supervisor login ── */
 window.sLogin=async()=>{
-  const em=$('sl-em').value.trim(),pw=$('sl-pw').value;
+  const em=($('sl-em').value||'').trim(),pw=$('sl-pw').value||'';
   if(!em||!pw)return shAl('al-sup','err','يرجى ملء جميع الحقول');
-  const key=em.replace(/[.@#$/[\]]/g,'_');
-  const snap=await get(ref(db,`supervisors/${key}`));
-  if(!snap.exists())return shAl('al-sup','err','الحساب غير موجود');
-  const d=snap.val();
-  if(d.password!==pw)return shAl('al-sup','err','كلمة المرور غير صحيحة');
-  CU={...d,id:key};CR='supervisor';CM('Msup');initDash();
-  toast('ok','مرحباً '+d.name,'لوحة تحكم مشرف هادي التفال 👨‍💼');
+  const key=em.replace(/[.@#$\/\[\]]/g,'_');
+  const btn=$('sl-pw').closest('.mdl').querySelector('.ba');
+  const origTxt=btn.innerHTML;
+  btn.innerHTML='<span class="spin"></span> جار الدخول...';btn.disabled=true;
+  try{
+    const snap=await get(ref(db,`supervisors/${key}`));
+    if(!snap.exists()){shAl('al-sup','err','الحساب غير موجود');btn.innerHTML=origTxt;btn.disabled=false;return;}
+    const d=snap.val();
+    if(d.password!==pw){shAl('al-sup','err','كلمة المرور غير صحيحة');btn.innerHTML=origTxt;btn.disabled=false;return;}
+    CU={...d,id:key};CR='supervisor';CM('Msup');initDash();
+    toast('ok','مرحباً '+d.name,'لوحة تحكم مشرف هادي التفال 👨‍💼');
+  }catch(err){
+    console.error('sLogin error:',err);
+    shAl('al-sup','err','خطأ في الاتصال: '+(err.message||'حاول مرة أخرى'));
+    btn.innerHTML=origTxt;btn.disabled=false;
+  }
 };
 
 /* ── init dashboard ── */
@@ -1047,39 +1102,50 @@ const renderAccs=()=>{
   $('dbody').innerHTML=`
   <div class="awrap">
     <div class="atitle"><i class="fas fa-users"></i> إدارة حسابات السائقين</div>
-    <div class="acc-grid" id="ALIST"><div style="text-align:center;padding:32px;color:var(--g5)"><div class="spin"></div></div></div>
+    <div class="acc-grid" id="ALIST"><div style="text-align:center;padding:32px;color:var(--g5);grid-column:1/-1"><div class="spin"></div><div style="margin-top:10px;font-size:12px">جار التحميل...</div></div></div>
   </div>`;
-  loadAccs();
+  // use requestAnimationFrame to ensure DOM is painted before async call
+  requestAnimationFrame(()=>loadAccs());
 };
 const loadAccs=async()=>{
-  const snap=await get(ref(db,'drivers'));
-  const list=$('ALIST');if(!list)return;
-  if(!snap.exists()){list.innerHTML=`<div style="color:var(--g5);font-size:13px;padding:24px;grid-column:1/-1;text-align:center"><i class="fas fa-users" style="font-size:36px;opacity:.2;display:block;margin-bottom:10px"></i>لا يوجد سائقون مسجلون حتى الآن</div>`;return;}
-  const ent=Object.entries(snap.val());
-  list.innerHTML=ent.map(([id,d])=>`
-  <div class="acccard">
-    <div class="acctop">
-      <div class="accav">${d.avatar?`<img src="${d.avatar}">`:'🚕'}</div>
-      <div style="flex:1;min-width:0">
-        <div class="accnm">${esc(d.name)}</div>
-        <div class="accph"><i class="fas fa-phone"></i>${d.phone}</div>
-        <div class="accpw-wrap">
-          <div class="accpw" id="pw-${id}">••••••••</div>
-          <button class="acc-reveal" onclick="togglePw('${id}','${eAt(d.password||'')}')"><i class="fas fa-eye"></i></button>
-        </div>
-        <div class="accst" style="color:${d.status==='online'?'#34d399':'var(--g5)'}">
-          <div class="acc-online-dot" style="background:${d.status==='online'?'#34d399':'var(--g5)'}"></div>
-          ${d.status==='online'?'متصل الآن':'غير متصل'}
-          ${d.lastSeen?`<span style="font-size:10px;color:var(--g5);margin-right:4px">• ${fmt(d.lastSeen)}</span>`:''}
+  const list=$('ALIST');
+  if(!list)return;
+  try{
+    const snap=await get(ref(db,'drivers'));
+    if(!$('ALIST'))return; // tab may have changed while awaiting
+    if(!snap.exists()){
+      list.innerHTML=`<div style="color:var(--g5);font-size:13px;padding:24px;grid-column:1/-1;text-align:center"><i class="fas fa-users" style="font-size:36px;opacity:.2;display:block;margin-bottom:10px"></i>لا يوجد سائقون مسجلون حتى الآن</div>`;
+      return;
+    }
+    const ent=Object.entries(snap.val());
+    list.innerHTML=ent.map(([id,d])=>`
+    <div class="acccard">
+      <div class="acctop">
+        <div class="accav">${d.avatar?`<img src="${d.avatar}">`:'🚕'}</div>
+        <div style="flex:1;min-width:0">
+          <div class="accnm">${esc(d.name)}</div>
+          <div class="accph"><i class="fas fa-phone"></i> ${esc(d.phone||id)}</div>
+          <div class="accpw-wrap">
+            <div class="accpw" id="pw-${id}">••••••••</div>
+            <button class="acc-reveal" onclick="togglePw('${id}','${eAt(d.password||'')}')"><i class="fas fa-eye"></i></button>
+          </div>
+          <div class="accst" style="color:${d.status==='online'?'#34d399':'var(--g5)'}">
+            <div class="acc-online-dot" style="background:${d.status==='online'?'#34d399':'var(--g5)'}"></div>
+            ${d.status==='online'?'متصل الآن':'غير متصل'}
+            ${d.lastSeen?`<span style="font-size:10px;color:var(--g5);margin-right:4px">• ${fmt(d.lastSeen)}</span>`:''}
+          </div>
         </div>
       </div>
-    </div>
-    <div class="accbts">
-      <button class="accbtn achat" onclick="goChat('${id}')"><i class="fas fa-comments"></i> محادثة</button>
-      <button class="accbtn aedit" onclick="opnEac('${id}','${eAt(d.name)}')"><i class="fas fa-pen"></i> تعديل</button>
-      <button class="accbtn adel" onclick="delAcc('${id}')"><i class="fas fa-trash"></i> حذف</button>
-    </div>
-  </div>`).join('');
+      <div class="accbts">
+        <button class="accbtn achat" onclick="goChat('${id}')"><i class="fas fa-comments"></i> محادثة</button>
+        <button class="accbtn aedit" onclick="opnEac('${id}','${eAt(d.name)}')"><i class="fas fa-pen"></i> تعديل</button>
+        <button class="accbtn adel" onclick="delAcc('${id}')"><i class="fas fa-trash"></i> حذف</button>
+      </div>
+    </div>`).join('');
+  }catch(err){
+    console.error('loadAccs error:',err);
+    if($('ALIST'))$('ALIST').innerHTML=`<div style="color:#fca5a5;font-size:13px;padding:24px;grid-column:1/-1;text-align:center"><i class="fas fa-exclamation-circle" style="font-size:28px;display:block;margin-bottom:8px"></i>خطأ في تحميل البيانات<br><small style="color:var(--g5)">${err.message||''}</small><br><button onclick="loadAccs()" style="margin-top:12px;padding:8px 18px;background:var(--pl);border:none;border-radius:8px;color:#fff;font-family:Cairo,sans-serif;cursor:pointer;font-size:12px">إعادة المحاولة</button></div>`;
+  }
 };
 
 window.togglePw=(id,pw)=>{
@@ -1098,20 +1164,28 @@ window.opnEac=(id,nm)=>{
   OM('Meditacc');
 };
 window.saveEac=async()=>{
-  const id=$('eac-id').value,nm=$('eac-nm').value.trim(),pw=$('eac-pw').value;
+  const id=$('eac-id').value,nm=($('eac-nm').value||'').trim(),pw=$('eac-pw').value||'';
   if(!nm)return shAl('al-eac','err','الاسم لا يمكن أن يكون فارغاً');
-  const u={name:nm};if(pw)u.password=pw;
-  await update(ref(db,`drivers/${id}`),u);
-  CM('Meditacc');toast('ok','تم التعديل ✅','تم تحديث بيانات السائق');loadAccs();
+  const btn=$('Meditacc').querySelector('.ba');
+  const orig=btn.innerHTML;btn.innerHTML='<span class="spin"></span>';btn.disabled=true;
+  try{
+    const u={name:nm};if(pw)u.password=pw;
+    await update(ref(db,`drivers/${id}`),u);
+    CM('Meditacc');toast('ok','تم التعديل ✅','تم تحديث بيانات السائق');
+    loadAccs();
+  }catch(err){shAl('al-eac','err','خطأ: '+(err.message||'حاول مرة أخرى'));}
+  btn.innerHTML=orig;btn.disabled=false;
 };
 window.delAcc=async id=>{
-  const snap=await get(ref(db,`drivers/${id}`));
-  const nm=snap.exists()?snap.val().name:id;
+  const snap=await get(ref(db,`drivers/${id}`)).catch(()=>null);
+  const nm=snap&&snap.exists()?snap.val().name:id;
   if(!confirm(`⚠️ حذف حساب السائق "${nm}"؟\nسيُحذف أيضاً سجل المحادثة. لا يمكن التراجع!`))return;
-  await remove(ref(db,`drivers/${id}`));
-  await remove(ref(db,`chats/driver_supervisor_${id}`)).catch(()=>{});
-  toast('ok','تم الحذف','تم حذف حساب السائق وسجل محادثته');
-  loadAccs();
+  try{
+    await remove(ref(db,`drivers/${id}`));
+    await remove(ref(db,`chats/driver_supervisor_${id}`)).catch(()=>{});
+    toast('ok','تم الحذف','تم حذف حساب السائق وسجل محادثته');
+    loadAccs();
+  }catch(err){toast('err','خطأ',err.message||'فشل الحذف');}
 };
 
 /* ══════════════ SUPERVISOR PROFILE ══════════════ */
