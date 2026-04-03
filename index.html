@@ -6,6 +6,7 @@
 <title>هادي التفال - تكسي طولكرم</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Tajawal:wght@700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <style>
 :root{
   --p:#1a2e4a;--pl:#2563a8;--pld:#1e4d8c;
@@ -13,7 +14,7 @@
   --w:#fff;--g3:#cbd5e1;--g4:#94a3b8;--g5:#64748b;--g9:#080f1c;
   --ok:#10b981;--err:#ef4444;--warn:#f59e0b;
   --r:12px;--rl:18px;--tr:all .22s ease;
-  --cs:#0ea5e9;/* cyan accent for supervisor */
+  --cs:#0ea5e9;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{font-family:'Cairo',sans-serif;background:var(--g9);color:var(--w);min-height:100vh;overflow-x:hidden}
@@ -193,10 +194,6 @@ img{max-width:100%;display:block}
 .chdav{width:40px;height:40px;border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
 .chdnm{font-size:14px;font-weight:800}.chdst{font-size:11px;display:flex;align-items:center;gap:4px;margin-top:2px}
 .chdbts{display:flex;gap:6px;margin-right:auto}
-.trk-btn{padding:7px 13px;background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.3);border-radius:9px;color:#34d399;font-family:'Cairo',sans-serif;font-size:11px;font-weight:700;cursor:pointer;transition:var(--tr);display:flex;align-items:center;gap:5px}
-.trk-btn:hover{background:rgba(16,185,129,.22);transform:translateY(-1px)}
-.call-btn{padding:7px 13px;background:rgba(37,99,168,.12);border:1px solid rgba(37,99,168,.3);border-radius:9px;color:#93c5fd;font-family:'Cairo',sans-serif;font-size:11px;font-weight:700;cursor:pointer;transition:var(--tr);display:flex;align-items:center;gap:5px}
-.call-btn:hover{background:rgba(37,99,168,.22);transform:translateY(-1px)}
 .cmsgs{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.06) transparent}
 .cmsgs::-webkit-scrollbar{width:3px}.cmsgs::-webkit-scrollbar-thumb{background:rgba(255,255,255,.07);border-radius:2px}
 .sysmsg{text-align:center;font-size:11px;color:var(--g5);padding:4px 12px;background:rgba(255,255,255,.04);border-radius:20px;align-self:center;border:1px solid rgba(255,255,255,.06)}
@@ -217,14 +214,9 @@ img{max-width:100%;display:block}
 .mbubble.imgm img:hover{opacity:.9;transform:scale(.98)}
 .mbubble.vidm{padding:4px;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.1);border-radius:13px}
 .mbubble.vidm video{width:200px;max-width:100%;border-radius:10px;max-height:170px;display:block}
-.mbubble.locm{cursor:pointer}
-.mbubble.locm:hover{opacity:.9}
-.loc-link{display:inline-flex;align-items:center;gap:5px;color:#60a5fa;font-size:11px;margin-top:5px;font-weight:700;border:1px solid rgba(96,165,250,.25);padding:3px 8px;border-radius:6px;background:rgba(96,165,250,.08);transition:var(--tr)}
-.loc-link:hover{background:rgba(96,165,250,.16)}
 .mbubble.sosmsg{background:linear-gradient(135deg,rgba(239,68,68,.25),rgba(239,68,68,.15))!important;border:1.5px solid rgba(239,68,68,.4)!important;animation:sosfl 1.5s infinite}
 @keyframes sosfl{0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,.4)}50%{box-shadow:0 0 0 6px rgba(239,68,68,0)}}
 .mtm{font-size:10px;color:var(--g5);margin-top:4px;text-align:end}
-.mread{font-size:10px;color:#34d399;margin-top:2px;text-align:end}
 .macts{display:none;gap:3px;margin-bottom:4px}
 .msg:hover .macts{display:flex}
 .msg.sent .macts{justify-content:flex-end}
@@ -257,6 +249,66 @@ img{max-width:100%;display:block}
 .supholder i{font-size:52px;opacity:.15}
 .supholder p{font-size:13px;line-height:1.7}
 
+/* ═══ STUDIO MODAL ═══ */
+.studio-modal{position:fixed;inset:0;background:rgba(0,0,0,.88);backdrop-filter:blur(14px);z-index:600;display:flex;flex-direction:column;opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+.studio-modal.on{opacity:1;visibility:visible}
+.studio-hd{padding:16px 20px;border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.studio-hd h3{font-family:'Tajawal',sans-serif;font-size:18px;font-weight:900;display:flex;align-items:center;gap:9px}
+.studio-hd h3 i{color:var(--a)}
+.studio-close{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:9px;color:var(--g4);font-size:14px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:var(--tr)}
+.studio-close:hover{background:rgba(239,68,68,.15);color:var(--err)}
+.studio-body{flex:1;padding:20px;overflow-y:auto;display:flex;flex-direction:column;gap:16px}
+.studio-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.studio-btn{padding:22px 16px;background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.09);border-radius:16px;cursor:pointer;transition:all .22s cubic-bezier(.34,1.4,.64,1);display:flex;flex-direction:column;align-items:center;gap:10px;font-family:'Cairo',sans-serif;color:var(--w)}
+.studio-btn:hover{transform:translateY(-4px);background:rgba(255,255,255,.08)}
+.studio-btn.img-btn{border-color:rgba(14,165,233,.25)}.studio-btn.img-btn:hover{border-color:rgba(14,165,233,.5);box-shadow:0 8px 24px rgba(14,165,233,.15)}
+.studio-btn.vid-btn{border-color:rgba(245,158,11,.25)}.studio-btn.vid-btn:hover{border-color:rgba(245,158,11,.5);box-shadow:0 8px 24px rgba(245,158,11,.15)}
+.studio-btn.cam-btn{border-color:rgba(16,185,129,.25)}.studio-btn.cam-btn:hover{border-color:rgba(16,185,129,.5);box-shadow:0 8px 24px rgba(16,185,129,.15)}
+.studio-btn.file-btn{border-color:rgba(168,85,247,.25)}.studio-btn.file-btn:hover{border-color:rgba(168,85,247,.5);box-shadow:0 8px 24px rgba(168,85,247,.15)}
+.studio-ic{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px}
+.studio-btn.img-btn .studio-ic{background:rgba(14,165,233,.14);color:#38bdf8}
+.studio-btn.vid-btn .studio-ic{background:rgba(245,158,11,.14);color:var(--a)}
+.studio-btn.cam-btn .studio-ic{background:rgba(16,185,129,.14);color:#34d399}
+.studio-btn.file-btn .studio-ic{background:rgba(168,85,247,.14);color:#c084fc}
+.studio-label{font-size:13px;font-weight:800;text-align:center}
+.studio-sub{font-size:11px;color:var(--g5);text-align:center}
+.studio-preview{background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:14px;display:none;flex-direction:column;gap:10px}
+.studio-preview.on{display:flex}
+.preview-img{max-width:100%;max-height:300px;border-radius:10px;object-fit:contain;margin:0 auto}
+.preview-vid{max-width:100%;max-height:250px;border-radius:10px;display:block;margin:0 auto}
+.studio-send-btn{padding:12px;background:linear-gradient(135deg,var(--a),var(--g));border:none;border-radius:var(--r);color:#111;font-family:'Cairo',sans-serif;font-size:14px;font-weight:800;cursor:pointer;transition:var(--tr);display:flex;align-items:center;justify-content:center;gap:8px}
+.studio-send-btn:hover{opacity:.9;transform:translateY(-2px)}
+.studio-cancel-btn{padding:10px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:var(--r);color:var(--g4);font-family:'Cairo',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:var(--tr)}
+.studio-cancel-btn:hover{background:rgba(239,68,68,.12);color:#fca5a5}
+
+/* ═══ CAMERA ═══ */
+.cam-wrap{position:relative;border-radius:12px;overflow:hidden;background:#000;display:none}
+.cam-wrap.on{display:block}
+#camVideo{width:100%;max-height:260px;object-fit:cover;display:block}
+.cam-controls{display:flex;gap:10px;justify-content:center;padding:10px 0}
+.cam-snap{padding:11px 20px;background:linear-gradient(135deg,var(--ok),#059669);border:none;border-radius:10px;color:#fff;font-family:'Cairo',sans-serif;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;transition:var(--tr)}
+.cam-snap:hover{opacity:.9;transform:scale(1.04)}
+.cam-stop{padding:11px 20px;background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);border-radius:10px;color:#fca5a5;font-family:'Cairo',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:var(--tr)}
+.cam-stop:hover{background:rgba(239,68,68,.28)}
+
+/* ═══ MAP ═══ */
+.map-wrap{flex:1;display:flex;flex-direction:column;overflow:hidden;position:relative}
+#driverMap{flex:1;min-height:300px;background:#0a1628;z-index:1}
+.map-legend{position:absolute;bottom:16px;right:16px;z-index:400;background:rgba(8,15,28,.92);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:10px 14px;font-size:11px}
+.map-legend-item{display:flex;align-items:center;gap:7px;margin-bottom:5px;color:var(--g4)}
+.map-legend-item:last-child{margin-bottom:0}
+.leg-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.map-refresh{position:absolute;top:16px;left:16px;z-index:400;padding:8px 14px;background:rgba(245,158,11,.14);border:1px solid rgba(245,158,11,.3);border-radius:10px;color:var(--a);font-family:'Cairo',sans-serif;font-size:11px;font-weight:700;cursor:pointer;transition:var(--tr);display:flex;align-items:center;gap:6px}
+.map-refresh:hover{background:rgba(245,158,11,.28)}
+.map-stats{position:absolute;top:16px;right:16px;z-index:400;display:flex;gap:8px}
+.map-stat{background:rgba(8,15,28,.92);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.09);border-radius:10px;padding:7px 12px;font-size:11px;display:flex;align-items:center;gap:5px}
+/* Leaflet custom marker */
+.drv-marker{width:40px;height:40px;border-radius:50%;border:3px solid #34d399;overflow:hidden;box-shadow:0 3px 12px rgba(0,0,0,.5);background:#1a2e4a}
+.drv-marker img{width:100%;height:100%;object-fit:cover}
+.drv-marker.offline{border-color:var(--g5)}
+.drv-marker-wrap{display:flex;flex-direction:column;align-items:center;gap:3px}
+.drv-marker-name{background:rgba(8,15,28,.9);color:#fff;font-size:9px;font-weight:800;padding:2px 6px;border-radius:6px;white-space:nowrap;border:1px solid rgba(255,255,255,.1);font-family:'Cairo',sans-serif}
+
 /* ═══ ACCOUNTS ═══ */
 .awrap{padding:18px;overflow-y:auto;height:calc(100vh - 62px)}
 .atitle{font-family:'Tajawal',sans-serif;font-size:20px;font-weight:900;margin-bottom:18px;display:flex;align-items:center;gap:10px}
@@ -285,23 +337,19 @@ img{max-width:100%;display:block}
 .ptab{padding:18px;overflow-y:auto;height:calc(100vh - 62px);max-width:500px;margin:0 auto}
 .cbox{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:var(--rl);padding:22px;margin-bottom:15px}
 
-/* ═══ NOTIFICATIONS ═══ */
-.notif-panel{position:fixed;top:62px;left:0;width:290px;background:linear-gradient(155deg,#1e2d42,#0f1a2e);border:1px solid rgba(255,255,255,.09);border-radius:0 0 16px 16px;z-index:200;box-shadow:0 20px 40px rgba(0,0,0,.4);display:none;max-height:400px;overflow-y:auto}
-.notif-panel.on{display:block}
-.notif-hd{padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:space-between}
-.notif-hd span{font-size:13px;font-weight:800}
-.notif-item{padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.05);cursor:pointer;transition:var(--tr)}
-.notif-item:hover{background:rgba(255,255,255,.04)}
-.notif-item.sos-n{background:rgba(239,68,68,.07);border-color:rgba(239,68,68,.15)}
-.notif-txt{font-size:12px;font-weight:700}
-.notif-sub{font-size:11px;color:var(--g5);margin-top:2px}
-.nbadge{background:var(--err);color:var(--w);font-size:9px;font-weight:800;padding:2px 6px;border-radius:10px;position:absolute;top:-5px;right:-5px}
-
 /* ═══ TOASTS ═══ */
 .toasts{position:fixed;bottom:20px;left:16px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none}
 .toast{background:linear-gradient(135deg,#1e293b,#172033);border:1px solid rgba(255,255,255,.1);border-radius:var(--r);padding:11px 14px;display:flex;align-items:center;gap:10px;box-shadow:0 12px 32px rgba(0,0,0,.4);animation:tin .25s cubic-bezier(.34,1.56,.64,1);min-width:220px;max-width:300px;pointer-events:all}
 @keyframes tin{from{transform:translateX(-110%) scale(.9);opacity:0}to{transform:translateX(0) scale(1);opacity:1}}
 .tst{font-size:17px;flex-shrink:0}.ttt{font-size:12px;font-weight:800}.tts{font-size:11px;color:var(--g5);margin-top:2px}
+
+/* Leaflet overrides */
+.leaflet-control-zoom a{background:#1e2d42!important;color:#94a3b8!important;border-color:rgba(255,255,255,.1)!important}
+.leaflet-control-zoom a:hover{background:#2d3f5a!important;color:#fff!important}
+.leaflet-popup-content-wrapper{background:#1e2d42!important;color:#fff!important;border:1px solid rgba(255,255,255,.1)!important;border-radius:12px!important;box-shadow:0 8px 24px rgba(0,0,0,.4)!important}
+.leaflet-popup-tip{background:#1e2d42!important}
+.leaflet-popup-content{font-family:'Cairo',sans-serif!important;font-size:12px!important;margin:10px 14px!important}
+.leaflet-container{font-family:'Cairo',sans-serif!important}
 
 /* ═══ RESPONSIVE ═══ */
 @media(max-width:620px){
@@ -311,9 +359,9 @@ img{max-width:100%;display:block}
   .ntab span{display:none}.ntab{padding:7px 10px}
   .lnav{padding:10px 14px}
   .ststrip{flex-wrap:nowrap}
-  .chdbts .call-btn span{display:none}
   .acc-grid{grid-template-columns:1fr}
   .hcards{flex-direction:column;align-items:center}
+  .studio-grid{grid-template-columns:1fr 1fr}
 }
 @media(min-width:621px) and (max-width:900px){
   .dside{width:215px}.sside{width:240px}
@@ -337,20 +385,20 @@ img{max-width:100%;display:block}
       <div class="rcard rd" onclick="OM('Mdriver')">
         <div class="rcic">🚕</div>
         <div class="rctitle">سائق التكسي</div>
-        <div class="rcdesc">تواصل مباشر مع المشرف، إرسال موقعك، وإدارة شيفتك بسهولة تامة</div>
+        <div class="rcdesc">تواصل مباشر مع المشرف، شاهد موقعك على الخريطة، وإدارة شيفتك بسهولة تامة</div>
         <button class="rcbtn">دخول السائق</button>
       </div>
       <div class="rcard rs" onclick="OM('Msecret')">
         <div class="rcic">👨‍💼</div>
         <div class="rctitle">مشرف المكتب</div>
-        <div class="rcdesc">راقب جميع السائقين، تابع مواقعهم، وتواصل معهم فورياً</div>
+        <div class="rcdesc">راقب جميع السائقين على الخريطة المباشرة، وتواصل معهم فورياً</div>
         <button class="rcbtn">دخول المشرف</button>
       </div>
     </div>
     <div class="hfeat">
       <div class="hfitem"><i class="fas fa-check-circle"></i> محادثة فورية</div>
-      <div class="hfitem"><i class="fas fa-check-circle"></i> إرسال الموقع</div>
-      <div class="hfitem"><i class="fas fa-check-circle"></i> صور وفيديو</div>
+      <div class="hfitem"><i class="fas fa-check-circle"></i> خريطة مباشرة</div>
+      <div class="hfitem"><i class="fas fa-check-circle"></i> استوديو الميديا</div>
       <div class="hfitem"><i class="fas fa-check-circle"></i> طوارئ SOS</div>
       <div class="hfitem"><i class="fas fa-check-circle"></i> تتبع مباشر</div>
     </div>
@@ -438,6 +486,53 @@ img{max-width:100%;display:block}
   </div>
 </div>
 
+<!-- STUDIO MODAL -->
+<div class="studio-modal" id="studioModal">
+  <div class="studio-hd">
+    <h3><i class="fas fa-photo-film"></i> استوديو الميديا</h3>
+    <button class="studio-close" onclick="closeStudio()"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="studio-body">
+    <div id="studioGrid" class="studio-grid">
+      <button class="studio-btn img-btn" onclick="studioChoose('image')">
+        <div class="studio-ic"><i class="fas fa-image"></i></div>
+        <div class="studio-label">صورة من المعرض</div>
+        <div class="studio-sub">اختر صورة من جهازك</div>
+      </button>
+      <button class="studio-btn vid-btn" onclick="studioChoose('video')">
+        <div class="studio-ic"><i class="fas fa-video"></i></div>
+        <div class="studio-label">فيديو من المعرض</div>
+        <div class="studio-sub">اختر فيديو من جهازك</div>
+      </button>
+      <button class="studio-btn cam-btn" onclick="studioCamera()">
+        <div class="studio-ic"><i class="fas fa-camera"></i></div>
+        <div class="studio-label">التقاط صورة</div>
+        <div class="studio-sub">افتح الكاميرا الآن</div>
+      </button>
+      <button class="studio-btn file-btn" onclick="studioChoose('any')">
+        <div class="studio-ic"><i class="fas fa-paperclip"></i></div>
+        <div class="studio-label">أي ملف</div>
+        <div class="studio-sub">صورة أو فيديو بأي صيغة</div>
+      </button>
+    </div>
+    <div class="cam-wrap" id="camWrap">
+      <video id="camVideo" autoplay playsinline muted></video>
+      <div class="cam-controls">
+        <button class="cam-snap" onclick="camSnap()"><i class="fas fa-camera"></i> التقاط</button>
+        <button class="cam-stop" onclick="camStop()"><i class="fas fa-stop"></i> إيقاف الكاميرا</button>
+      </div>
+    </div>
+    <div class="studio-preview" id="studioPreview">
+      <div id="previewContent"></div>
+      <button class="studio-send-btn" id="studioSendBtn" onclick="studioSend()">
+        <i class="fas fa-paper-plane"></i> إرسال
+      </button>
+      <button class="studio-cancel-btn" onclick="studioClear()">إلغاء واختيار آخر</button>
+    </div>
+    <input type="file" id="studioFileInp" class="mediainp" onchange="studioFileChosen(event)">
+  </div>
+</div>
+
 <!-- DASHBOARD -->
 <div id="PD">
   <nav class="dnav">
@@ -454,6 +549,7 @@ img{max-width:100%;display:block}
 <!-- TOASTS -->
 <div class="toasts" id="toasts"></div>
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
 import{getDatabase,ref,set,get,push,onValue,update,remove,off,serverTimestamp}
@@ -462,14 +558,13 @@ import{getDatabase,ref,set,get,push,onValue,update,remove,off,serverTimestamp}
 const app=initializeApp({databaseURL:"https://hadialtfal-default-rtdb.firebaseio.com/"});
 const db=getDatabase(app);
 
-// ══ تأكد من أن Firebase Rules تسمح بالقراءة والكتابة ══
-// في Firebase Console → Realtime Database → Rules، ضع:
-// { "rules": { ".read": true, ".write": true } }
-// ═════════════════════════════════════════════════════
-
 let CU=null,CR=null,selDrv=null,allDrvs={};
 const LSNRS=[];
 let editMid=null,editPath=null,avData='';
+let studioChatPath=null,studioRole=null,studioPendingData=null,studioPendingType=null;
+let camStream=null;
+let locWatcher=null;
+let leafletMap=null,mapMarkers={};
 
 const $=id=>document.getElementById(id);
 const H=(id,v)=>{const e=$(id);if(e)e.classList[v?'add':'remove']('h')};
@@ -512,7 +607,6 @@ window.prevAv=e=>{
 window.dtab=t=>{
   $('dt1').classList.toggle('on',t==='li');$('dt2').classList.toggle('on',t==='rg');
   H('dli',t!=='li');H('drg',t!=='rg');clrAl();
-  // reset avatar preview only when opening register tab fresh
   if(t==='rg'){avData='';const w=$('avpw');if(w){w.innerHTML='📷';w.style='';}}
 };
 window.stab=t=>{
@@ -536,7 +630,6 @@ window.dReg=async()=>{
   if(!nm||!ph||!pw)return shAl('al-drv','err','يرجى ملء جميع الحقول المطلوبة');
   if(pw!==pw2)return shAl('al-drv','err','كلمات المرور غير متطابقة');
   if(ph.length<7)return shAl('al-drv','err','رقم الهاتف قصير جداً');
-  // sanitize phone key — Firebase keys can't have dots, #, $, [, ]
   const phKey=ph.replace(/[.#$\[\]\/]/g,'_');
   const btn=$('dr-nm').closest('.mdl').querySelector('.bp');
   const origTxt=btn.innerHTML;
@@ -548,12 +641,10 @@ window.dReg=async()=>{
     await set(ref(db,`drivers/${phKey}`),userData);
     avData='';
     shAl('al-drv','ok','✅ تم إنشاء الحساب بنجاح! سجل الدخول الآن');
-    // clear fields
     ['dr-nm','dr-ph','dr-pw','dr-pw2'].forEach(id=>{const el=$(id);if(el)el.value='';});
     setTimeout(()=>dtab('li'),1800);
   }catch(err){
-    console.error('dReg error:',err);
-    shAl('al-drv','err','حدث خطأ أثناء الإنشاء: '+( err.message||'تحقق من الاتصال'));
+    shAl('al-drv','err','حدث خطأ أثناء الإنشاء: '+(err.message||'تحقق من الاتصال'));
   }
   btn.innerHTML=origTxt;btn.disabled=false;
 };
@@ -572,13 +663,54 @@ window.dLogin=async()=>{
     const d=snap.val();
     if(d.password!==pw){shAl('al-drv','err','كلمة المرور غير صحيحة');btn.innerHTML=origTxt;btn.disabled=false;return;}
     await update(ref(db,`drivers/${phKey}`),{status:'online',lastSeen:Date.now()});
-    CU={...d,id:phKey};CR='driver';CM('Mdriver');initDash();
+    CU={...d,id:phKey};CR='driver';CM('Mdriver');
+    // Request location immediately on driver login
+    requestDriverLocation(phKey);
+    initDash();
     toast('ok','أهلاً وسهلاً '+d.name,'مرحباً بك في نظام هادي التفال 🚕');
   }catch(err){
-    console.error('dLogin error:',err);
     shAl('al-drv','err','خطأ في الاتصال: '+(err.message||'حاول مرة أخرى'));
     btn.innerHTML=origTxt;btn.disabled=false;
   }
+};
+
+/* ── Request driver location after login ── */
+const requestDriverLocation=drvId=>{
+  if(!navigator.geolocation)return;
+  navigator.geolocation.getCurrentPosition(
+    async pos=>{
+      const lat=pos.coords.latitude,lng=pos.coords.longitude;
+      await update(ref(db,`drivers/${drvId}`),{lat,lng,locUpdated:Date.now()});
+      toast('ok','📍 تم تحديد موقعك','سيظهر موقعك الآن على خريطة المشرف');
+      // start continuous update every 8 seconds
+      startLocTracking(drvId);
+    },
+    err=>{
+      // silent fail - not blocking
+      console.warn('GPS error on login:',err.code);
+    },
+    {enableHighAccuracy:true,timeout:15000,maximumAge:0}
+  );
+};
+
+/* ── Continuous location tracking every 8s ── */
+const startLocTracking=drvId=>{
+  stopLocTracking();
+  locWatcher=setInterval(async()=>{
+    if(!navigator.geolocation)return;
+    navigator.geolocation.getCurrentPosition(
+      async pos=>{
+        const lat=pos.coords.latitude,lng=pos.coords.longitude;
+        await update(ref(db,`drivers/${drvId}`),{lat,lng,locUpdated:Date.now()}).catch(()=>{});
+      },
+      ()=>{},
+      {enableHighAccuracy:false,timeout:7000,maximumAge:5000}
+    );
+  },8000);
+};
+
+const stopLocTracking=()=>{
+  if(locWatcher){clearInterval(locWatcher);locWatcher=null;}
 };
 
 /* ── supervisor register ── */
@@ -598,7 +730,6 @@ window.sReg=async()=>{
     ['sr-nm','sr-em','sr-pw','sr-pw2'].forEach(id=>{const el=$(id);if(el)el.value='';});
     setTimeout(()=>stab('li'),1800);
   }catch(err){
-    console.error('sReg error:',err);
     shAl('al-sup','err','خطأ: '+(err.message||'تحقق من الاتصال'));
   }
   btn.innerHTML=origTxt;btn.disabled=false;
@@ -620,7 +751,6 @@ window.sLogin=async()=>{
     CU={...d,id:key};CR='supervisor';CM('Msup');initDash();
     toast('ok','مرحباً '+d.name,'لوحة تحكم مشرف هادي التفال 👨‍💼');
   }catch(err){
-    console.error('sLogin error:',err);
     shAl('al-sup','err','خطأ في الاتصال: '+(err.message||'حاول مرة أخرى'));
     btn.innerHTML=origTxt;btn.disabled=false;
   }
@@ -642,6 +772,7 @@ const initDash=()=>{
   } else {
     tabs.innerHTML=`
       <button class="ntab on" id="nt-chat" onclick="nTab('chat')"><i class="fas fa-comments"></i><span> المحادثات</span></button>
+      <button class="ntab" id="nt-map" onclick="nTab('map')"><i class="fas fa-map-location-dot"></i><span> الخريطة</span></button>
       <button class="ntab" id="nt-accounts" onclick="nTab('accounts')"><i class="fas fa-users"></i><span> السائقون</span></button>
       <button class="ntab" id="nt-profile" onclick="nTab('profile')"><i class="fas fa-user-cog"></i><span> حسابي</span></button>`;
     renderSChat();
@@ -653,10 +784,16 @@ window.nTab=t=>{
   const el=$('nt-'+t);if(el)el.classList.add(CR==='supervisor'?'sup-on':'on');
   clrListeners();
   if(CR==='driver'){t==='chat'?renderDChat():renderDProfile();}
-  else{if(t==='chat')renderSChat();else if(t==='accounts')renderAccs();else renderSProfile();}
+  else{if(t==='chat')renderSChat();else if(t==='map')renderMap();else if(t==='accounts')renderAccs();else renderSProfile();}
 };
 
-const clrListeners=()=>{LSNRS.forEach(r=>off(r));LSNRS.length=0;selDrv=null;editMid=null;editPath=null;};
+const clrListeners=()=>{
+  LSNRS.forEach(r=>off(r));LSNRS.length=0;
+  selDrv=null;editMid=null;editPath=null;
+  // destroy map if switching away
+  if(leafletMap){leafletMap.remove();leafletMap=null;mapMarkers={};}
+  camStop();
+};
 
 /* ══════════════ DRIVER CHAT ══════════════ */
 const renderDChat=()=>{
@@ -683,7 +820,6 @@ const renderDChat=()=>{
           <button class="qbtn" onclick="qAct('arrive','${cp}')"><i class="fas fa-flag-checkered" style="color:#a78bfa"></i>وصلت</button>
           <button class="qbtn" onclick="qAct('busy','${cp}')"><i class="fas fa-user-clock" style="color:#fb923c"></i>مشغول</button>
           <button class="qbtn" onclick="qAct('fix','${cp}')"><i class="fas fa-wrench" style="color:#94a3b8"></i>عطل سيارة</button>
-          <button class="qbtn" onclick="sendLoc('${cp}')"><i class="fas fa-location-dot" style="color:#34d399"></i>إرسال موقعي</button>
           <button class="qbtn" onclick="qAct('fuel','${cp}')"><i class="fas fa-gas-pump" style="color:#60a5fa"></i>تزوّد وقود</button>
           <button class="qbtn sos" onclick="doSOS('${cp}')"><i class="fas fa-triangle-exclamation"></i> 🆘 طوارئ SOS</button>
         </div>
@@ -697,16 +833,12 @@ const renderDChat=()=>{
             <div class="chdnm">مشرف المكتب - هادي التفال</div>
             <div class="chdst" style="color:var(--ok)"><i class="fas fa-circle" style="font-size:7px"></i> الدعم الفوري</div>
           </div>
-          <div class="chdbts" style="margin-right:auto">
-            <button class="call-btn" onclick="sendLoc('${cp}')"><i class="fas fa-location-dot"></i><span> موقعي</span></button>
-          </div>
         </div>
         <div class="typing-ind" id="TYPING"><div class="typing-dots"><span></span><span></span><span></span></div><span style="font-size:11px;color:var(--g5)">المشرف يكتب...</span></div>
         <div class="cmsgs" id="MSGS"></div>
         <div class="editbar" id="EBAR"><i class="fas fa-pen-to-square"></i> تعديل الرسالة<button onclick="cnclEdit()"><i class="fas fa-times"></i></button></div>
         <div class="cinp-area">
-          <button class="icbtn attbtn" onclick="$('MINP').click()" title="إرسال صورة أو فيديو"><i class="fas fa-paperclip"></i></button>
-          <input type="file" id="MINP" class="mediainp" accept="image/*,video/*" onchange="sendMedia(event,'${cp}','driver')">
+          <button class="icbtn attbtn" onclick="openStudio('${cp}','driver')" title="استوديو الميديا" style="background:rgba(245,158,11,.12);border-color:rgba(245,158,11,.25);color:var(--a)"><i class="fas fa-photo-film"></i></button>
           <textarea class="cinp" id="CINP" placeholder="اكتب رسالة للمشرف..." rows="1" onkeydown="handleKey(event,'${cp}','driver')" oninput="autoGrow(this);notifyTyping('${cp}','driver')"></textarea>
           <button class="icbtn sndbtn" onclick="sendMsg('${cp}','driver')"><i class="fas fa-paper-plane"></i></button>
         </div>
@@ -765,7 +897,6 @@ const renderSChat=()=>{
 const rdDrvList=ent=>{
   const list=$('DLIST');if(!list)return;
   if(!ent.length){list.innerHTML=`<div style="text-align:center;padding:24px;color:var(--g5);font-size:12px"><i class="fas fa-users" style="font-size:28px;opacity:.2;display:block;margin-bottom:8px"></i>لا يوجد سائقون مسجلون</div>`;return;}
-  // sort: online first
   const sorted=[...ent].sort((a,b)=>{
     const ao=a[1].status==='online';const bo=b[1].status==='online';
     if(ao&&!bo)return -1;if(!ao&&bo)return 1;return 0;
@@ -802,17 +933,12 @@ window.selD=id=>{
             ${d.phone?`<span style="color:var(--g5);font-size:10px;margin-right:6px">• ${d.phone}</span>`:''}
           </div>
         </div>
-        <div class="chdbts">
-          <button class="trk-btn" onclick="doTrack('${id}')"><i class="fas fa-map-location-dot"></i> تتبع الموقع</button>
-          <button class="call-btn" onclick="callDriver('${d.phone||''}')"><i class="fas fa-phone"></i><span> اتصال</span></button>
-        </div>
       </div>
       <div class="typing-ind" id="TYPING"><div class="typing-dots"><span></span><span></span><span></span></div><span style="font-size:11px;color:var(--g5)">السائق يكتب...</span></div>
       <div class="cmsgs" id="MSGS"></div>
       <div class="editbar" id="EBAR"><i class="fas fa-pen-to-square"></i> تعديل الرسالة<button onclick="cnclEdit()"><i class="fas fa-times"></i></button></div>
       <div class="cinp-area">
-        <button class="icbtn attbtn" onclick="$('SINP').click()"><i class="fas fa-paperclip"></i></button>
-        <input type="file" id="SINP" class="mediainp" accept="image/*,video/*" onchange="sendMedia(event,'${cp}','supervisor')">
+        <button class="icbtn attbtn" onclick="openStudio('${cp}','supervisor')" title="استوديو الميديا" style="background:rgba(245,158,11,.12);border-color:rgba(245,158,11,.25);color:var(--a)"><i class="fas fa-photo-film"></i></button>
         <textarea class="cinp sup-inp" id="CINP" placeholder="اكتب رسالة لـ ${esc(d.name)}..." rows="1" onkeydown="handleKey(event,'${cp}','supervisor')" oninput="autoGrow(this);notifyTyping('${cp}','supervisor')"></textarea>
         <button class="icbtn sndbtn sup-snd" onclick="sendMsg('${cp}','supervisor')"><i class="fas fa-paper-plane"></i></button>
       </div>
@@ -821,24 +947,80 @@ window.selD=id=>{
   listenTyping(cp,'supervisor');
 };
 
-/* ── Track driver location ── */
-window.doTrack=async dId=>{
-  const snap=await get(ref(db,`drivers/${dId}`));
-  if(!snap.exists())return toast('err','خطأ','لم يُعثر على بيانات السائق');
-  const d=snap.val();
-  if(!d.lat||!d.lng){
-    toast('warn','الموقع غير متوفر','السائق لم يُرسل موقعه بعد — اطلب منه إرسال الموقع');
-    return;
-  }
-  const url=`https://www.google.com/maps?q=${d.lat},${d.lng}&z=16`;
-  window.open(url,'_blank');
-  toast('ok','تتبع الموقع','تم فتح خرائط جوجل بموقع السائق');
+/* ══════════════ MAP ══════════════ */
+const renderMap=()=>{
+  $('dbody').innerHTML=`
+  <div style="height:calc(100vh - 62px);display:flex;flex-direction:column;position:relative">
+    <div class="ststrip" style="flex-shrink:0">
+      <div class="st"><div class="stic" style="background:rgba(52,211,153,.14);color:#34d399"><i class="fas fa-satellite-dish"></i></div><div><div class="stv" id="mOn">0</div><div class="stl">متصل ومتتبع</div></div></div>
+      <div class="st"><div class="stic" style="background:rgba(245,158,11,.14);color:var(--a)"><i class="fas fa-users"></i></div><div><div class="stv" id="mTot">0</div><div class="stl">إجمالي السائقين</div></div></div>
+      <div class="st"><div class="stic" style="background:rgba(100,116,139,.14);color:var(--g4)"><i class="fas fa-clock"></i></div><div><div class="stv" id="mUpd">--</div><div class="stl">آخر تحديث</div></div></div>
+    </div>
+    <div id="driverMap" style="flex:1"></div>
+    <div class="map-legend">
+      <div style="font-size:11px;font-weight:800;color:var(--w);margin-bottom:6px">المفتاح</div>
+      <div class="map-legend-item"><div class="leg-dot" style="background:#34d399"></div>متصل ومتتبع</div>
+      <div class="map-legend-item"><div class="leg-dot" style="background:var(--g5)"></div>غير متصل</div>
+    </div>
+  </div>`;
+
+  // Initialize Leaflet map
+  setTimeout(()=>{
+    leafletMap=L.map('driverMap',{zoomControl:true,attributionControl:true}).setView([32.31,35.03],12);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+      attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      maxZoom:19
+    }).addTo(leafletMap);
+    // Listen to drivers and update map
+    const r=ref(db,'drivers');
+    onValue(r,snap=>{
+      const data=snap.exists()?snap.val():{};
+      const ent=Object.entries(data);
+      $('mTot').textContent=ent.length;
+      $('mOn').textContent=ent.filter(([,d])=>d.status==='online'&&d.lat).length;
+      $('mUpd').textContent=fmt(Date.now());
+      updateMapMarkers(ent);
+    });
+    LSNRS.push(r);
+  },100);
 };
 
-/* ── Call driver ── */
-window.callDriver=phone=>{
-  if(!phone){toast('err','خطأ','رقم الهاتف غير متوفر');return;}
-  window.open(`tel:${phone}`);
+const updateMapMarkers=ent=>{
+  if(!leafletMap)return;
+  const activeIds=new Set();
+  ent.forEach(([id,d])=>{
+    if(!d.lat||!d.lng)return;
+    activeIds.add(id);
+    const isOnline=d.status==='online';
+    const avatarHtml=d.avatar
+      ?`<img src="${d.avatar}" style="width:36px;height:36px;border-radius:50%;object-fit:cover">`
+      :`<span style="font-size:20px">🚕</span>`;
+    const iconHtml=`<div class="drv-marker-wrap">
+      <div class="drv-marker ${isOnline?'':'offline'}" style="display:flex;align-items:center;justify-content:center;border-color:${isOnline?'#34d399':'#64748b'}">${avatarHtml}</div>
+      <div class="drv-marker-name">${d.name}</div>
+    </div>`;
+    const icon=L.divIcon({html:iconHtml,className:'',iconSize:[50,60],iconAnchor:[25,60]});
+    const popupContent=`
+      <div style="text-align:center;padding:4px">
+        <div style="font-size:13px;font-weight:800;margin-bottom:4px">${d.name}</div>
+        <div style="font-size:11px;color:#94a3b8;margin-bottom:4px">${d.phone||''}  •  ${isOnline?'<span style="color:#34d399">متصل</span>':'<span style="color:#64748b">غير متصل</span>'}</div>
+        ${d.locUpdated?`<div style="font-size:10px;color:#64748b">آخر تحديث: ${fmt(d.locUpdated)}</div>`:''}
+        <a href="https://www.google.com/maps?q=${d.lat},${d.lng}&z=16" target="_blank" style="display:inline-block;margin-top:8px;padding:5px 12px;background:#2563a8;color:#fff;border-radius:7px;font-size:11px;text-decoration:none">فتح في خرائط Google</a>
+      </div>`;
+    if(mapMarkers[id]){
+      mapMarkers[id].setLatLng([d.lat,d.lng]);
+      mapMarkers[id].setIcon(icon);
+      mapMarkers[id].getPopup().setContent(popupContent);
+    } else {
+      mapMarkers[id]=L.marker([d.lat,d.lng],{icon}).addTo(leafletMap).bindPopup(popupContent);
+    }
+  });
+  // remove markers of drivers no longer visible
+  Object.keys(mapMarkers).forEach(id=>{
+    if(!activeIds.has(id)&&mapMarkers[id]){
+      mapMarkers[id].remove();delete mapMarkers[id];
+    }
+  });
 };
 
 /* ── Typing indicator ── */
@@ -860,7 +1042,6 @@ const listenTyping=(cp,myRole)=>{
   LSNRS.push(r);
 };
 
-/* ── auto grow textarea ── */
 window.autoGrow=el=>{
   el.style.height='auto';
   el.style.height=Math.min(el.scrollHeight,100)+'px';
@@ -869,7 +1050,6 @@ window.handleKey=(e,cp,role)=>{
   if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg(cp,role);}
 };
 
-/* ── Count today's messages ── */
 const countTodayMsgs=async(cp)=>{
   const snap=await get(ref(db,`chats/${cp}`));
   if(!snap.exists())return;
@@ -893,7 +1073,7 @@ const listenChat=(cp,role)=>{
     const msgs=Object.entries(snap.val());
     let html='';
     let lastDate='';
-    msgs.forEach(([mid,msg],i)=>{
+    msgs.forEach(([mid,msg])=>{
       const msgDate=fmtDate(msg.ts||Date.now());
       if(msgDate!==lastDate){
         html+=`<div class="datebrk">${msgDate}</div>`;
@@ -903,8 +1083,6 @@ const listenChat=(cp,role)=>{
     });
     box.innerHTML=html;
     box.scrollTop=box.scrollHeight;
-    // mark as read
-    if(msgs.length)update(ref(db,`chats/${cp}`),{});
   });
   LSNRS.push(r);
 };
@@ -925,12 +1103,6 @@ const mkBubble=(mid,msg,myRole,cp)=>{
     content=`<div class="mbubble imgm"><img src="${msg.url}" onclick="vImg('${eAt(msg.url)}')" loading="lazy"></div>`;
   } else if(msg.type==='video'){
     content=`<div class="mbubble vidm"><video src="${msg.url}" controls playsinline preload="metadata"></video></div>`;
-  } else if(msg.type==='location'){
-    const txt=esc(msg.text||'📍 موقعي الحالي');
-    content=`<div class="mbubble locm" onclick="window.open('${msg.url||''}','_blank')">
-      <div style="display:flex;align-items:center;gap:6px;font-size:13px"><i class="fas fa-map-location-dot" style="color:#34d399;font-size:16px"></i> ${txt.split('\n')[0]}</div>
-      <a class="loc-link" href="${msg.url||'#'}" target="_blank" onclick="event.stopPropagation()"><i class="fas fa-external-link-alt"></i> فتح في خرائط Google</a>
-    </div>`;
   } else if(msg.type==='sos'){
     content=`<div class="mbubble sosmsg" style="font-weight:800;font-size:13px"><i class="fas fa-triangle-exclamation"></i> ${esc(msg.text||'نداء طوارئ!')}</div>`;
   } else {
@@ -951,47 +1123,12 @@ window.sendMsg=async(cp,role)=>{
   const inp=$('CINP');if(!inp)return;
   const txt=inp.value.trim();if(!txt)return;
   inp.value='';inp.style.height='auto';
-  // clear typing
   await update(ref(db,`typing/${cp}`),{[role]:false});
   if(editMid&&editPath===cp){
     await update(ref(db,`chats/${cp}/${editMid}`),{text:txt,edited:true});
     cnclEdit();return;
   }
   await push(ref(db,`chats/${cp}`),{text:txt,sender:role,senderName:CU.name,ts:Date.now(),type:'text'});
-};
-
-/* ── send media ── */
-window.sendMedia=async(e,cp,role)=>{
-  const f=e.target.files[0];if(!f)return;
-  const isVid=f.type.startsWith('video');
-  const MAX=isVid?8:5;
-  if(f.size>MAX*1024*1024){toast('err','الملف كبير جداً',`الحد الأقصى ${MAX}MB`);e.target.value='';return;}
-  toast('info','📤 جار الإرسال...','الرجاء الانتظار');
-  const toBase64=file=>new Promise((res,rej)=>{
-    const r=new FileReader();r.onload=ev=>res(ev.target.result);r.onerror=rej;r.readAsDataURL(file);
-  });
-  try{
-    if(!isVid){
-      const raw=await toBase64(f);
-      const img2=new Image();
-      await new Promise(res=>{img2.onload=res;img2.src=raw;});
-      const M=950,c=document.createElement('canvas');
-      let w=img2.width,h=img2.height;
-      if(w>h){if(w>M){h=Math.round(h*M/w);w=M;}}else{if(h>M){w=Math.round(w*M/h);h=M;}}
-      c.width=w;c.height=h;c.getContext('2d').drawImage(img2,0,0,w,h);
-      const url=c.toDataURL('image/jpeg',.78);
-      if(url.length>5.5*1024*1024){toast('err','الصورة كبيرة جداً','جرب صورة بجودة أقل');e.target.value='';return;}
-      await push(ref(db,`chats/${cp}`),{url,sender:role,senderName:CU.name,ts:Date.now(),type:'image'});
-    } else {
-      const url=await toBase64(f);
-      if(url.length>9*1024*1024){toast('err','الفيديو كبير جداً','الحد تقريباً 6MB');e.target.value='';return;}
-      await push(ref(db,`chats/${cp}`),{url,sender:role,senderName:CU.name,ts:Date.now(),type:'video'});
-    }
-    toast('ok','تم الإرسال ✅','');
-  }catch(err){
-    console.error(err);toast('err','فشل الإرسال','حاول مرة أخرى');
-  }
-  e.target.value='';
 };
 
 /* ── edit / delete ── */
@@ -1010,10 +1147,95 @@ window.delMsg=async(mid,cp)=>{
   await update(ref(db,`chats/${cp}/${mid}`),{deleted:true,text:'',type:'text',url:''});
 };
 
-/* ── view image fullscreen ── */
-window.vImg=url=>{
-  $('bigImg').src=url;
-  OM('MviewImg');
+window.vImg=url=>{$('bigImg').src=url;OM('MviewImg');};
+
+/* ══════════════ STUDIO ══════════════ */
+window.openStudio=(cp,role)=>{
+  studioChatPath=cp;studioRole=role;
+  studioPendingData=null;studioPendingType=null;
+  $('studioPreview').classList.remove('on');
+  $('studioGrid').style.display='grid';
+  $('camWrap').classList.remove('on');
+  $('studioModal').classList.add('on');
+};
+window.closeStudio=()=>{
+  $('studioModal').classList.remove('on');
+  camStop();studioChatPath=null;studioRole=null;studioPendingData=null;
+};
+window.studioChoose=type=>{
+  const inp=$('studioFileInp');
+  inp.accept=type==='image'?'image/*':type==='video'?'video/*':'image/*,video/*';
+  inp.click();
+};
+window.studioFileChosen=async e=>{
+  const f=e.target.files[0];if(!f)return;
+  const isVid=f.type.startsWith('video');
+  const MAX=isVid?8:5;
+  if(f.size>MAX*1024*1024){toast('err','الملف كبير جداً',`الحد الأقصى ${MAX}MB`);e.target.value='';return;}
+  const toBase64=file=>new Promise((res,rej)=>{
+    const r=new FileReader();r.onload=ev=>res(ev.target.result);r.onerror=rej;r.readAsDataURL(file);
+  });
+  try{
+    if(!isVid){
+      const raw=await toBase64(f);
+      const img2=new Image();
+      await new Promise(res=>{img2.onload=res;img2.src=raw;});
+      const M=950,c=document.createElement('canvas');
+      let w=img2.width,h=img2.height;
+      if(w>h){if(w>M){h=Math.round(h*M/w);w=M;}}else{if(h>M){w=Math.round(w*M/h);h=M;}}
+      c.width=w;c.height=h;c.getContext('2d').drawImage(img2,0,0,w,h);
+      studioPendingData=c.toDataURL('image/jpeg',.78);studioPendingType='image';
+      $('previewContent').innerHTML=`<img class="preview-img" src="${studioPendingData}">`;
+    } else {
+      studioPendingData=await toBase64(f);studioPendingType='video';
+      $('previewContent').innerHTML=`<video class="preview-vid" src="${studioPendingData}" controls></video>`;
+    }
+    $('studioGrid').style.display='none';
+    $('studioPreview').classList.add('on');
+  }catch(err){toast('err','فشل في قراءة الملف','');}
+  e.target.value='';
+};
+window.studioCamera=async()=>{
+  try{
+    camStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'},audio:false});
+    $('camVideo').srcObject=camStream;
+    $('studioGrid').style.display='none';
+    $('camWrap').classList.add('on');
+  }catch(err){
+    toast('err','تعذّر فتح الكاميرا','تأكد من منح الإذن للمتصفح');
+  }
+};
+window.camSnap=()=>{
+  const v=$('camVideo');
+  const c=document.createElement('canvas');c.width=v.videoWidth;c.height=v.videoHeight;
+  c.getContext('2d').drawImage(v,0,0);
+  studioPendingData=c.toDataURL('image/jpeg',.82);studioPendingType='image';
+  $('previewContent').innerHTML=`<img class="preview-img" src="${studioPendingData}">`;
+  camStop();
+  $('camWrap').classList.remove('on');
+  $('studioPreview').classList.add('on');
+};
+window.camStop=()=>{
+  if(camStream){camStream.getTracks().forEach(t=>t.stop());camStream=null;}
+  const v=$('camVideo');if(v)v.srcObject=null;
+};
+window.studioClear=()=>{
+  studioPendingData=null;studioPendingType=null;
+  $('studioPreview').classList.remove('on');
+  $('studioGrid').style.display='grid';
+};
+window.studioSend=async()=>{
+  if(!studioPendingData||!studioChatPath)return;
+  const btn=$('studioSendBtn');btn.innerHTML='<span class="spin"></span> جار الإرسال...';btn.disabled=true;
+  try{
+    if(studioPendingData.length>9*1024*1024){toast('err','الملف كبير جداً','');btn.innerHTML='<i class="fas fa-paper-plane"></i> إرسال';btn.disabled=false;return;}
+    await push(ref(db,`chats/${studioChatPath}`),{url:studioPendingData,sender:studioRole,senderName:CU.name,ts:Date.now(),type:studioPendingType});
+    toast('ok','✅ تم الإرسال','');
+    closeStudio();
+  }catch(err){
+    toast('err','فشل الإرسال','حاول مرة أخرى');
+  }
+  btn.innerHTML='<i class="fas fa-paper-plane"></i> إرسال';btn.disabled=false;
 };
 
 /* ══════════════ QUICK ACTIONS ══════════════ */
@@ -1035,32 +1257,7 @@ window.doSOS=async cp=>{
   if(!confirm('⚠️ إرسال نداء طوارئ للمشرف؟\nسيُنبّه المشرف فوراً!'))return;
   await push(ref(db,`chats/${cp}`),{text:`🆘 نداء طوارئ! السائق ${CU.name} يحتاج مساعدة عاجلة!`,sender:'driver',senderName:CU.name,ts:Date.now(),type:'sos'});
   await push(ref(db,'alerts'),{type:'sos',driverId:CU.id,driverName:CU.name,ts:Date.now(),resolved:false});
-  sendLoc(cp,true);
   toast('err','🆘 SOS أُرسل','تم إبلاغ المشرف بنداء الطوارئ');
-};
-
-/* ══════════════ SEND LOCATION ══════════════ */
-window.sendLoc=async(cp,silent=false)=>{
-  if(!navigator.geolocation){toast('err','GPS غير مدعوم','المتصفح لا يدعم تحديد الموقع');return;}
-  if(!silent)toast('info','🔍 جار تحديد موقعك...','');
-  navigator.geolocation.getCurrentPosition(
-    async pos=>{
-      const lat=pos.coords.latitude,lng=pos.coords.longitude,acc=Math.round(pos.coords.accuracy);
-      await update(ref(db,`drivers/${CU.id}`),{lat,lng,locUpdated:Date.now()});
-      const mapsLink=`https://www.google.com/maps?q=${lat},${lng}&z=16`;
-      await push(ref(db,`chats/${cp}`),{
-        text:`📍 موقعي الحالي\n(دقة: ${acc}م)`,
-        url:mapsLink,lat,lng,
-        sender:'driver',senderName:CU.name,ts:Date.now(),type:'location'
-      });
-      if(!silent)toast('ok','✅ تم إرسال موقعك','يمكن للمشرف الآن تتبعك');
-    },
-    err=>{
-      const msgs={1:'رُفض إذن الموقع — افتح الإعدادات وأذن',2:'تعذّر تحديد الموقع',3:'انتهت مهلة GPS — حاول ثانية'};
-      toast('err','خطأ GPS',msgs[err.code]||'خطأ غير معروف');
-    },
-    {enableHighAccuracy:true,timeout:14000,maximumAge:0}
-  );
 };
 
 /* ══════════════ DRIVER PROFILE ══════════════ */
@@ -1104,7 +1301,6 @@ const renderAccs=()=>{
     <div class="atitle"><i class="fas fa-users"></i> إدارة حسابات السائقين</div>
     <div class="acc-grid" id="ALIST"><div style="text-align:center;padding:32px;color:var(--g5);grid-column:1/-1"><div class="spin"></div><div style="margin-top:10px;font-size:12px">جار التحميل...</div></div></div>
   </div>`;
-  // use requestAnimationFrame to ensure DOM is painted before async call
   requestAnimationFrame(()=>loadAccs());
 };
 const loadAccs=async()=>{
@@ -1112,7 +1308,7 @@ const loadAccs=async()=>{
   if(!list)return;
   try{
     const snap=await get(ref(db,'drivers'));
-    if(!$('ALIST'))return; // tab may have changed while awaiting
+    if(!$('ALIST'))return;
     if(!snap.exists()){
       list.innerHTML=`<div style="color:var(--g5);font-size:13px;padding:24px;grid-column:1/-1;text-align:center"><i class="fas fa-users" style="font-size:36px;opacity:.2;display:block;margin-bottom:10px"></i>لا يوجد سائقون مسجلون حتى الآن</div>`;
       return;
@@ -1143,7 +1339,6 @@ const loadAccs=async()=>{
       </div>
     </div>`).join('');
   }catch(err){
-    console.error('loadAccs error:',err);
     if($('ALIST'))$('ALIST').innerHTML=`<div style="color:#fca5a5;font-size:13px;padding:24px;grid-column:1/-1;text-align:center"><i class="fas fa-exclamation-circle" style="font-size:28px;display:block;margin-bottom:8px"></i>خطأ في تحميل البيانات<br><small style="color:var(--g5)">${err.message||''}</small><br><button onclick="loadAccs()" style="margin-top:12px;padding:8px 18px;background:var(--pl);border:none;border-radius:8px;color:#fff;font-family:Cairo,sans-serif;cursor:pointer;font-size:12px">إعادة المحاولة</button></div>`;
   }
 };
@@ -1152,10 +1347,7 @@ window.togglePw=(id,pw)=>{
   const el=$(`pw-${id}`);if(!el)return;
   el.textContent=el.textContent==='••••••••'?pw:'••••••••';
 };
-window.goChat=id=>{
-  nTab('chat');
-  setTimeout(()=>selD(id),400);
-};
+window.goChat=id=>{nTab('chat');setTimeout(()=>selD(id),400);};
 window.opnEac=(id,nm)=>{
   $('eac-id').value=id;
   $('eac-nm').value=nm.replace(/&#39;/g,"'").replace(/&quot;/g,'"');
@@ -1216,6 +1408,8 @@ window.saveSProf=async()=>{
 
 /* ══════════════ LOGOUT ══════════════ */
 window.logout=async()=>{
+  stopLocTracking();
+  camStop();
   if(CR==='driver'&&CU){
     await update(ref(db,`drivers/${CU.id}`),{status:'offline',lastSeen:Date.now()}).catch(()=>{});
     await update(ref(db,`typing/driver_supervisor_${CU.id}`),{driver:false}).catch(()=>{});
@@ -1225,5 +1419,98 @@ window.logout=async()=>{
   $('ntabs').innerHTML='';$('navav').textContent='👤';$('navav').classList.remove('sup-av');
 };
 </script>
+
+<!-- Firebase Rules (paste in Firebase Console) -->
+<!--
+════════════════════════════════════════
+   FIREBASE REALTIME DATABASE RULES
+   مناسبة لـ 100 مستخدم يومي
+════════════════════════════════════════
+
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+
+    "drivers": {
+      ".read": true,
+      "$driverId": {
+        ".read": true,
+        ".write": "auth == null || $driverId == auth.uid || root.child('supervisors').child(auth.uid).exists()",
+        "name": {
+          ".validate": "newData.isString() && newData.val().length >= 2 && newData.val().length <= 60"
+        },
+        "phone": {
+          ".validate": "newData.isString() && newData.val().length >= 7"
+        },
+        "password": {
+          ".validate": "newData.isString() && newData.val().length >= 4"
+        },
+        "status": {
+          ".validate": "newData.isString() && (newData.val() == 'online' || newData.val() == 'offline')"
+        },
+        "lat": { ".validate": "newData.isNumber()" },
+        "lng": { ".validate": "newData.isNumber()" },
+        "avatar": { ".validate": "newData.isString() && newData.val().length <= 350000" },
+        "lastSeen": { ".validate": "newData.isNumber()" },
+        "locUpdated": { ".validate": "newData.isNumber()" },
+        "createdAt": { ".validate": "newData.isNumber()" },
+        "role": { ".validate": "newData.val() == 'driver'" }
+      }
+    },
+
+    "supervisors": {
+      ".read": true,
+      "$supId": {
+        ".read": true,
+        ".write": true,
+        "name": { ".validate": "newData.isString() && newData.val().length >= 2 && newData.val().length <= 60" },
+        "email": { ".validate": "newData.isString() && newData.val().length >= 2" },
+        "password": { ".validate": "newData.isString() && newData.val().length >= 4" },
+        "role": { ".validate": "newData.val() == 'supervisor'" },
+        "createdAt": { ".validate": "newData.isNumber()" }
+      }
+    },
+
+    "chats": {
+      "$chatId": {
+        ".read": true,
+        ".write": true,
+        "$msgId": {
+          ".validate": "newData.hasChildren(['sender','ts'])",
+          "sender": { ".validate": "newData.isString()" },
+          "senderName": { ".validate": "newData.isString()" },
+          "text": { ".validate": "!newData.exists() || (newData.isString() && newData.val().length <= 4000)" },
+          "url": { ".validate": "!newData.exists() || (newData.isString() && newData.val().length <= 6000000)" },
+          "type": { ".validate": "newData.isString()" },
+          "ts": { ".validate": "newData.isNumber()" },
+          "edited": { ".validate": "newData.isBoolean()" },
+          "deleted": { ".validate": "newData.isBoolean()" },
+          "$other": { ".validate": false }
+        }
+      }
+    },
+
+    "typing": {
+      "$chatId": {
+        ".read": true,
+        ".write": true,
+        "driver": { ".validate": "newData.isBoolean()" },
+        "supervisor": { ".validate": "newData.isBoolean()" }
+      }
+    },
+
+    "alerts": {
+      ".read": true,
+      ".write": true,
+      "$alertId": {
+        ".validate": "newData.hasChildren(['type','driverId','ts'])"
+      }
+    }
+  }
+}
+
+════════════════════════════════════════
+-->
 </body>
 </html>
