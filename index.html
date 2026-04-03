@@ -22,13 +22,11 @@ img{max-width:100%;display:block}
 .h{display:none!important}
 .spin{width:20px;height:20px;border:2.5px solid rgba(255,255,255,.15);border-top-color:var(--w);border-radius:50%;animation:sp .65s linear infinite;display:inline-block}
 @keyframes sp{to{transform:rotate(360deg)}}
-.pulse{animation:pls 2s ease infinite}
-@keyframes pls{0%,100%{opacity:1}50%{opacity:.5}}
 
 /* ═══ LANDING ═══ */
 #PL{min-height:100vh;background:radial-gradient(ellipse at 20% 50%,#0d1f3c 0%,#080f1c 60%);position:relative;overflow:hidden;display:flex;flex-direction:column}
 .orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.1;pointer-events:none;animation:fl 10s ease-in-out infinite}
-.orb1{width:500px;height:500px;background:var(--pl);top:-150px;right:-150px;animation-delay:0s}
+.orb1{width:500px;height:500px;background:var(--pl);top:-150px;right:-150px}
 .orb2{width:350px;height:350px;background:var(--a);bottom:-100px;left:-80px;animation-delay:5s}
 .orb3{width:200px;height:200px;background:var(--cs);top:40%;left:30%;animation-delay:2.5s;opacity:.07}
 @keyframes fl{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-25px) scale(1.04)}}
@@ -37,19 +35,19 @@ img{max-width:100%;display:block}
 .logo{display:flex;align-items:center;gap:10px;text-decoration:none}
 .lgic{width:40px;height:40px;background:linear-gradient(135deg,var(--a),var(--g));border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;box-shadow:0 4px 12px rgba(245,158,11,.3)}
 .lgn1{font-family:'Tajawal',sans-serif;font-weight:900;font-size:16px;line-height:1.1}
-.lgn2{font-size:10px;color:var(--a);font-weight:600;letter-spacing:.3px}
+.lgn2{font-size:10px;color:var(--a);font-weight:600}
 .bsup{padding:8px 15px;background:linear-gradient(135deg,rgba(245,158,11,.12),rgba(212,160,23,.06));border:1.5px solid rgba(245,158,11,.3);border-radius:10px;color:var(--a);font-family:'Cairo',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:var(--tr);display:flex;align-items:center;gap:7px}
 .bsup:hover{background:rgba(245,158,11,.18);border-color:rgba(245,158,11,.55);transform:translateY(-1px)}
 .sbadge{background:linear-gradient(135deg,var(--a),var(--g));color:#111;font-size:9px;font-weight:800;padding:2px 6px;border-radius:5px}
 .hero{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:110px 18px 60px;position:relative;z-index:1}
-.hbadge{display:inline-flex;align-items:center;gap:7px;background:rgba(245,158,11,.09);border:1px solid rgba(245,158,11,.25);border-radius:50px;padding:6px 16px;font-size:12px;color:var(--a);font-weight:700;margin-bottom:22px;letter-spacing:.3px}
+.hbadge{display:inline-flex;align-items:center;gap:7px;background:rgba(245,158,11,.09);border:1px solid rgba(245,158,11,.25);border-radius:50px;padding:6px 16px;font-size:12px;color:var(--a);font-weight:700;margin-bottom:22px}
 .htitle{font-family:'Tajawal',sans-serif;font-size:clamp(32px,7.5vw,68px);font-weight:900;line-height:1.12;margin-bottom:14px}
 .hl{background:linear-gradient(135deg,var(--aw),var(--a),var(--g),var(--a));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;background-size:300%;animation:gs 5s linear infinite}
 @keyframes gs{0%{background-position:0%}100%{background-position:300%}}
 .hdesc{font-size:13.5px;color:var(--g4);max-width:480px;margin:0 auto 40px;line-height:1.9}
 .hcards{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;width:100%;max-width:560px}
 .rcard{width:min(240px,88vw);padding:28px 20px;border-radius:var(--rl);cursor:pointer;transition:all .28s cubic-bezier(.34,1.56,.64,1);text-align:center;border:1px solid rgba(255,255,255,.07);backdrop-filter:blur(12px);will-change:transform;position:relative;overflow:hidden}
-.rcard::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity .3s}
+.rcard::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity .3s;pointer-events:none}
 .rcard:hover::before{opacity:1}
 .rcard:hover{transform:translateY(-8px);box-shadow:0 25px 50px rgba(0,0,0,.3)}
 .rcard.rd{background:rgba(37,99,168,.12)}.rcard.rd::before{background:radial-gradient(circle at 50% 0%,rgba(37,99,168,.18),transparent 70%)}
@@ -61,8 +59,8 @@ img{max-width:100%;display:block}
 .rctitle{font-family:'Tajawal',sans-serif;font-size:18px;font-weight:900;margin-bottom:8px;position:relative;z-index:1}
 .rcdesc{font-size:11.5px;color:var(--g4);line-height:1.75;margin-bottom:18px;position:relative;z-index:1}
 .rcbtn{width:100%;padding:11px;border-radius:var(--r);font-family:'Cairo',sans-serif;font-size:13px;font-weight:700;cursor:pointer;border:none;transition:var(--tr);position:relative;z-index:1}
-.rd .rcbtn{background:linear-gradient(135deg,var(--pl),var(--pld));color:var(--w);box-shadow:0 4px 12px rgba(37,99,168,.3)}
-.rs .rcbtn{background:linear-gradient(135deg,var(--a),var(--g));color:#111;box-shadow:0 4px 12px rgba(245,158,11,.3)}
+.rd .rcbtn{background:linear-gradient(135deg,var(--pl),var(--pld));color:var(--w)}
+.rs .rcbtn{background:linear-gradient(135deg,var(--a),var(--g));color:#111}
 .hfeat{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:30px;max-width:600px}
 .hfitem{display:flex;align-items:center;gap:7px;font-size:11.5px;color:var(--g4);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);padding:6px 13px;border-radius:50px}
 .hfitem i{color:var(--ok);font-size:10px}
@@ -83,11 +81,11 @@ img{max-width:100%;display:block}
 .tab{flex:1;padding:9px;border:none;border-radius:9px;font-family:'Cairo',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:var(--tr);background:transparent;color:var(--g4)}
 .tab.on{background:var(--pl);color:var(--w)}.tab.gld{background:linear-gradient(135deg,var(--a),var(--g))!important;color:#111!important}
 .fg{margin-bottom:14px}
-.fl{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:var(--g4);margin-bottom:6px;letter-spacing:.3px}
+.fl{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:var(--g4);margin-bottom:6px}
 .fl i{font-size:10px}
 .fi{width:100%;padding:11px 14px;background:rgba(255,255,255,.055);border:1.5px solid rgba(255,255,255,.09);border-radius:var(--r);color:var(--w);font-family:'Cairo',sans-serif;font-size:13px;transition:var(--tr);outline:none}
 .fi:focus{border-color:var(--pl);background:rgba(37,99,168,.1);box-shadow:0 0 0 3px rgba(37,99,168,.1)}
-.fi::placeholder{color:var(--g5)}.fi:disabled{opacity:.5;cursor:not-allowed;background:rgba(255,255,255,.03)}
+.fi::placeholder{color:var(--g5)}.fi:disabled{opacity:.5;cursor:not-allowed}
 .avup{display:flex;flex-direction:column;align-items:center;gap:10px;padding:18px;border:2px dashed rgba(255,255,255,.11);border-radius:var(--r);cursor:pointer;transition:var(--tr);margin-bottom:14px}
 .avup:hover{border-color:var(--pl);background:rgba(37,99,168,.06)}
 .avcircle{width:68px;height:68px;border-radius:50%;background:rgba(255,255,255,.07);display:flex;align-items:center;justify-content:center;font-size:24px;color:var(--g5);overflow:hidden;border:2px solid rgba(255,255,255,.1)}
@@ -96,12 +94,18 @@ img{max-width:100%;display:block}
 .al{display:none;padding:10px 14px;border-radius:var(--r);font-size:12px;font-weight:600;margin-bottom:14px;align-items:center;gap:8px}
 .al.err{background:rgba(239,68,68,.09);border:1px solid rgba(239,68,68,.25);color:#fca5a5;display:flex}
 .al.ok{background:rgba(16,185,129,.09);border:1px solid rgba(16,185,129,.25);color:#6ee7b7;display:flex}
-.bp{width:100%;padding:12px;background:linear-gradient(135deg,var(--pl),var(--pld));border:none;border-radius:var(--r);color:var(--w);font-family:'Cairo',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:var(--tr);margin-top:6px;box-shadow:0 4px 14px rgba(37,99,168,.28)}
-.bp:hover{opacity:.9;transform:translateY(-2px);box-shadow:0 8px 20px rgba(37,99,168,.35)}
-.ba{width:100%;padding:12px;background:linear-gradient(135deg,var(--a),var(--g));border:none;border-radius:var(--r);color:#111;font-family:'Cairo',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:var(--tr);margin-top:6px;box-shadow:0 4px 14px rgba(245,158,11,.28)}
-.ba:hover{opacity:.9;transform:translateY(-2px);box-shadow:0 8px 20px rgba(245,158,11,.35)}
+.bp{width:100%;padding:12px;background:linear-gradient(135deg,var(--pl),var(--pld));border:none;border-radius:var(--r);color:var(--w);font-family:'Cairo',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:var(--tr);margin-top:6px}
+.bp:hover{opacity:.9;transform:translateY(-2px)}
+.ba{width:100%;padding:12px;background:linear-gradient(135deg,var(--a),var(--g));border:none;border-radius:var(--r);color:#111;font-family:'Cairo',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:var(--tr);margin-top:6px}
+.ba:hover{opacity:.9;transform:translateY(-2px)}
 .bdng{width:100%;padding:10px;background:rgba(239,68,68,.09);border:1px solid rgba(239,68,68,.25);border-radius:var(--r);color:#fca5a5;font-family:'Cairo',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:var(--tr);margin-top:9px}
 .bdng:hover{background:rgba(239,68,68,.18)}
+
+/* ═══ SHARD BADGE ═══ */
+.shard-badge{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;margin-top:4px}
+.sh1{background:rgba(14,165,233,.15);color:#38bdf8;border:1px solid rgba(14,165,233,.25)}
+.sh2{background:rgba(168,85,247,.15);color:#c084fc;border:1px solid rgba(168,85,247,.25)}
+.sh3{background:rgba(245,158,11,.15);color:var(--a);border:1px solid rgba(245,158,11,.25)}
 
 /* ═══ DASHBOARD ═══ */
 #PD{display:none;min-height:100vh;background:var(--g9)}
@@ -118,33 +122,25 @@ img{max-width:100%;display:block}
 .navav img{width:100%;height:100%;object-fit:cover}
 .navav.sup-av{border-color:var(--a)}
 .bout{padding:7px 12px;background:rgba(239,68,68,.09);border:1px solid rgba(239,68,68,.2);border-radius:9px;color:#fca5a5;font-family:'Cairo',sans-serif;font-size:11px;font-weight:700;cursor:pointer;transition:var(--tr)}
-.bout:hover{background:rgba(239,68,68,.2);border-color:rgba(239,68,68,.4)}
+.bout:hover{background:rgba(239,68,68,.2)}
 .dbody{padding-top:62px;height:100vh;overflow:hidden}
 
 /* ═══ DRIVER LAYOUT ═══ */
 .dlayout{display:flex;height:calc(100vh - 62px)}
 .dside{width:255px;flex-shrink:0;background:rgba(255,255,255,.02);border-left:1px solid rgba(255,255,255,.05);display:flex;flex-direction:column;overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.06) transparent}
 .dmain{flex:1;overflow:hidden;display:flex;flex-direction:column}
-
-/* Profile card */
 .pcard{background:linear-gradient(145deg,rgba(37,99,168,.15),rgba(30,58,92,.2));border:1px solid rgba(37,99,168,.2);border-radius:16px;padding:18px;text-align:center;margin:12px}
 .pcard.sup-card{background:linear-gradient(145deg,rgba(245,158,11,.1),rgba(212,160,23,.06));border-color:rgba(245,158,11,.2)}
 .pav{width:72px;height:72px;border-radius:50%;border:3px solid var(--pl);margin:0 auto 10px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:28px;background:var(--p)}
 .pav.sup-av-b{border-color:var(--a)}
 .pav img{width:100%;height:100%;object-fit:cover}
 .pname{font-weight:800;font-size:15px;margin-bottom:5px}
-.prole{font-size:10px;padding:3px 10px;border-radius:20px;display:inline-block;font-weight:700;margin-bottom:9px;letter-spacing:.3px}
+.prole{font-size:10px;padding:3px 10px;border-radius:20px;display:inline-block;font-weight:700;margin-bottom:9px}
 .rled{background:rgba(37,99,168,.18);color:#93c5fd;border:1px solid rgba(37,99,168,.25)}
 .rls{background:rgba(245,158,11,.15);color:var(--a);border:1px solid rgba(245,158,11,.25)}
 .ondot{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:#34d399;font-weight:700}
 .ondot::before{content:'';width:7px;height:7px;border-radius:50%;background:#34d399;display:inline-block;animation:pd 1.6s infinite}
 @keyframes pd{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(52,211,153,.5)}50%{opacity:.5;box-shadow:0 0 0 5px rgba(52,211,153,0)}}
-.dstats{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:12px}
-.dstat{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:8px;text-align:center}
-.dstat-v{font-size:16px;font-weight:800;color:var(--a)}
-.dstat-l{font-size:10px;color:var(--g5);margin-top:2px}
-
-/* Quick actions */
 .ssec{padding:10px 12px;border-top:1px solid rgba(255,255,255,.05)}
 .slbl{font-size:10px;font-weight:800;color:var(--g5);text-transform:uppercase;letter-spacing:.8px;margin-bottom:9px;display:flex;align-items:center;gap:5px}
 .qbtns{display:grid;grid-template-columns:1fr 1fr;gap:7px}
@@ -152,8 +148,7 @@ img{max-width:100%;display:block}
 .qbtn i{font-size:18px}
 .qbtn:hover{background:rgba(37,99,168,.16);border-color:rgba(37,99,168,.4);color:var(--w);transform:translateY(-2px)}
 .qbtn.sos{grid-column:span 2;background:linear-gradient(135deg,rgba(239,68,68,.15),rgba(239,68,68,.08));border-color:rgba(239,68,68,.3);color:#fca5a5;flex-direction:row;justify-content:center;font-size:12px;font-weight:800;padding:10px}
-.qbtn.sos:hover{background:linear-gradient(135deg,rgba(239,68,68,.28),rgba(239,68,68,.18));box-shadow:0 4px 15px rgba(239,68,68,.2)}
-.qbtn.act{background:rgba(245,158,11,.14);border-color:rgba(245,158,11,.3);color:var(--a)}
+.qbtn.sos:hover{background:linear-gradient(135deg,rgba(239,68,68,.28),rgba(239,68,68,.18))}
 
 /* ═══ SUPERVISOR LAYOUT ═══ */
 .slayout{display:flex;height:calc(100vh - 62px)}
@@ -165,10 +160,10 @@ img{max-width:100%;display:block}
 .sbox{margin:9px 10px 5px;position:relative}
 .sbox i{position:absolute;top:50%;right:12px;transform:translateY(-50%);color:var(--g5);font-size:12px}
 .sinp{width:100%;padding:9px 33px 9px 12px;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.08);border-radius:var(--r);color:var(--w);font-family:'Cairo',sans-serif;font-size:12px;outline:none;transition:var(--tr)}
-.sinp:focus{border-color:var(--a);box-shadow:0 0 0 3px rgba(245,158,11,.1)}.sinp::placeholder{color:var(--g5)}
+.sinp:focus{border-color:var(--a)}.sinp::placeholder{color:var(--g5)}
 .dlist{flex:1;overflow-y:auto;padding:6px;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.06) transparent}
 .dlist::-webkit-scrollbar{width:3px}.dlist::-webkit-scrollbar-thumb{background:rgba(255,255,255,.07);border-radius:2px}
-.ditem{display:flex;align-items:center;gap:10px;padding:10px 10px;border-radius:var(--r);cursor:pointer;transition:var(--tr);border:1px solid transparent;margin-bottom:4px}
+.ditem{display:flex;align-items:center;gap:10px;padding:10px;border-radius:var(--r);cursor:pointer;transition:var(--tr);border:1px solid transparent;margin-bottom:4px}
 .ditem:hover{background:rgba(255,255,255,.04)}.ditem.on{background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.25)}
 .dav{width:42px;height:42px;border-radius:12px;overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:18px;background:var(--p);position:relative}
 .dav img{width:100%;height:100%;object-fit:cover}
@@ -178,13 +173,11 @@ img{max-width:100%;display:block}
 .dnm{font-size:13px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .dst{font-size:11px;color:var(--g5);margin-top:2px;display:flex;align-items:center;gap:4px}
 .dtm{font-size:10px;color:var(--g5);flex-shrink:0}
-.dunread{background:var(--a);color:#111;font-size:9px;font-weight:800;padding:2px 6px;border-radius:10px;flex-shrink:0}
 
 /* Stats strip */
 .ststrip{display:flex;gap:9px;padding:10px 16px;border-bottom:1px solid rgba(255,255,255,.05);background:rgba(255,255,255,.015);flex-shrink:0;overflow-x:auto;scrollbar-width:none}
 .ststrip::-webkit-scrollbar{display:none}
-.st{display:flex;align-items:center;gap:8px;padding:10px 14px;background:rgba(255,255,255,.04);border-radius:var(--r);border:1px solid rgba(255,255,255,.07);white-space:nowrap;flex-shrink:0;transition:var(--tr)}
-.st:hover{background:rgba(255,255,255,.07)}
+.st{display:flex;align-items:center;gap:8px;padding:10px 14px;background:rgba(255,255,255,.04);border-radius:var(--r);border:1px solid rgba(255,255,255,.07);white-space:nowrap;flex-shrink:0}
 .stic{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
 .stv{font-size:18px;font-weight:900;line-height:1}.stl{font-size:10px;color:var(--g5);margin-top:1px}
 
@@ -193,7 +186,6 @@ img{max-width:100%;display:block}
 .chd{padding:12px 16px;background:rgba(255,255,255,.03);border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;gap:12px;flex-shrink:0}
 .chdav{width:40px;height:40px;border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
 .chdnm{font-size:14px;font-weight:800}.chdst{font-size:11px;display:flex;align-items:center;gap:4px;margin-top:2px}
-.chdbts{display:flex;gap:6px;margin-right:auto}
 .cmsgs{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.06) transparent}
 .cmsgs::-webkit-scrollbar{width:3px}.cmsgs::-webkit-scrollbar-thumb{background:rgba(255,255,255,.07);border-radius:2px}
 .sysmsg{text-align:center;font-size:11px;color:var(--g5);padding:4px 12px;background:rgba(255,255,255,.04);border-radius:20px;align-self:center;border:1px solid rgba(255,255,255,.06)}
@@ -207,11 +199,11 @@ img{max-width:100%;display:block}
 .mbody{max-width:72%}
 .mbubble{padding:9px 13px;border-radius:14px;font-size:13px;line-height:1.6;position:relative;word-break:break-word}
 .msg.recv .mbubble{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.09);border-bottom-right-radius:4px}
-.msg.sent .mbubble{background:linear-gradient(135deg,var(--pl),var(--pld));border-bottom-left-radius:4px;box-shadow:0 3px 10px rgba(37,99,168,.25)}
-.msg.sent.sup-msg .mbubble{background:linear-gradient(135deg,#92400e,#78350f);box-shadow:0 3px 10px rgba(245,158,11,.2)}
+.msg.sent .mbubble{background:linear-gradient(135deg,var(--pl),var(--pld));border-bottom-left-radius:4px}
+.msg.sent.sup-msg .mbubble{background:linear-gradient(135deg,#92400e,#78350f)}
 .mbubble.imgm{padding:4px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:13px}
 .mbubble.imgm img{width:200px;max-width:100%;border-radius:10px;cursor:pointer;transition:var(--tr)}
-.mbubble.imgm img:hover{opacity:.9;transform:scale(.98)}
+.mbubble.imgm img:hover{opacity:.9}
 .mbubble.vidm{padding:4px;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.1);border-radius:13px}
 .mbubble.vidm video{width:200px;max-width:100%;border-radius:10px;max-height:170px;display:block}
 .mbubble.sosmsg{background:linear-gradient(135deg,rgba(239,68,68,.25),rgba(239,68,68,.15))!important;border:1.5px solid rgba(239,68,68,.4)!important;animation:sosfl 1.5s infinite}
@@ -237,8 +229,8 @@ img{max-width:100%;display:block}
 .cinp:focus{border-color:var(--pl);background:rgba(37,99,168,.08)}.cinp::placeholder{color:var(--g5)}
 .cinp.sup-inp:focus{border-color:var(--a);background:rgba(245,158,11,.06)}
 .icbtn{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:var(--tr);font-size:16px;border:none;flex-shrink:0}
-.sndbtn{background:linear-gradient(135deg,var(--pl),var(--pld));color:var(--w);box-shadow:0 3px 10px rgba(37,99,168,.3)}.sndbtn:hover{transform:scale(1.08)}
-.sndbtn.sup-snd{background:linear-gradient(135deg,var(--a),var(--g));color:#111;box-shadow:0 3px 10px rgba(245,158,11,.3)}
+.sndbtn{background:linear-gradient(135deg,var(--pl),var(--pld));color:var(--w)}.sndbtn:hover{transform:scale(1.08)}
+.sndbtn.sup-snd{background:linear-gradient(135deg,var(--a),var(--g));color:#111}
 .attbtn{background:rgba(255,255,255,.06);color:var(--g4);border:1px solid rgba(255,255,255,.09)}.attbtn:hover{background:rgba(255,255,255,.11);color:var(--w)}
 .mediainp{display:none}
 .editbar{display:none;padding:8px 14px;background:rgba(245,158,11,.07);border-top:1px solid rgba(245,158,11,.18);align-items:center;gap:10px;flex-shrink:0;font-size:12px;color:var(--a)}
@@ -280,34 +272,24 @@ img{max-width:100%;display:block}
 .studio-send-btn:hover{opacity:.9;transform:translateY(-2px)}
 .studio-cancel-btn{padding:10px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:var(--r);color:var(--g4);font-family:'Cairo',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:var(--tr)}
 .studio-cancel-btn:hover{background:rgba(239,68,68,.12);color:#fca5a5}
-
-/* ═══ CAMERA ═══ */
 .cam-wrap{position:relative;border-radius:12px;overflow:hidden;background:#000;display:none}
 .cam-wrap.on{display:block}
 #camVideo{width:100%;max-height:260px;object-fit:cover;display:block}
 .cam-controls{display:flex;gap:10px;justify-content:center;padding:10px 0}
 .cam-snap{padding:11px 20px;background:linear-gradient(135deg,var(--ok),#059669);border:none;border-radius:10px;color:#fff;font-family:'Cairo',sans-serif;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;transition:var(--tr)}
-.cam-snap:hover{opacity:.9;transform:scale(1.04)}
+.cam-snap:hover{opacity:.9}
 .cam-stop{padding:11px 20px;background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);border-radius:10px;color:#fca5a5;font-family:'Cairo',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:var(--tr)}
-.cam-stop:hover{background:rgba(239,68,68,.28)}
 
 /* ═══ MAP ═══ */
-.map-wrap{flex:1;display:flex;flex-direction:column;overflow:hidden;position:relative}
-#driverMap{flex:1;min-height:300px;background:#0a1628;z-index:1}
-.map-legend{position:absolute;bottom:16px;right:16px;z-index:400;background:rgba(8,15,28,.92);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:10px 14px;font-size:11px}
-.map-legend-item{display:flex;align-items:center;gap:7px;margin-bottom:5px;color:var(--g4)}
-.map-legend-item:last-child{margin-bottom:0}
-.leg-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
-.map-refresh{position:absolute;top:16px;left:16px;z-index:400;padding:8px 14px;background:rgba(245,158,11,.14);border:1px solid rgba(245,158,11,.3);border-radius:10px;color:var(--a);font-family:'Cairo',sans-serif;font-size:11px;font-weight:700;cursor:pointer;transition:var(--tr);display:flex;align-items:center;gap:6px}
-.map-refresh:hover{background:rgba(245,158,11,.28)}
-.map-stats{position:absolute;top:16px;right:16px;z-index:400;display:flex;gap:8px}
-.map-stat{background:rgba(8,15,28,.92);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.09);border-radius:10px;padding:7px 12px;font-size:11px;display:flex;align-items:center;gap:5px}
-/* Leaflet custom marker */
-.drv-marker{width:40px;height:40px;border-radius:50%;border:3px solid #34d399;overflow:hidden;box-shadow:0 3px 12px rgba(0,0,0,.5);background:#1a2e4a}
+.drv-marker{width:40px;height:40px;border-radius:50%;border:3px solid #34d399;overflow:hidden;box-shadow:0 3px 12px rgba(0,0,0,.5);background:#1a2e4a;display:flex;align-items:center;justify-content:center}
 .drv-marker img{width:100%;height:100%;object-fit:cover}
 .drv-marker.offline{border-color:var(--g5)}
 .drv-marker-wrap{display:flex;flex-direction:column;align-items:center;gap:3px}
 .drv-marker-name{background:rgba(8,15,28,.9);color:#fff;font-size:9px;font-weight:800;padding:2px 6px;border-radius:6px;white-space:nowrap;border:1px solid rgba(255,255,255,.1);font-family:'Cairo',sans-serif}
+.map-legend{position:absolute;bottom:16px;right:16px;z-index:400;background:rgba(8,15,28,.92);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:10px 14px;font-size:11px}
+.map-legend-item{display:flex;align-items:center;gap:7px;margin-bottom:5px;color:var(--g4)}
+.map-legend-item:last-child{margin-bottom:0}
+.leg-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
 
 /* ═══ ACCOUNTS ═══ */
 .awrap{padding:18px;overflow-y:auto;height:calc(100vh - 62px)}
@@ -315,14 +297,14 @@ img{max-width:100%;display:block}
 .atitle i{color:var(--a)}
 .acc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
 .acccard{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:var(--rl);padding:18px;transition:var(--tr)}
-.acccard:hover{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14);transform:translateY(-2px)}
+.acccard:hover{background:rgba(255,255,255,.06);transform:translateY(-2px)}
 .acctop{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px}
 .accav{width:52px;height:52px;border-radius:14px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:22px;background:var(--p);flex-shrink:0}
 .accav img{width:100%;height:100%;object-fit:cover}
 .accnm{font-size:14px;font-weight:800}
 .accph{font-size:12px;color:var(--g5);margin-top:3px;display:flex;align-items:center;gap:4px}
 .accpw-wrap{display:flex;align-items:center;gap:6px;margin-top:5px}
-.accpw{font-size:11px;color:var(--g5);font-family:monospace;background:rgba(255,255,255,.05);padding:3px 8px;border-radius:5px;display:inline-block;letter-spacing:1px}
+.accpw{font-size:11px;color:var(--g5);font-family:monospace;background:rgba(255,255,255,.05);padding:3px 8px;border-radius:5px;display:inline-block}
 .acc-reveal{background:none;border:none;color:var(--g5);cursor:pointer;font-size:11px;padding:2px 5px;transition:var(--tr)}
 .acc-reveal:hover{color:var(--a)}
 .accst{display:flex;align-items:center;gap:4px;font-size:11px;font-weight:700;margin-top:4px}
@@ -332,8 +314,6 @@ img{max-width:100%;display:block}
 .adel{background:rgba(239,68,68,.09);border:1px solid rgba(239,68,68,.22);color:#fca5a5}.adel:hover{background:rgba(239,68,68,.2)}
 .achat{background:rgba(37,99,168,.12);border:1px solid rgba(37,99,168,.22);color:#93c5fd}.achat:hover{background:rgba(37,99,168,.24)}
 .acc-online-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-
-/* ═══ PROFILE ═══ */
 .ptab{padding:18px;overflow-y:auto;height:calc(100vh - 62px);max-width:500px;margin:0 auto}
 .cbox{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:var(--rl);padding:22px;margin-bottom:15px}
 
@@ -349,7 +329,6 @@ img{max-width:100%;display:block}
 .leaflet-popup-content-wrapper{background:#1e2d42!important;color:#fff!important;border:1px solid rgba(255,255,255,.1)!important;border-radius:12px!important;box-shadow:0 8px 24px rgba(0,0,0,.4)!important}
 .leaflet-popup-tip{background:#1e2d42!important}
 .leaflet-popup-content{font-family:'Cairo',sans-serif!important;font-size:12px!important;margin:10px 14px!important}
-.leaflet-container{font-family:'Cairo',sans-serif!important}
 
 /* ═══ RESPONSIVE ═══ */
 @media(max-width:620px){
@@ -358,7 +337,6 @@ img{max-width:100%;display:block}
   .sside{width:100%;flex:0 0 auto;max-height:40vh;border-left:none;border-bottom:1px solid rgba(255,255,255,.05)}
   .ntab span{display:none}.ntab{padding:7px 10px}
   .lnav{padding:10px 14px}
-  .ststrip{flex-wrap:nowrap}
   .acc-grid{grid-template-columns:1fr}
   .hcards{flex-direction:column;align-items:center}
   .studio-grid{grid-template-columns:1fr 1fr}
@@ -380,18 +358,18 @@ img{max-width:100%;display:block}
   <div class="hero">
     <div class="hbadge"><i class="fas fa-taxi"></i> مكتب تكسي طولكرم الرسمي</div>
     <h1 class="htitle"><span class="hl">هادي التفال</span><br>نظام التواصل المتكامل</h1>
-    <p class="hdesc">منصة داخلية متطورة تربط سائقي التكسي بمشرف مكتب هادي التفال • تواصل فوري • تتبع الموقع • إدارة شاملة</p>
+    <p class="hdesc">منصة داخلية تربط سائقي التكسي بمشرف المكتب • تواصل فوري • تتبع الموقع • إدارة شاملة</p>
     <div class="hcards">
       <div class="rcard rd" onclick="OM('Mdriver')">
         <div class="rcic">🚕</div>
         <div class="rctitle">سائق التكسي</div>
-        <div class="rcdesc">تواصل مباشر مع المشرف، شاهد موقعك على الخريطة، وإدارة شيفتك بسهولة تامة</div>
+        <div class="rcdesc">تواصل مع المشرف وشاهد موقعك على الخريطة وأدر شيفتك</div>
         <button class="rcbtn">دخول السائق</button>
       </div>
       <div class="rcard rs" onclick="OM('Msecret')">
         <div class="rcic">👨‍💼</div>
         <div class="rctitle">مشرف المكتب</div>
-        <div class="rcdesc">راقب جميع السائقين على الخريطة المباشرة، وتواصل معهم فورياً</div>
+        <div class="rcdesc">راقب السائقين على الخريطة المباشرة وتواصل معهم فورياً</div>
         <button class="rcbtn">دخول المشرف</button>
       </div>
     </div>
@@ -400,7 +378,7 @@ img{max-width:100%;display:block}
       <div class="hfitem"><i class="fas fa-check-circle"></i> خريطة مباشرة</div>
       <div class="hfitem"><i class="fas fa-check-circle"></i> استوديو الميديا</div>
       <div class="hfitem"><i class="fas fa-check-circle"></i> طوارئ SOS</div>
-      <div class="hfitem"><i class="fas fa-check-circle"></i> تتبع مباشر</div>
+      <div class="hfitem"><i class="fas fa-check-circle"></i> 3 خوادم للأداء</div>
     </div>
   </div>
 </div>
@@ -409,7 +387,7 @@ img{max-width:100%;display:block}
 <div class="ov" id="Msecret">
   <div class="mdl">
     <button class="mclose" onclick="CM('Msecret')"><i class="fas fa-times"></i></button>
-    <div class="mhd"><div class="mic" style="background:linear-gradient(135deg,var(--a),var(--g));color:#111"><i class="fas fa-shield-halved"></i></div><div><div class="mtitle">منطقة المشرف</div><div class="msub">أدخل كلمة المرور السرية للوصول</div></div></div>
+    <div class="mhd"><div class="mic" style="background:linear-gradient(135deg,var(--a),var(--g));color:#111"><i class="fas fa-shield-halved"></i></div><div><div class="mtitle">منطقة المشرف</div><div class="msub">أدخل كلمة المرور السرية</div></div></div>
     <div class="al" id="al-sec"></div>
     <div class="fg"><label class="fl"><i class="fas fa-key"></i> كلمة المرور السرية</label><input type="password" class="fi" id="isec" placeholder="••••••••" onkeydown="if(event.key==='Enter')chkSec()"></div>
     <button class="ba" onclick="chkSec()"><i class="fas fa-unlock-alt"></i> دخول المشرف</button>
@@ -443,7 +421,7 @@ img{max-width:100%;display:block}
   </div>
 </div>
 
-<!-- MODAL: SUPERVISOR LOGIN -->
+<!-- MODAL: SUPERVISOR -->
 <div class="ov" id="Msup">
   <div class="mdl">
     <button class="mclose" onclick="CM('Msup')"><i class="fas fa-times"></i></button>
@@ -471,16 +449,16 @@ img{max-width:100%;display:block}
     <button class="mclose" onclick="CM('Meditacc')"><i class="fas fa-times"></i></button>
     <div class="mhd"><div class="mic" style="background:rgba(245,158,11,.18);color:var(--a)"><i class="fas fa-user-pen"></i></div><div><div class="mtitle">تعديل الحساب</div><div class="msub" id="eacsub"></div></div></div>
     <div class="al" id="al-eac"></div>
-    <div class="fg"><label class="fl"><i class="fas fa-user"></i> الاسم</label><input type="text" class="fi" id="eac-nm" placeholder="الاسم الكامل"></div>
+    <div class="fg"><label class="fl"><i class="fas fa-user"></i> الاسم</label><input type="text" class="fi" id="eac-nm"></div>
     <div class="fg"><label class="fl"><i class="fas fa-lock"></i> كلمة مرور جديدة (اتركها فارغة للإبقاء)</label><input type="password" class="fi" id="eac-pw" placeholder="••••••••"></div>
-    <input type="hidden" id="eac-id">
+    <input type="hidden" id="eac-id"><input type="hidden" id="eac-shard">
     <button class="ba" onclick="saveEac()"><i class="fas fa-save"></i> حفظ التغييرات</button>
   </div>
 </div>
 
 <!-- MODAL: VIEW IMAGE -->
 <div class="ov" id="MviewImg" onclick="CM('MviewImg')" style="cursor:pointer">
-  <div style="max-width:92vw;max-height:92vh;position:relative">
+  <div style="max-width:92vw;max-height:92vh">
     <img id="bigImg" style="max-width:92vw;max-height:90vh;border-radius:12px;object-fit:contain" src="">
     <div style="text-align:center;margin-top:10px;font-size:12px;color:var(--g4)">اضغط في أي مكان للإغلاق</div>
   </div>
@@ -512,21 +490,19 @@ img{max-width:100%;display:block}
       <button class="studio-btn file-btn" onclick="studioChoose('any')">
         <div class="studio-ic"><i class="fas fa-paperclip"></i></div>
         <div class="studio-label">أي ملف</div>
-        <div class="studio-sub">صورة أو فيديو بأي صيغة</div>
+        <div class="studio-sub">صورة أو فيديو</div>
       </button>
     </div>
     <div class="cam-wrap" id="camWrap">
       <video id="camVideo" autoplay playsinline muted></video>
       <div class="cam-controls">
         <button class="cam-snap" onclick="camSnap()"><i class="fas fa-camera"></i> التقاط</button>
-        <button class="cam-stop" onclick="camStop()"><i class="fas fa-stop"></i> إيقاف الكاميرا</button>
+        <button class="cam-stop" onclick="camStop()"><i class="fas fa-stop"></i> إيقاف</button>
       </div>
     </div>
     <div class="studio-preview" id="studioPreview">
       <div id="previewContent"></div>
-      <button class="studio-send-btn" id="studioSendBtn" onclick="studioSend()">
-        <i class="fas fa-paper-plane"></i> إرسال
-      </button>
+      <button class="studio-send-btn" id="studioSendBtn" onclick="studioSend()"><i class="fas fa-paper-plane"></i> إرسال</button>
       <button class="studio-cancel-btn" onclick="studioClear()">إلغاء واختيار آخر</button>
     </div>
     <input type="file" id="studioFileInp" class="mediainp" onchange="studioFileChosen(event)">
@@ -545,33 +521,60 @@ img{max-width:100%;display:block}
   </nav>
   <div class="dbody" id="dbody"></div>
 </div>
-
-<!-- TOASTS -->
 <div class="toasts" id="toasts"></div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-import{getDatabase,ref,set,get,push,onValue,update,remove,off,serverTimestamp}
+import{getDatabase,ref,set,get,push,onValue,update,remove,off}
   from"https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
 
-const app=initializeApp({databaseURL:"https://hadialtfal-default-rtdb.firebaseio.com/"});
-const db=getDatabase(app);
+/* ══════════════════════════════════════════════
+   SHARD SYSTEM — 3 Firebase databases
+   Shard assigned by: hash(driverId) % 3
+   Shard 0 → DB1 (primary, also holds supervisors/chats)
+   Shard 1 → DB2
+   Shard 2 → DB3
+   Location updates go to driver's shard DB only.
+   Chats always on DB1 (primary) for simplicity.
+   Supervisors always on DB1.
+══════════════════════════════════════════════ */
+const DB_URLS=[
+  "https://hadialtfal-default-rtdb.firebaseio.com/",   // shard 0 + primary
+  "https://hamode-a2ac1-default-rtdb.firebaseio.com/", // shard 1
+  "https://namenam-1a7ab-default-rtdb.firebaseio.com/" // shard 2
+];
+const apps=DB_URLS.map((url,i)=>initializeApp({databaseURL:url},`app${i}`));
+const dbs=apps.map(a=>getDatabase(a));
 
+// Shard helper: deterministic hash of driverId string → 0,1,2
+const getShardIdx=id=>{
+  let h=0;
+  for(let i=0;i<id.length;i++)h=(h*31+id.charCodeAt(i))>>>0;
+  return h%3;
+};
+const shardDb=id=>dbs[getShardIdx(id)];
+const shardIdx=id=>getShardIdx(id);
+
+/* ── State ── */
 let CU=null,CR=null,selDrv=null,allDrvs={};
-const LSNRS=[];
+// allDrvs = { id: {...driverData, _shard:0|1|2} }
+const LSNRS=[];  // [{r:ref, db:db}]
 let editMid=null,editPath=null,avData='';
 let studioChatPath=null,studioRole=null,studioPendingData=null,studioPendingType=null;
-let camStream=null;
-let locWatcher=null;
+let camStream=null,locWatcher=null;
 let leafletMap=null,mapMarkers={};
+let typingTimer=null;
 
+/* ── Helpers ── */
 const $=id=>document.getElementById(id);
 const H=(id,v)=>{const e=$(id);if(e)e.classList[v?'add':'remove']('h')};
 const fmt=ts=>new Date(ts).toLocaleTimeString('ar',{hour:'2-digit',minute:'2-digit'});
-const fmtDate=ts=>{const d=new Date(ts);const t=new Date();const diff=(t-d)/864e5;if(diff<1)return'اليوم';if(diff<2)return'أمس';return d.toLocaleDateString('ar',{day:'numeric',month:'short'})};
+const fmtDate=ts=>{const d=new Date(ts),t=new Date(),diff=(t-d)/864e5;if(diff<1)return'اليوم';if(diff<2)return'أمس';return d.toLocaleDateString('ar',{day:'numeric',month:'short'})};
 const esc=s=>(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 const eAt=s=>(s||'').replace(/'/g,'&#39;').replace(/"/g,'&quot;');
+const shardLabel=i=>['خادم 1','خادم 2','خادم 3'][i];
+const shardClass=i=>['sh1','sh2','sh3'][i];
 
 window.OM=id=>$(id).classList.add('on');
 window.CM=id=>{$(id).classList.remove('on');if(id!=='MviewImg')clrAl()};
@@ -586,14 +589,14 @@ window.toast=(t,ti,s='')=>{
   setTimeout(()=>{el.style.cssText='opacity:0;transform:translateX(-110%) scale(.9);transition:.22s';setTimeout(()=>el.remove(),240)},3500);
 };
 
-/* ── avatar compress ── */
+/* ── Avatar compress ── */
 window.prevAv=e=>{
   const f=e.target.files[0];if(!f)return;
   const reader=new FileReader();
   reader.onload=ev=>{
     const img=new Image();
     img.onload=()=>{
-      const MAX=300,c=document.createElement('canvas');
+      const MAX=280,c=document.createElement('canvas');
       let w=img.width,h=img.height;
       if(w>h){if(w>MAX){h=Math.round(h*MAX/w);w=MAX;}}else{if(h>MAX){w=Math.round(w*MAX/h);h=MAX;}}
       c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);
@@ -603,160 +606,136 @@ window.prevAv=e=>{
   };reader.readAsDataURL(f);
 };
 
-/* ── tabs ── */
-window.dtab=t=>{
-  $('dt1').classList.toggle('on',t==='li');$('dt2').classList.toggle('on',t==='rg');
-  H('dli',t!=='li');H('drg',t!=='rg');clrAl();
-  if(t==='rg'){avData='';const w=$('avpw');if(w){w.innerHTML='📷';w.style='';}}
-};
-window.stab=t=>{
-  $('st1').classList.toggle('on',t==='li');$('st2').classList.toggle('on',t==='rg');
-  $('st1').classList.toggle('gld',t==='li');$('st2').classList.toggle('gld',t==='rg');
-  H('sli',t!=='li');H('srg',t!=='rg');clrAl();
-};
+/* ── Tabs ── */
+window.dtab=t=>{$('dt1').classList.toggle('on',t==='li');$('dt2').classList.toggle('on',t==='rg');H('dli',t!=='li');H('drg',t!=='rg');clrAl();if(t==='rg'){avData='';const w=$('avpw');if(w){w.innerHTML='📷';}}};
+window.stab=t=>{$('st1').classList.toggle('on',t==='li');$('st2').classList.toggle('on',t==='rg');$('st1').classList.toggle('gld',t==='li');$('st2').classList.toggle('gld',t==='rg');H('sli',t!=='li');H('srg',t!=='rg');clrAl();};
+window.chkSec=()=>{if($('isec').value==='12345132'){CM('Msecret');$('isec').value='';OM('Msup');}else{shAl('al-sec','err','كلمة المرور غير صحيحة');$('isec').value='';}};
 
-/* ── secret ── */
-window.chkSec=()=>{
-  if($('isec').value==='12345132'){CM('Msecret');$('isec').value='';OM('Msup');}
-  else{shAl('al-sec','err','كلمة المرور غير صحيحة');$('isec').value='';}
-};
-
-/* ── driver register ── */
+/* ══ DRIVER REGISTER ══ */
 window.dReg=async()=>{
-  const nm=($('dr-nm').value||'').trim();
-  const ph=($('dr-ph').value||'').trim();
-  const pw=$('dr-pw').value||'';
-  const pw2=$('dr-pw2').value||'';
-  if(!nm||!ph||!pw)return shAl('al-drv','err','يرجى ملء جميع الحقول المطلوبة');
+  const nm=($('dr-nm').value||'').trim(),ph=($('dr-ph').value||'').trim(),pw=$('dr-pw').value||'',pw2=$('dr-pw2').value||'';
+  if(!nm||!ph||!pw)return shAl('al-drv','err','يرجى ملء جميع الحقول');
   if(pw!==pw2)return shAl('al-drv','err','كلمات المرور غير متطابقة');
   if(ph.length<7)return shAl('al-drv','err','رقم الهاتف قصير جداً');
   const phKey=ph.replace(/[.#$\[\]\/]/g,'_');
+  const sIdx=shardIdx(phKey);
+  const sDb=dbs[sIdx];
   const btn=$('dr-nm').closest('.mdl').querySelector('.bp');
-  const origTxt=btn.innerHTML;
-  btn.innerHTML='<span class="spin"></span> جار الإنشاء...';btn.disabled=true;
+  const orig=btn.innerHTML;btn.innerHTML='<span class="spin"></span> جار الإنشاء...';btn.disabled=true;
   try{
-    const snap=await get(ref(db,`drivers/${phKey}`));
-    if(snap.exists()){shAl('al-drv','err','رقم الهاتف مسجل مسبقاً — سجل الدخول');btn.innerHTML=origTxt;btn.disabled=false;return;}
-    const userData={name:nm,phone:ph,password:pw,avatar:avData||'',status:'online',createdAt:Date.now(),role:'driver',lastSeen:Date.now()};
-    await set(ref(db,`drivers/${phKey}`),userData);
+    // Check all 3 shards to prevent duplicate phone
+    const checks=await Promise.all(dbs.map(d=>get(ref(d,`drivers/${phKey}`))));
+    if(checks.some(s=>s.exists())){shAl('al-drv','err','رقم الهاتف مسجل مسبقاً');btn.innerHTML=orig;btn.disabled=false;return;}
+    await set(ref(sDb,`drivers/${phKey}`),{name:nm,phone:ph,password:pw,avatar:avData||'',status:'online',createdAt:Date.now(),role:'driver',lastSeen:Date.now(),shard:sIdx});
     avData='';
-    shAl('al-drv','ok','✅ تم إنشاء الحساب بنجاح! سجل الدخول الآن');
+    shAl('al-drv','ok',`✅ تم إنشاء الحساب على ${shardLabel(sIdx)}! سجل الدخول`);
     ['dr-nm','dr-ph','dr-pw','dr-pw2'].forEach(id=>{const el=$(id);if(el)el.value='';});
     setTimeout(()=>dtab('li'),1800);
-  }catch(err){
-    shAl('al-drv','err','حدث خطأ أثناء الإنشاء: '+(err.message||'تحقق من الاتصال'));
-  }
-  btn.innerHTML=origTxt;btn.disabled=false;
+  }catch(err){shAl('al-drv','err','خطأ: '+(err.message||'تحقق من الاتصال'));}
+  btn.innerHTML=orig;btn.disabled=false;
 };
 
-/* ── driver login ── */
+/* ══ DRIVER LOGIN ══ */
 window.dLogin=async()=>{
   const ph=($('dl-ph').value||'').trim(),pw=$('dl-pw').value||'';
   if(!ph||!pw)return shAl('al-drv','err','يرجى ملء جميع الحقول');
   const phKey=ph.replace(/[.#$\[\]\/]/g,'_');
   const btn=$('dl-pw').closest('.mdl').querySelector('.bp');
-  const origTxt=btn.innerHTML;
-  btn.innerHTML='<span class="spin"></span> جار الدخول...';btn.disabled=true;
+  const orig=btn.innerHTML;btn.innerHTML='<span class="spin"></span> جار الدخول...';btn.disabled=true;
   try{
-    const snap=await get(ref(db,`drivers/${phKey}`));
-    if(!snap.exists()){shAl('al-drv','err','رقم الهاتف غير مسجل');btn.innerHTML=origTxt;btn.disabled=false;return;}
-    const d=snap.val();
-    if(d.password!==pw){shAl('al-drv','err','كلمة المرور غير صحيحة');btn.innerHTML=origTxt;btn.disabled=false;return;}
-    await update(ref(db,`drivers/${phKey}`),{status:'online',lastSeen:Date.now()});
-    CU={...d,id:phKey};CR='driver';CM('Mdriver');
-    // Request location immediately on driver login
-    requestDriverLocation(phKey);
+    // Search all shards
+    let found=null,foundSIdx=-1;
+    for(let i=0;i<3;i++){
+      const snap=await get(ref(dbs[i],`drivers/${phKey}`));
+      if(snap.exists()){found=snap.val();foundSIdx=i;break;}
+    }
+    if(!found){shAl('al-drv','err','رقم الهاتف غير مسجل');btn.innerHTML=orig;btn.disabled=false;return;}
+    if(found.password!==pw){shAl('al-drv','err','كلمة المرور غير صحيحة');btn.innerHTML=orig;btn.disabled=false;return;}
+    await update(ref(dbs[foundSIdx],`drivers/${phKey}`),{status:'online',lastSeen:Date.now()});
+    CU={...found,id:phKey,_shard:foundSIdx};CR='driver';
+    CM('Mdriver');
+    requestDriverLocation(phKey,foundSIdx);
     initDash();
-    toast('ok','أهلاً وسهلاً '+d.name,'مرحباً بك في نظام هادي التفال 🚕');
-  }catch(err){
-    shAl('al-drv','err','خطأ في الاتصال: '+(err.message||'حاول مرة أخرى'));
-    btn.innerHTML=origTxt;btn.disabled=false;
-  }
+    toast('ok','أهلاً '+found.name,`متصل على ${shardLabel(foundSIdx)} 🚕`);
+  }catch(err){shAl('al-drv','err','خطأ: '+(err.message||'حاول مرة أخرى'));btn.innerHTML=orig;btn.disabled=false;}
 };
 
-/* ── Request driver location after login ── */
-const requestDriverLocation=drvId=>{
+/* ── Location ── */
+const requestDriverLocation=(drvId,sIdx)=>{
   if(!navigator.geolocation)return;
   navigator.geolocation.getCurrentPosition(
     async pos=>{
       const lat=pos.coords.latitude,lng=pos.coords.longitude;
-      await update(ref(db,`drivers/${drvId}`),{lat,lng,locUpdated:Date.now()});
-      toast('ok','📍 تم تحديد موقعك','سيظهر موقعك الآن على خريطة المشرف');
-      // start continuous update every 8 seconds
-      startLocTracking(drvId);
+      // Update ONLY the driver's shard — reduces writes 3x
+      await update(ref(dbs[sIdx],`drivers/${drvId}`),{lat,lng,locUpdated:Date.now()});
+      toast('ok','📍 موقعك محدّد','يظهر الآن على خريطة المشرف');
+      startLocTracking(drvId,sIdx);
     },
-    err=>{
-      // silent fail - not blocking
-      console.warn('GPS error on login:',err.code);
-    },
+    err=>console.warn('GPS init err:',err.code),
     {enableHighAccuracy:true,timeout:15000,maximumAge:0}
   );
 };
-
-/* ── Continuous location tracking every 8s ── */
-const startLocTracking=drvId=>{
+const startLocTracking=(drvId,sIdx)=>{
   stopLocTracking();
-  locWatcher=setInterval(async()=>{
+  let lastLat=null,lastLng=null;
+  locWatcher=setInterval(()=>{
     if(!navigator.geolocation)return;
     navigator.geolocation.getCurrentPosition(
       async pos=>{
         const lat=pos.coords.latitude,lng=pos.coords.longitude;
-        await update(ref(db,`drivers/${drvId}`),{lat,lng,locUpdated:Date.now()}).catch(()=>{});
+        // Only write if moved > ~10m to save bandwidth/writes
+        if(lastLat!==null){
+          const dlat=lat-lastLat,dlng=lng-lastLng;
+          const dist=Math.sqrt(dlat*dlat+dlng*dlng)*111000;
+          if(dist<10)return;
+        }
+        lastLat=lat;lastLng=lng;
+        await update(ref(dbs[sIdx],`drivers/${drvId}`),{lat,lng,locUpdated:Date.now()}).catch(()=>{});
       },
       ()=>{},
-      {enableHighAccuracy:false,timeout:7000,maximumAge:5000}
+      {enableHighAccuracy:false,timeout:8000,maximumAge:6000}
     );
-  },8000);
+  },10000);  // every 10s — reduced from 8s to save quota
 };
+const stopLocTracking=()=>{if(locWatcher){clearInterval(locWatcher);locWatcher=null;}};
 
-const stopLocTracking=()=>{
-  if(locWatcher){clearInterval(locWatcher);locWatcher=null;}
-};
-
-/* ── supervisor register ── */
+/* ══ SUPERVISOR REGISTER ══ */
 window.sReg=async()=>{
   const nm=($('sr-nm').value||'').trim(),em=($('sr-em').value||'').trim(),pw=$('sr-pw').value||'',pw2=$('sr-pw2').value||'';
   if(!nm||!em||!pw)return shAl('al-sup','err','يرجى ملء جميع الحقول');
   if(pw!==pw2)return shAl('al-sup','err','كلمات المرور غير متطابقة');
   const key=em.replace(/[.@#$\/\[\]]/g,'_');
   const btn=$('sr-nm').closest('.mdl').querySelector('.ba');
-  const origTxt=btn.innerHTML;
-  btn.innerHTML='<span class="spin"></span> جار الإنشاء...';btn.disabled=true;
+  const orig=btn.innerHTML;btn.innerHTML='<span class="spin"></span>';btn.disabled=true;
   try{
-    const snap=await get(ref(db,`supervisors/${key}`));
-    if(snap.exists()){shAl('al-sup','err','اسم المستخدم مسجل مسبقاً');btn.innerHTML=origTxt;btn.disabled=false;return;}
-    await set(ref(db,`supervisors/${key}`),{name:nm,email:em,password:pw,role:'supervisor',createdAt:Date.now()});
-    shAl('al-sup','ok','✅ تم إنشاء الحساب بنجاح! سجل الدخول الآن');
-    ['sr-nm','sr-em','sr-pw','sr-pw2'].forEach(id=>{const el=$(id);if(el)el.value='';});
+    // Supervisors always on DB0 (primary)
+    const snap=await get(ref(dbs[0],`supervisors/${key}`));
+    if(snap.exists()){shAl('al-sup','err','اسم المستخدم مسجل مسبقاً');btn.innerHTML=orig;btn.disabled=false;return;}
+    await set(ref(dbs[0],`supervisors/${key}`),{name:nm,email:em,password:pw,role:'supervisor',createdAt:Date.now()});
+    shAl('al-sup','ok','✅ تم إنشاء حساب المشرف!');
     setTimeout(()=>stab('li'),1800);
-  }catch(err){
-    shAl('al-sup','err','خطأ: '+(err.message||'تحقق من الاتصال'));
-  }
-  btn.innerHTML=origTxt;btn.disabled=false;
+  }catch(err){shAl('al-sup','err','خطأ: '+(err.message||''));}
+  btn.innerHTML=orig;btn.disabled=false;
 };
 
-/* ── supervisor login ── */
+/* ══ SUPERVISOR LOGIN ══ */
 window.sLogin=async()=>{
   const em=($('sl-em').value||'').trim(),pw=$('sl-pw').value||'';
   if(!em||!pw)return shAl('al-sup','err','يرجى ملء جميع الحقول');
   const key=em.replace(/[.@#$\/\[\]]/g,'_');
   const btn=$('sl-pw').closest('.mdl').querySelector('.ba');
-  const origTxt=btn.innerHTML;
-  btn.innerHTML='<span class="spin"></span> جار الدخول...';btn.disabled=true;
+  const orig=btn.innerHTML;btn.innerHTML='<span class="spin"></span>';btn.disabled=true;
   try{
-    const snap=await get(ref(db,`supervisors/${key}`));
-    if(!snap.exists()){shAl('al-sup','err','الحساب غير موجود');btn.innerHTML=origTxt;btn.disabled=false;return;}
+    const snap=await get(ref(dbs[0],`supervisors/${key}`));
+    if(!snap.exists()){shAl('al-sup','err','الحساب غير موجود');btn.innerHTML=orig;btn.disabled=false;return;}
     const d=snap.val();
-    if(d.password!==pw){shAl('al-sup','err','كلمة المرور غير صحيحة');btn.innerHTML=origTxt;btn.disabled=false;return;}
+    if(d.password!==pw){shAl('al-sup','err','كلمة المرور غير صحيحة');btn.innerHTML=orig;btn.disabled=false;return;}
     CU={...d,id:key};CR='supervisor';CM('Msup');initDash();
     toast('ok','مرحباً '+d.name,'لوحة تحكم مشرف هادي التفال 👨‍💼');
-  }catch(err){
-    shAl('al-sup','err','خطأ في الاتصال: '+(err.message||'حاول مرة أخرى'));
-    btn.innerHTML=origTxt;btn.disabled=false;
-  }
+  }catch(err){shAl('al-sup','err','خطأ: '+(err.message||''));btn.innerHTML=orig;btn.disabled=false;}
 };
 
-/* ── init dashboard ── */
+/* ══ INIT DASHBOARD ══ */
 const initDash=()=>{
   $('PL').style.display='none';$('PD').style.display='block';
   const nav=$('navav');
@@ -788,14 +767,14 @@ window.nTab=t=>{
 };
 
 const clrListeners=()=>{
-  LSNRS.forEach(r=>off(r));LSNRS.length=0;
+  LSNRS.forEach(({r})=>off(r));LSNRS.length=0;
   selDrv=null;editMid=null;editPath=null;
-  // destroy map if switching away
   if(leafletMap){leafletMap.remove();leafletMap=null;mapMarkers={};}
   camStop();
 };
+const addL=(r)=>LSNRS.push({r});
 
-/* ══════════════ DRIVER CHAT ══════════════ */
+/* ══ DRIVER CHAT ══ */
 const renderDChat=()=>{
   const cp=`driver_supervisor_${CU.id}`;
   $('dbody').innerHTML=`
@@ -804,12 +783,9 @@ const renderDChat=()=>{
       <div class="pcard">
         <div class="pav">${CU.avatar?`<img src="${CU.avatar}">`:'🚕'}</div>
         <div class="pname">${esc(CU.name)}</div>
-        <div class="prole rled">🚕 سائق تكسي</div><br>
-        <div class="ondot">متصل الآن</div>
-        <div class="dstats">
-          <div class="dstat"><div class="dstat-v" id="dMsgCnt">0</div><div class="dstat-l">رسالة اليوم</div></div>
-          <div class="dstat"><div class="dstat-v">📶</div><div class="dstat-l">متصل</div></div>
-        </div>
+        <div class="prole rled">🚕 سائق تكسي</div>
+        <div class="shard-badge ${shardClass(CU._shard||0)}"><i class="fas fa-server"></i> ${shardLabel(CU._shard||0)}</div><br>
+        <div class="ondot" style="margin-top:6px">متصل الآن</div>
       </div>
       <div class="ssec">
         <div class="slbl"><i class="fas fa-bolt"></i> إجراءات سريعة</div>
@@ -838,19 +814,19 @@ const renderDChat=()=>{
         <div class="cmsgs" id="MSGS"></div>
         <div class="editbar" id="EBAR"><i class="fas fa-pen-to-square"></i> تعديل الرسالة<button onclick="cnclEdit()"><i class="fas fa-times"></i></button></div>
         <div class="cinp-area">
-          <button class="icbtn attbtn" onclick="openStudio('${cp}','driver')" title="استوديو الميديا" style="background:rgba(245,158,11,.12);border-color:rgba(245,158,11,.25);color:var(--a)"><i class="fas fa-photo-film"></i></button>
+          <button class="icbtn attbtn" onclick="openStudio('${cp}','driver')" style="background:rgba(245,158,11,.12);border-color:rgba(245,158,11,.25);color:var(--a)"><i class="fas fa-photo-film"></i></button>
           <textarea class="cinp" id="CINP" placeholder="اكتب رسالة للمشرف..." rows="1" onkeydown="handleKey(event,'${cp}','driver')" oninput="autoGrow(this);notifyTyping('${cp}','driver')"></textarea>
           <button class="icbtn sndbtn" onclick="sendMsg('${cp}','driver')"><i class="fas fa-paper-plane"></i></button>
         </div>
       </div>
     </div>
   </div>`;
+  // Chats always on DB0 (primary)
   listenChat(cp,'driver');
   listenTyping(cp,'driver');
-  countTodayMsgs(cp);
 };
 
-/* ══════════════ SUPERVISOR CHAT ══════════════ */
+/* ══ SUPERVISOR CHAT ══ */
 const renderSChat=()=>{
   $('dbody').innerHTML=`
   <div class="slayout">
@@ -864,56 +840,63 @@ const renderSChat=()=>{
         <span><i class="fas fa-users" style="color:var(--a);margin-left:6px"></i>السائقون</span>
         <span class="dlcnt" id="dcnt">جار التحميل...</span>
       </div>
-      <div class="sbox"><i class="fas fa-magnifying-glass"></i><input class="sinp" placeholder="ابحث باسم السائق أو رقمه..." onkeyup="filtDrvs(this.value)"></div>
+      <div class="sbox"><i class="fas fa-magnifying-glass"></i><input class="sinp" placeholder="ابحث باسم السائق..." onkeyup="filtDrvs(this.value)"></div>
       <div class="dlist" id="DLIST"><div style="text-align:center;padding:22px;color:var(--g5)"><div class="spin"></div></div></div>
     </div>
     <div class="smain">
       <div class="ststrip">
-        <div class="st"><div class="stic" style="background:rgba(245,158,11,.14);color:var(--a)"><i class="fas fa-users"></i></div><div><div class="stv" id="sTot">0</div><div class="stl">إجمالي السائقين</div></div></div>
-        <div class="st"><div class="stic" style="background:rgba(52,211,153,.14);color:#34d399"><i class="fas fa-circle-dot"></i></div><div><div class="stv" id="sOn">0</div><div class="stl">متصل الآن</div></div></div>
-        <div class="st"><div class="stic" style="background:rgba(100,116,139,.14);color:var(--g4)"><i class="fas fa-circle"></i></div><div><div class="stv" id="sOff">0</div><div class="stl">غير متصل</div></div></div>
+        <div class="st"><div class="stic" style="background:rgba(245,158,11,.14);color:var(--a)"><i class="fas fa-users"></i></div><div><div class="stv" id="sTot">0</div><div class="stl">إجمالي</div></div></div>
+        <div class="st"><div class="stic" style="background:rgba(52,211,153,.14);color:#34d399"><i class="fas fa-circle-dot"></i></div><div><div class="stv" id="sOn">0</div><div class="stl">متصل</div></div></div>
+        <div class="st"><div class="stic" style="background:rgba(100,116,139,.14);color:var(--g4)"><i class="fas fa-server"></i></div><div><div class="stv">3</div><div class="stl">خوادم نشطة</div></div></div>
       </div>
       <div id="SCHAT" style="flex:1;display:flex;flex-direction:column;overflow:hidden">
-        <div class="supholder">
-          <i class="fas fa-comments"></i>
-          <p>اختر سائقاً من القائمة الجانبية<br>للبدء بالمحادثة</p>
-        </div>
+        <div class="supholder"><i class="fas fa-comments"></i><p>اختر سائقاً من القائمة للبدء</p></div>
       </div>
     </div>
   </div>`;
-  const r=ref(db,'drivers');
-  onValue(r,snap=>{
-    allDrvs=snap.exists()?snap.val():{};
-    const ent=Object.entries(allDrvs);
-    $('sTot').textContent=ent.length;
-    $('sOn').textContent=ent.filter(([,d])=>d.status==='online').length;
-    $('sOff').textContent=ent.filter(([,d])=>d.status!=='online').length;
-    $('dcnt').textContent=ent.length+' سائق';
-    rdDrvList(ent);
+
+  // Listen to ALL 3 shards simultaneously
+  allDrvs={};
+  dbs.forEach((sdb,sIdx)=>{
+    const r=ref(sdb,'drivers');
+    onValue(r,snap=>{
+      // Merge data from this shard into allDrvs
+      // First remove stale entries from this shard
+      Object.keys(allDrvs).forEach(id=>{if(allDrvs[id]._shard===sIdx)delete allDrvs[id];});
+      if(snap.exists()){
+        Object.entries(snap.val()).forEach(([id,d])=>{
+          allDrvs[id]={...d,_shard:sIdx};
+        });
+      }
+      const ent=Object.entries(allDrvs);
+      const totEl=$('sTot'),onEl=$('sOn'),cntEl=$('dcnt');
+      if(totEl)totEl.textContent=ent.length;
+      if(onEl)onEl.textContent=ent.filter(([,d])=>d.status==='online').length;
+      if(cntEl)cntEl.textContent=ent.length+' سائق';
+      rdDrvList(ent);
+    });
+    addL(r);
   });
-  LSNRS.push(r);
 };
 
 const rdDrvList=ent=>{
   const list=$('DLIST');if(!list)return;
   if(!ent.length){list.innerHTML=`<div style="text-align:center;padding:24px;color:var(--g5);font-size:12px"><i class="fas fa-users" style="font-size:28px;opacity:.2;display:block;margin-bottom:8px"></i>لا يوجد سائقون مسجلون</div>`;return;}
-  const sorted=[...ent].sort((a,b)=>{
-    const ao=a[1].status==='online';const bo=b[1].status==='online';
-    if(ao&&!bo)return -1;if(!ao&&bo)return 1;return 0;
-  });
+  const sorted=[...ent].sort((a,b)=>{const ao=a[1].status==='online',bo=b[1].status==='online';if(ao&&!bo)return -1;if(!ao&&bo)return 1;return 0;});
   list.innerHTML=sorted.map(([id,d])=>`
   <div class="ditem ${selDrv===id?'on':''}" onclick="selD('${id}')">
     <div class="dav">${d.avatar?`<img src="${d.avatar}">`:'🚕'}<div class="dstdot ${d.status==='online'?'don':'doff'}"></div></div>
     <div class="dinfo">
       <div class="dnm">${esc(d.name)}</div>
-      <div class="dst"><i class="fas fa-circle" style="font-size:6px;color:${d.status==='online'?'#34d399':'var(--g5)'}"></i> ${d.status==='online'?'متصل الآن':'غير متصل'}</div>
+      <div class="dst"><i class="fas fa-circle" style="font-size:6px;color:${d.status==='online'?'#34d399':'var(--g5)'}"></i> ${d.status==='online'?'متصل':'غير متصل'}</div>
+      <div class="shard-badge ${shardClass(d._shard||0)}" style="margin-top:2px;padding:1px 6px;font-size:9px"><i class="fas fa-server"></i> ${shardLabel(d._shard||0)}</div>
     </div>
     ${d.lastSeen?`<div class="dtm">${fmt(d.lastSeen)}</div>`:''}
   </div>`).join('');
 };
 
 window.filtDrvs=q=>{
-  const ent=Object.entries(allDrvs).filter(([id,d])=>d.name.includes(q)||d.phone.includes(q));
+  const ent=Object.entries(allDrvs).filter(([,d])=>d.name.includes(q)||d.phone.includes(q));
   rdDrvList(ent);
 };
 
@@ -929,8 +912,9 @@ window.selD=id=>{
         <div>
           <div class="chdnm">${esc(d.name)}</div>
           <div class="chdst" style="color:${d.status==='online'?'#34d399':'var(--g5)'}">
-            <i class="fas fa-circle" style="font-size:7px"></i> ${d.status==='online'?'متصل الآن':'غير متصل'}
+            <i class="fas fa-circle" style="font-size:7px"></i> ${d.status==='online'?'متصل':'غير متصل'}
             ${d.phone?`<span style="color:var(--g5);font-size:10px;margin-right:6px">• ${d.phone}</span>`:''}
+            <span class="shard-badge ${shardClass(d._shard||0)}" style="margin-right:4px;padding:1px 6px;font-size:9px"><i class="fas fa-server"></i> ${shardLabel(d._shard||0)}</span>
           </div>
         </div>
       </div>
@@ -938,7 +922,7 @@ window.selD=id=>{
       <div class="cmsgs" id="MSGS"></div>
       <div class="editbar" id="EBAR"><i class="fas fa-pen-to-square"></i> تعديل الرسالة<button onclick="cnclEdit()"><i class="fas fa-times"></i></button></div>
       <div class="cinp-area">
-        <button class="icbtn attbtn" onclick="openStudio('${cp}','supervisor')" title="استوديو الميديا" style="background:rgba(245,158,11,.12);border-color:rgba(245,158,11,.25);color:var(--a)"><i class="fas fa-photo-film"></i></button>
+        <button class="icbtn attbtn" onclick="openStudio('${cp}','supervisor')" style="background:rgba(245,158,11,.12);border-color:rgba(245,158,11,.25);color:var(--a)"><i class="fas fa-photo-film"></i></button>
         <textarea class="cinp sup-inp" id="CINP" placeholder="اكتب رسالة لـ ${esc(d.name)}..." rows="1" onkeydown="handleKey(event,'${cp}','supervisor')" oninput="autoGrow(this);notifyTyping('${cp}','supervisor')"></textarea>
         <button class="icbtn sndbtn sup-snd" onclick="sendMsg('${cp}','supervisor')"><i class="fas fa-paper-plane"></i></button>
       </div>
@@ -947,14 +931,14 @@ window.selD=id=>{
   listenTyping(cp,'supervisor');
 };
 
-/* ══════════════ MAP ══════════════ */
+/* ══ MAP ══ */
 const renderMap=()=>{
   $('dbody').innerHTML=`
   <div style="height:calc(100vh - 62px);display:flex;flex-direction:column;position:relative">
     <div class="ststrip" style="flex-shrink:0">
-      <div class="st"><div class="stic" style="background:rgba(52,211,153,.14);color:#34d399"><i class="fas fa-satellite-dish"></i></div><div><div class="stv" id="mOn">0</div><div class="stl">متصل ومتتبع</div></div></div>
-      <div class="st"><div class="stic" style="background:rgba(245,158,11,.14);color:var(--a)"><i class="fas fa-users"></i></div><div><div class="stv" id="mTot">0</div><div class="stl">إجمالي السائقين</div></div></div>
-      <div class="st"><div class="stic" style="background:rgba(100,116,139,.14);color:var(--g4)"><i class="fas fa-clock"></i></div><div><div class="stv" id="mUpd">--</div><div class="stl">آخر تحديث</div></div></div>
+      <div class="st"><div class="stic" style="background:rgba(52,211,153,.14);color:#34d399"><i class="fas fa-satellite-dish"></i></div><div><div class="stv" id="mOn">0</div><div class="stl">متتبع</div></div></div>
+      <div class="st"><div class="stic" style="background:rgba(245,158,11,.14);color:var(--a)"><i class="fas fa-users"></i></div><div><div class="stv" id="mTot">0</div><div class="stl">إجمالي</div></div></div>
+      <div class="st"><div class="stic" style="background:rgba(14,165,233,.14);color:#38bdf8"><i class="fas fa-server"></i></div><div><div class="stv">3</div><div class="stl">خوادم موزّعة</div></div></div>
     </div>
     <div id="driverMap" style="flex:1"></div>
     <div class="map-legend">
@@ -964,221 +948,145 @@ const renderMap=()=>{
     </div>
   </div>`;
 
-  // Initialize Leaflet map
   setTimeout(()=>{
-    leafletMap=L.map('driverMap',{zoomControl:true,attributionControl:true}).setView([32.31,35.03],12);
+    leafletMap=L.map('driverMap',{zoomControl:true}).setView([32.31,35.03],12);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
-      attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-      maxZoom:19
+      attribution:'© OpenStreetMap',maxZoom:19
     }).addTo(leafletMap);
-    // Listen to drivers and update map
-    const r=ref(db,'drivers');
-    onValue(r,snap=>{
-      const data=snap.exists()?snap.val():{};
-      const ent=Object.entries(data);
-      $('mTot').textContent=ent.length;
-      $('mOn').textContent=ent.filter(([,d])=>d.status==='online'&&d.lat).length;
-      $('mUpd').textContent=fmt(Date.now());
-      updateMapMarkers(ent);
+
+    // Listen to ALL 3 shards for location updates
+    dbs.forEach((sdb,sIdx)=>{
+      const r=ref(sdb,'drivers');
+      onValue(r,snap=>{
+        if(!snap.exists())return;
+        const entries=Object.entries(snap.val());
+        // Update stats
+        const allEnt=Object.entries(allDrvs);
+        const mT=$('mTot'),mO=$('mOn');
+        if(mT)mT.textContent=allEnt.length;
+        if(mO)mO.textContent=allEnt.filter(([,d])=>d.lat&&d.status==='online').length;
+        entries.forEach(([id,d])=>{
+          if(d.lat&&d.lng)updateMarker(id,d,sIdx);
+        });
+      });
+      addL(r);
     });
-    LSNRS.push(r);
   },100);
 };
 
-const updateMapMarkers=ent=>{
+const updateMarker=(id,d,sIdx)=>{
   if(!leafletMap)return;
-  const activeIds=new Set();
-  ent.forEach(([id,d])=>{
-    if(!d.lat||!d.lng)return;
-    activeIds.add(id);
-    const isOnline=d.status==='online';
-    const avatarHtml=d.avatar
-      ?`<img src="${d.avatar}" style="width:36px;height:36px;border-radius:50%;object-fit:cover">`
-      :`<span style="font-size:20px">🚕</span>`;
-    const iconHtml=`<div class="drv-marker-wrap">
-      <div class="drv-marker ${isOnline?'':'offline'}" style="display:flex;align-items:center;justify-content:center;border-color:${isOnline?'#34d399':'#64748b'}">${avatarHtml}</div>
-      <div class="drv-marker-name">${d.name}</div>
-    </div>`;
-    const icon=L.divIcon({html:iconHtml,className:'',iconSize:[50,60],iconAnchor:[25,60]});
-    const popupContent=`
-      <div style="text-align:center;padding:4px">
-        <div style="font-size:13px;font-weight:800;margin-bottom:4px">${d.name}</div>
-        <div style="font-size:11px;color:#94a3b8;margin-bottom:4px">${d.phone||''}  •  ${isOnline?'<span style="color:#34d399">متصل</span>':'<span style="color:#64748b">غير متصل</span>'}</div>
-        ${d.locUpdated?`<div style="font-size:10px;color:#64748b">آخر تحديث: ${fmt(d.locUpdated)}</div>`:''}
-        <a href="https://www.google.com/maps?q=${d.lat},${d.lng}&z=16" target="_blank" style="display:inline-block;margin-top:8px;padding:5px 12px;background:#2563a8;color:#fff;border-radius:7px;font-size:11px;text-decoration:none">فتح في خرائط Google</a>
-      </div>`;
-    if(mapMarkers[id]){
-      mapMarkers[id].setLatLng([d.lat,d.lng]);
-      mapMarkers[id].setIcon(icon);
-      mapMarkers[id].getPopup().setContent(popupContent);
-    } else {
-      mapMarkers[id]=L.marker([d.lat,d.lng],{icon}).addTo(leafletMap).bindPopup(popupContent);
-    }
-  });
-  // remove markers of drivers no longer visible
-  Object.keys(mapMarkers).forEach(id=>{
-    if(!activeIds.has(id)&&mapMarkers[id]){
-      mapMarkers[id].remove();delete mapMarkers[id];
-    }
-  });
+  const isOnline=d.status==='online';
+  const avHtml=d.avatar?`<img src="${d.avatar}" style="width:36px;height:36px;border-radius:50%;object-fit:cover">`:`<span style="font-size:20px">🚕</span>`;
+  const iconHtml=`<div class="drv-marker-wrap">
+    <div class="drv-marker ${isOnline?'':'offline'}" style="border-color:${isOnline?'#34d399':'#64748b'}">${avHtml}</div>
+    <div class="drv-marker-name">${d.name}</div>
+  </div>`;
+  const icon=L.divIcon({html:iconHtml,className:'',iconSize:[50,60],iconAnchor:[25,60]});
+  const popHtml=`<div style="text-align:center;padding:4px">
+    <div style="font-size:13px;font-weight:800;margin-bottom:4px">${d.name}</div>
+    <div style="font-size:11px;color:#94a3b8;margin-bottom:3px">${d.phone||''} • ${isOnline?'<span style="color:#34d399">متصل</span>':'<span style="color:#64748b">غير متصل</span>'}</div>
+    <div class="shard-badge ${shardClass(sIdx)}" style="display:inline-flex;margin-bottom:6px"><i class="fas fa-server"></i> ${shardLabel(sIdx)}</div>
+    ${d.locUpdated?`<div style="font-size:10px;color:#64748b">آخر تحديث: ${fmt(d.locUpdated)}</div>`:''}
+    <a href="https://www.google.com/maps?q=${d.lat},${d.lng}&z=16" target="_blank" style="display:inline-block;margin-top:8px;padding:5px 12px;background:#2563a8;color:#fff;border-radius:7px;font-size:11px;text-decoration:none;font-family:Cairo,sans-serif">فتح في Google Maps</a>
+  </div>`;
+  if(mapMarkers[id]){
+    mapMarkers[id].setLatLng([d.lat,d.lng]);
+    mapMarkers[id].setIcon(icon);
+    mapMarkers[id].getPopup().setContent(popHtml);
+  } else {
+    mapMarkers[id]=L.marker([d.lat,d.lng],{icon}).addTo(leafletMap).bindPopup(popHtml);
+  }
 };
 
-/* ── Typing indicator ── */
-let typingTimer=null;
+/* ══ TYPING ══ */
 window.notifyTyping=async(cp,role)=>{
-  await update(ref(db,`typing/${cp}`),{[role]:true});
+  await update(ref(dbs[0],`typing/${cp}`),{[role]:true});
   clearTimeout(typingTimer);
-  typingTimer=setTimeout(async()=>{
-    await update(ref(db,`typing/${cp}`),{[role]:false});
-  },2200);
+  typingTimer=setTimeout(async()=>{await update(ref(dbs[0],`typing/${cp}`),{[role]:false});},2200);
 };
 const listenTyping=(cp,myRole)=>{
   const other=myRole==='driver'?'supervisor':'driver';
-  const r=ref(db,`typing/${cp}/${other}`);
-  onValue(r,snap=>{
-    const ind=$('TYPING');if(!ind)return;
-    ind.classList.toggle('on',snap.val()===true);
-  });
-  LSNRS.push(r);
+  const r=ref(dbs[0],`typing/${cp}/${other}`);
+  onValue(r,snap=>{const ind=$('TYPING');if(!ind)return;ind.classList.toggle('on',snap.val()===true);});
+  addL(r);
 };
+window.autoGrow=el=>{el.style.height='auto';el.style.height=Math.min(el.scrollHeight,100)+'px';};
+window.handleKey=(e,cp,role)=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg(cp,role);}};
 
-window.autoGrow=el=>{
-  el.style.height='auto';
-  el.style.height=Math.min(el.scrollHeight,100)+'px';
-};
-window.handleKey=(e,cp,role)=>{
-  if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg(cp,role);}
-};
-
-const countTodayMsgs=async(cp)=>{
-  const snap=await get(ref(db,`chats/${cp}`));
-  if(!snap.exists())return;
-  const today=new Date().toDateString();
-  let count=0;
-  Object.values(snap.val()).forEach(m=>{
-    if(m.sender==='driver'&&new Date(m.ts).toDateString()===today)count++;
-  });
-  const el=$('dMsgCnt');if(el)el.textContent=count;
-};
-
-/* ══════════════ CHAT ENGINE ══════════════ */
+/* ══ CHAT ENGINE — always DB0 ══ */
 const listenChat=(cp,role)=>{
-  const r=ref(db,`chats/${cp}`);
+  const r=ref(dbs[0],`chats/${cp}`);
   onValue(r,snap=>{
     const box=$('MSGS');if(!box)return;
-    if(!snap.exists()){
-      box.innerHTML=`<div class="sysmsg">مرحباً! ابدأ المحادثة 👋</div>`;
-      return;
-    }
+    if(!snap.exists()){box.innerHTML=`<div class="sysmsg">مرحباً! ابدأ المحادثة 👋</div>`;return;}
     const msgs=Object.entries(snap.val());
-    let html='';
-    let lastDate='';
+    let html='',lastDate='';
     msgs.forEach(([mid,msg])=>{
-      const msgDate=fmtDate(msg.ts||Date.now());
-      if(msgDate!==lastDate){
-        html+=`<div class="datebrk">${msgDate}</div>`;
-        lastDate=msgDate;
-      }
+      const d=fmtDate(msg.ts||Date.now());
+      if(d!==lastDate){html+=`<div class="datebrk">${d}</div>`;lastDate=d;}
       html+=mkBubble(mid,msg,role,cp);
     });
     box.innerHTML=html;
     box.scrollTop=box.scrollHeight;
   });
-  LSNRS.push(r);
+  addL(r);
 };
 
 const mkBubble=(mid,msg,myRole,cp)=>{
   if(msg.deleted)return`<div class="msg ${msg.sender===myRole?'sent':'recv'}">
     <div class="mav">${msg.sender===myRole?(CU.avatar?`<img src="${CU.avatar}">`:'👤'):msg.sender==='driver'?'🚕':'👨‍💼'}</div>
-    <div class="mbody"><div class="mbubble delbub">🚫 تم حذف هذه الرسالة</div></div>
-  </div>`;
-  const mine=msg.sender===myRole;
-  const isSup=myRole==='supervisor';
+    <div class="mbody"><div class="mbubble delbub">🚫 تم حذف هذه الرسالة</div></div></div>`;
+  const mine=msg.sender===myRole,isSup=myRole==='supervisor';
   const myAv=CU.avatar?`<img src="${CU.avatar}">`:(isSup?'👨‍💼':'🚕');
   const otherAv=msg.sender==='driver'?'🚕':'👨‍💼';
   let content='';
-  const sentClass=mine?`sent${isSup?' sup-msg':''}`:' recv';
-
-  if(msg.type==='image'){
-    content=`<div class="mbubble imgm"><img src="${msg.url}" onclick="vImg('${eAt(msg.url)}')" loading="lazy"></div>`;
-  } else if(msg.type==='video'){
-    content=`<div class="mbubble vidm"><video src="${msg.url}" controls playsinline preload="metadata"></video></div>`;
-  } else if(msg.type==='sos'){
-    content=`<div class="mbubble sosmsg" style="font-weight:800;font-size:13px"><i class="fas fa-triangle-exclamation"></i> ${esc(msg.text||'نداء طوارئ!')}</div>`;
-  } else {
-    content=`<div class="mbubble">${esc(msg.text||'')}${msg.edited?'<span class="edtag">✏️ تم التعديل</span>':''}</div>`;
-  }
+  if(msg.type==='image')content=`<div class="mbubble imgm"><img src="${msg.url}" onclick="vImg('${eAt(msg.url)}')" loading="lazy"></div>`;
+  else if(msg.type==='video')content=`<div class="mbubble vidm"><video src="${msg.url}" controls playsinline preload="metadata"></video></div>`;
+  else if(msg.type==='sos')content=`<div class="mbubble sosmsg" style="font-weight:800"><i class="fas fa-triangle-exclamation"></i> ${esc(msg.text||'')}</div>`;
+  else content=`<div class="mbubble">${esc(msg.text||'')}${msg.edited?'<span class="edtag">✏️ تم التعديل</span>':''}</div>`;
   const acts=mine?`<div class="macts">
     ${(msg.type==='text'||!msg.type)?`<button class="mabtn medit" onclick="startEdit('${mid}','${cp}','${eAt(msg.text||'')}')"><i class="fas fa-pen"></i> تعديل</button>`:''}
     <button class="mabtn mdel" onclick="delMsg('${mid}','${cp}')"><i class="fas fa-trash"></i> حذف</button>
   </div>`:'';
-  return`<div class="msg ${sentClass}">
+  return`<div class="msg ${mine?'sent':'recv'}${mine&&isSup?' sup-msg':''}">
     <div class="mav">${mine?myAv:otherAv}</div>
     <div class="mbody">${acts}${content}<div class="mtm">${fmt(msg.ts||Date.now())}</div></div>
   </div>`;
 };
 
-/* ── send text ── */
 window.sendMsg=async(cp,role)=>{
   const inp=$('CINP');if(!inp)return;
   const txt=inp.value.trim();if(!txt)return;
   inp.value='';inp.style.height='auto';
-  await update(ref(db,`typing/${cp}`),{[role]:false});
+  await update(ref(dbs[0],`typing/${cp}`),{[role]:false});
   if(editMid&&editPath===cp){
-    await update(ref(db,`chats/${cp}/${editMid}`),{text:txt,edited:true});
+    await update(ref(dbs[0],`chats/${cp}/${editMid}`),{text:txt,edited:true});
     cnclEdit();return;
   }
-  await push(ref(db,`chats/${cp}`),{text:txt,sender:role,senderName:CU.name,ts:Date.now(),type:'text'});
+  await push(ref(dbs[0],`chats/${cp}`),{text:txt,sender:role,senderName:CU.name,ts:Date.now(),type:'text'});
 };
-
-/* ── edit / delete ── */
 window.startEdit=(mid,cp,cur)=>{
   editMid=mid;editPath=cp;
   const inp=$('CINP');if(inp){inp.value=cur.replace(/&#39;/g,"'").replace(/&quot;/g,'"');inp.focus();autoGrow(inp);}
   const bar=$('EBAR');if(bar)bar.classList.add('on');
 };
-window.cnclEdit=()=>{
-  editMid=null;editPath=null;
-  const inp=$('CINP');if(inp){inp.value='';inp.style.height='auto';}
-  const bar=$('EBAR');if(bar)bar.classList.remove('on');
-};
-window.delMsg=async(mid,cp)=>{
-  if(!confirm('حذف هذه الرسالة؟'))return;
-  await update(ref(db,`chats/${cp}/${mid}`),{deleted:true,text:'',type:'text',url:''});
-};
-
+window.cnclEdit=()=>{editMid=null;editPath=null;const inp=$('CINP');if(inp){inp.value='';inp.style.height='auto';}const bar=$('EBAR');if(bar)bar.classList.remove('on');};
+window.delMsg=async(mid,cp)=>{if(!confirm('حذف هذه الرسالة؟'))return;await update(ref(dbs[0],`chats/${cp}/${mid}`),{deleted:true,text:'',type:'text',url:''});};
 window.vImg=url=>{$('bigImg').src=url;OM('MviewImg');};
 
-/* ══════════════ STUDIO ══════════════ */
-window.openStudio=(cp,role)=>{
-  studioChatPath=cp;studioRole=role;
-  studioPendingData=null;studioPendingType=null;
-  $('studioPreview').classList.remove('on');
-  $('studioGrid').style.display='grid';
-  $('camWrap').classList.remove('on');
-  $('studioModal').classList.add('on');
-};
-window.closeStudio=()=>{
-  $('studioModal').classList.remove('on');
-  camStop();studioChatPath=null;studioRole=null;studioPendingData=null;
-};
-window.studioChoose=type=>{
-  const inp=$('studioFileInp');
-  inp.accept=type==='image'?'image/*':type==='video'?'video/*':'image/*,video/*';
-  inp.click();
-};
+/* ══ STUDIO ══ */
+window.openStudio=(cp,role)=>{studioChatPath=cp;studioRole=role;studioPendingData=null;studioPendingType=null;$('studioPreview').classList.remove('on');$('studioGrid').style.display='grid';$('camWrap').classList.remove('on');$('studioModal').classList.add('on');};
+window.closeStudio=()=>{$('studioModal').classList.remove('on');camStop();studioChatPath=null;};
+window.studioChoose=type=>{const inp=$('studioFileInp');inp.accept=type==='image'?'image/*':type==='video'?'video/*':'image/*,video/*';inp.click();};
 window.studioFileChosen=async e=>{
   const f=e.target.files[0];if(!f)return;
   const isVid=f.type.startsWith('video');
-  const MAX=isVid?8:5;
-  if(f.size>MAX*1024*1024){toast('err','الملف كبير جداً',`الحد الأقصى ${MAX}MB`);e.target.value='';return;}
-  const toBase64=file=>new Promise((res,rej)=>{
-    const r=new FileReader();r.onload=ev=>res(ev.target.result);r.onerror=rej;r.readAsDataURL(file);
-  });
+  if(f.size>(isVid?8:5)*1024*1024){toast('err','الملف كبير',`الحد ${isVid?8:5}MB`);e.target.value='';return;}
+  const toB64=file=>new Promise((res,rej)=>{const r=new FileReader();r.onload=ev=>res(ev.target.result);r.onerror=rej;r.readAsDataURL(file);});
   try{
     if(!isVid){
-      const raw=await toBase64(f);
-      const img2=new Image();
+      const raw=await toB64(f),img2=new Image();
       await new Promise(res=>{img2.onload=res;img2.src=raw;});
       const M=950,c=document.createElement('canvas');
       let w=img2.width,h=img2.height;
@@ -1187,96 +1095,71 @@ window.studioFileChosen=async e=>{
       studioPendingData=c.toDataURL('image/jpeg',.78);studioPendingType='image';
       $('previewContent').innerHTML=`<img class="preview-img" src="${studioPendingData}">`;
     } else {
-      studioPendingData=await toBase64(f);studioPendingType='video';
+      studioPendingData=await toB64(f);studioPendingType='video';
       $('previewContent').innerHTML=`<video class="preview-vid" src="${studioPendingData}" controls></video>`;
     }
-    $('studioGrid').style.display='none';
-    $('studioPreview').classList.add('on');
-  }catch(err){toast('err','فشل في قراءة الملف','');}
+    $('studioGrid').style.display='none';$('studioPreview').classList.add('on');
+  }catch(err){toast('err','فشل قراءة الملف','');}
   e.target.value='';
 };
 window.studioCamera=async()=>{
   try{
     camStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'},audio:false});
     $('camVideo').srcObject=camStream;
-    $('studioGrid').style.display='none';
-    $('camWrap').classList.add('on');
-  }catch(err){
-    toast('err','تعذّر فتح الكاميرا','تأكد من منح الإذن للمتصفح');
-  }
+    $('studioGrid').style.display='none';$('camWrap').classList.add('on');
+  }catch(err){toast('err','تعذّر فتح الكاميرا','');}
 };
 window.camSnap=()=>{
-  const v=$('camVideo');
-  const c=document.createElement('canvas');c.width=v.videoWidth;c.height=v.videoHeight;
+  const v=$('camVideo'),c=document.createElement('canvas');c.width=v.videoWidth;c.height=v.videoHeight;
   c.getContext('2d').drawImage(v,0,0);
   studioPendingData=c.toDataURL('image/jpeg',.82);studioPendingType='image';
   $('previewContent').innerHTML=`<img class="preview-img" src="${studioPendingData}">`;
-  camStop();
-  $('camWrap').classList.remove('on');
-  $('studioPreview').classList.add('on');
+  camStop();$('camWrap').classList.remove('on');$('studioPreview').classList.add('on');
 };
-window.camStop=()=>{
-  if(camStream){camStream.getTracks().forEach(t=>t.stop());camStream=null;}
-  const v=$('camVideo');if(v)v.srcObject=null;
-};
-window.studioClear=()=>{
-  studioPendingData=null;studioPendingType=null;
-  $('studioPreview').classList.remove('on');
-  $('studioGrid').style.display='grid';
-};
+window.camStop=()=>{if(camStream){camStream.getTracks().forEach(t=>t.stop());camStream=null;}const v=$('camVideo');if(v)v.srcObject=null;};
+window.studioClear=()=>{studioPendingData=null;studioPendingType=null;$('studioPreview').classList.remove('on');$('studioGrid').style.display='grid';};
 window.studioSend=async()=>{
   if(!studioPendingData||!studioChatPath)return;
   const btn=$('studioSendBtn');btn.innerHTML='<span class="spin"></span> جار الإرسال...';btn.disabled=true;
   try{
     if(studioPendingData.length>9*1024*1024){toast('err','الملف كبير جداً','');btn.innerHTML='<i class="fas fa-paper-plane"></i> إرسال';btn.disabled=false;return;}
-    await push(ref(db,`chats/${studioChatPath}`),{url:studioPendingData,sender:studioRole,senderName:CU.name,ts:Date.now(),type:studioPendingType});
-    toast('ok','✅ تم الإرسال','');
-    closeStudio();
-  }catch(err){
-    toast('err','فشل الإرسال','حاول مرة أخرى');
-  }
+    // Media always stored in DB0 (primary)
+    await push(ref(dbs[0],`chats/${studioChatPath}`),{url:studioPendingData,sender:studioRole,senderName:CU.name,ts:Date.now(),type:studioPendingType});
+    toast('ok','✅ تم الإرسال','');closeStudio();
+  }catch(err){toast('err','فشل الإرسال','حاول مرة أخرى');}
   btn.innerHTML='<i class="fas fa-paper-plane"></i> إرسال';btn.disabled=false;
 };
 
-/* ══════════════ QUICK ACTIONS ══════════════ */
+/* ══ QUICK ACTIONS ══ */
 window.qAct=async(t,cp)=>{
-  const m={
-    start:'🟢 بدأت شيفتي — جاهز للعمل',
-    end:'🔴 انتهيت من الشيفت — أوقف العمل',
-    break:'☕ أنا في استراحة قصيرة',
-    arrive:'🏁 وصلت إلى الوجهة',
-    busy:'⏳ مشغول الآن مع عميل',
-    fix:'🔧 سيارتي بها عطل — أحتاج مساعدة',
-    fuel:'⛽ أتزود بالوقود الآن',
-  };
-  await push(ref(db,`chats/${cp}`),{text:m[t],sender:'driver',senderName:CU.name,ts:Date.now(),type:'text'});
-  toast('ok','تم الإرسال ✅','أُبلغ المشرف تلقائياً');
+  const m={start:'🟢 بدأت شيفتي — جاهز للعمل',end:'🔴 انتهيت من الشيفت',break:'☕ أنا في استراحة',arrive:'🏁 وصلت إلى الوجهة',busy:'⏳ مشغول مع عميل',fix:'🔧 سيارتي بها عطل',fuel:'⛽ أتزود بالوقود'};
+  await push(ref(dbs[0],`chats/${cp}`),{text:m[t],sender:'driver',senderName:CU.name,ts:Date.now(),type:'text'});
+  toast('ok','تم الإرسال ✅','');
 };
-
 window.doSOS=async cp=>{
-  if(!confirm('⚠️ إرسال نداء طوارئ للمشرف؟\nسيُنبّه المشرف فوراً!'))return;
-  await push(ref(db,`chats/${cp}`),{text:`🆘 نداء طوارئ! السائق ${CU.name} يحتاج مساعدة عاجلة!`,sender:'driver',senderName:CU.name,ts:Date.now(),type:'sos'});
-  await push(ref(db,'alerts'),{type:'sos',driverId:CU.id,driverName:CU.name,ts:Date.now(),resolved:false});
-  toast('err','🆘 SOS أُرسل','تم إبلاغ المشرف بنداء الطوارئ');
+  if(!confirm('إرسال نداء طوارئ للمشرف؟'))return;
+  await push(ref(dbs[0],`chats/${cp}`),{text:`🆘 نداء طوارئ! السائق ${CU.name} يحتاج مساعدة!`,sender:'driver',senderName:CU.name,ts:Date.now(),type:'sos'});
+  await push(ref(dbs[0],'alerts'),{type:'sos',driverId:CU.id,driverName:CU.name,ts:Date.now(),resolved:false});
+  toast('err','🆘 SOS أُرسل','');
 };
 
-/* ══════════════ DRIVER PROFILE ══════════════ */
+/* ══ DRIVER PROFILE ══ */
 const renderDProfile=()=>{
   $('dbody').innerHTML=`
   <div class="ptab">
-    <div class="cbox" style="text-align:center;margin-bottom:15px;background:linear-gradient(145deg,rgba(37,99,168,.15),rgba(30,58,92,.1))">
+    <div class="cbox" style="text-align:center;margin-bottom:15px">
       <div class="pav" style="width:88px;height:88px;margin:0 auto 13px;font-size:34px">${CU.avatar?`<img src="${CU.avatar}">`:'🚕'}</div>
       <div style="font-size:18px;font-weight:900;margin-bottom:5px">${esc(CU.name)}</div>
       <div class="prole rled" style="display:inline-block">🚕 سائق تكسي</div>
-      <div style="margin-top:10px;font-size:12px;color:var(--g5)"><i class="fas fa-phone" style="margin-left:4px"></i>${CU.phone||''}</div>
+      <div style="margin-top:6px"><span class="shard-badge ${shardClass(CU._shard||0)}"><i class="fas fa-server"></i> ${shardLabel(CU._shard||0)}</span></div>
+      <div style="margin-top:8px;font-size:12px;color:var(--g5)">${CU.phone||''}</div>
     </div>
     <div class="cbox">
-      <div style="font-size:14px;font-weight:800;margin-bottom:14px;display:flex;align-items:center;gap:7px"><i class="fas fa-user-pen" style="color:var(--pl)"></i> تعديل البيانات</div>
       <div class="fg"><label class="fl"><i class="fas fa-user"></i> الاسم</label><input class="fi" id="ep-nm" value="${esc(CU.name)}"></div>
       <div class="fg"><label class="fl"><i class="fas fa-phone"></i> رقم الهاتف</label><input class="fi" value="${esc(CU.phone||'')}" disabled></div>
-      <div class="fg"><label class="fl"><i class="fas fa-lock"></i> كلمة مرور جديدة (اتركها فارغة للإبقاء)</label><input class="fi" type="password" id="ep-pw" placeholder="••••••••"></div>
-      <button class="bp" onclick="saveDProf()"><i class="fas fa-save"></i> حفظ التغييرات</button>
-      <button class="bdng" onclick="delMyAcc()"><i class="fas fa-trash"></i> حذف حسابي نهائياً</button>
+      <div class="fg"><label class="fl"><i class="fas fa-lock"></i> كلمة مرور جديدة</label><input class="fi" type="password" id="ep-pw" placeholder="اتركها فارغة للإبقاء"></div>
+      <button class="bp" onclick="saveDProf()"><i class="fas fa-save"></i> حفظ</button>
+      <button class="bdng" onclick="delMyAcc()"><i class="fas fa-trash"></i> حذف حسابي</button>
     </div>
   </div>`;
 };
@@ -1284,37 +1167,38 @@ window.saveDProf=async()=>{
   const nm=$('ep-nm').value.trim(),pw=$('ep-pw').value;
   if(!nm)return toast('err','خطأ','الاسم لا يمكن أن يكون فارغاً');
   const u={name:nm};if(pw)u.password=pw;
-  await update(ref(db,`drivers/${CU.id}`),u);
-  CU={...CU,...u};toast('ok','تم الحفظ ✅','تم تحديث بياناتك بنجاح');
+  await update(ref(dbs[CU._shard||0],`drivers/${CU.id}`),u);
+  CU={...CU,...u};toast('ok','تم الحفظ ✅','');
 };
 window.delMyAcc=async()=>{
-  if(!confirm('⚠️ هل أنت متأكد من حذف حسابك؟\nلا يمكن التراجع!'))return;
-  await remove(ref(db,`drivers/${CU.id}`));
-  toast('info','تم الحذف','تم حذف حسابك نهائياً');
-  setTimeout(()=>logout(),1200);
+  if(!confirm('حذف حسابك نهائياً؟'))return;
+  await remove(ref(dbs[CU._shard||0],`drivers/${CU.id}`));
+  toast('info','تم الحذف','');setTimeout(()=>logout(),1200);
 };
 
-/* ══════════════ SUPERVISOR ACCOUNTS ══════════════ */
+/* ══ SUPERVISOR ACCOUNTS ══ */
 const renderAccs=()=>{
   $('dbody').innerHTML=`
   <div class="awrap">
     <div class="atitle"><i class="fas fa-users"></i> إدارة حسابات السائقين</div>
-    <div class="acc-grid" id="ALIST"><div style="text-align:center;padding:32px;color:var(--g5);grid-column:1/-1"><div class="spin"></div><div style="margin-top:10px;font-size:12px">جار التحميل...</div></div></div>
+    <div class="acc-grid" id="ALIST"><div style="text-align:center;padding:32px;color:var(--g5);grid-column:1/-1"><div class="spin"></div><div style="margin-top:10px;font-size:12px">جار تحميل السائقين من الخوادم الثلاثة...</div></div></div>
   </div>`;
   requestAnimationFrame(()=>loadAccs());
 };
 const loadAccs=async()=>{
-  const list=$('ALIST');
-  if(!list)return;
+  const list=$('ALIST');if(!list)return;
   try{
-    const snap=await get(ref(db,'drivers'));
+    // Fetch from ALL 3 shards in parallel
+    const snaps=await Promise.all(dbs.map(d=>get(ref(d,'drivers'))));
     if(!$('ALIST'))return;
-    if(!snap.exists()){
-      list.innerHTML=`<div style="color:var(--g5);font-size:13px;padding:24px;grid-column:1/-1;text-align:center"><i class="fas fa-users" style="font-size:36px;opacity:.2;display:block;margin-bottom:10px"></i>لا يوجد سائقون مسجلون حتى الآن</div>`;
-      return;
+    let all=[];
+    snaps.forEach((snap,sIdx)=>{
+      if(snap.exists())Object.entries(snap.val()).forEach(([id,d])=>all.push([id,{...d,_shard:sIdx}]));
+    });
+    if(!all.length){
+      list.innerHTML=`<div style="color:var(--g5);font-size:13px;padding:24px;grid-column:1/-1;text-align:center"><i class="fas fa-users" style="font-size:36px;opacity:.2;display:block;margin-bottom:10px"></i>لا يوجد سائقون مسجلون</div>`;return;
     }
-    const ent=Object.entries(snap.val());
-    list.innerHTML=ent.map(([id,d])=>`
+    list.innerHTML=all.map(([id,d])=>`
     <div class="acccard">
       <div class="acctop">
         <div class="accav">${d.avatar?`<img src="${d.avatar}">`:'🚕'}</div>
@@ -1327,74 +1211,69 @@ const loadAccs=async()=>{
           </div>
           <div class="accst" style="color:${d.status==='online'?'#34d399':'var(--g5)'}">
             <div class="acc-online-dot" style="background:${d.status==='online'?'#34d399':'var(--g5)'}"></div>
-            ${d.status==='online'?'متصل الآن':'غير متصل'}
-            ${d.lastSeen?`<span style="font-size:10px;color:var(--g5);margin-right:4px">• ${fmt(d.lastSeen)}</span>`:''}
+            ${d.status==='online'?'متصل':'غير متصل'}
           </div>
+          <span class="shard-badge ${shardClass(d._shard||0)}" style="margin-top:4px"><i class="fas fa-server"></i> ${shardLabel(d._shard||0)}</span>
         </div>
       </div>
       <div class="accbts">
         <button class="accbtn achat" onclick="goChat('${id}')"><i class="fas fa-comments"></i> محادثة</button>
-        <button class="accbtn aedit" onclick="opnEac('${id}','${eAt(d.name)}')"><i class="fas fa-pen"></i> تعديل</button>
-        <button class="accbtn adel" onclick="delAcc('${id}')"><i class="fas fa-trash"></i> حذف</button>
+        <button class="accbtn aedit" onclick="opnEac('${id}','${eAt(d.name)}','${d._shard||0}')"><i class="fas fa-pen"></i> تعديل</button>
+        <button class="accbtn adel" onclick="delAcc('${id}','${d._shard||0}')"><i class="fas fa-trash"></i> حذف</button>
       </div>
     </div>`).join('');
   }catch(err){
-    if($('ALIST'))$('ALIST').innerHTML=`<div style="color:#fca5a5;font-size:13px;padding:24px;grid-column:1/-1;text-align:center"><i class="fas fa-exclamation-circle" style="font-size:28px;display:block;margin-bottom:8px"></i>خطأ في تحميل البيانات<br><small style="color:var(--g5)">${err.message||''}</small><br><button onclick="loadAccs()" style="margin-top:12px;padding:8px 18px;background:var(--pl);border:none;border-radius:8px;color:#fff;font-family:Cairo,sans-serif;cursor:pointer;font-size:12px">إعادة المحاولة</button></div>`;
+    if($('ALIST'))$('ALIST').innerHTML=`<div style="color:#fca5a5;font-size:13px;padding:24px;grid-column:1/-1;text-align:center">خطأ في التحميل: ${err.message||''}<br><button onclick="loadAccs()" style="margin-top:10px;padding:8px 18px;background:var(--pl);border:none;border-radius:8px;color:#fff;font-family:Cairo,sans-serif;cursor:pointer;font-size:12px">إعادة المحاولة</button></div>`;
   }
 };
-
-window.togglePw=(id,pw)=>{
-  const el=$(`pw-${id}`);if(!el)return;
-  el.textContent=el.textContent==='••••••••'?pw:'••••••••';
-};
+window.togglePw=(id,pw)=>{const el=$(`pw-${id}`);if(!el)return;el.textContent=el.textContent==='••••••••'?pw:'••••••••';};
 window.goChat=id=>{nTab('chat');setTimeout(()=>selD(id),400);};
-window.opnEac=(id,nm)=>{
-  $('eac-id').value=id;
+window.opnEac=(id,nm,sIdx)=>{
+  $('eac-id').value=id;$('eac-shard').value=sIdx;
   $('eac-nm').value=nm.replace(/&#39;/g,"'").replace(/&quot;/g,'"');
   $('eac-pw').value='';
-  $('eacsub').textContent='السائق: '+nm.replace(/&#39;/g,"'").replace(/&quot;/g,'"');
+  $('eacsub').textContent='السائق: '+nm.replace(/&#39;/g,"'");
   OM('Meditacc');
 };
 window.saveEac=async()=>{
-  const id=$('eac-id').value,nm=($('eac-nm').value||'').trim(),pw=$('eac-pw').value||'';
+  const id=$('eac-id').value,nm=($('eac-nm').value||'').trim(),pw=$('eac-pw').value||'',sIdx=parseInt($('eac-shard').value)||0;
   if(!nm)return shAl('al-eac','err','الاسم لا يمكن أن يكون فارغاً');
   const btn=$('Meditacc').querySelector('.ba');
   const orig=btn.innerHTML;btn.innerHTML='<span class="spin"></span>';btn.disabled=true;
   try{
     const u={name:nm};if(pw)u.password=pw;
-    await update(ref(db,`drivers/${id}`),u);
-    CM('Meditacc');toast('ok','تم التعديل ✅','تم تحديث بيانات السائق');
-    loadAccs();
-  }catch(err){shAl('al-eac','err','خطأ: '+(err.message||'حاول مرة أخرى'));}
+    await update(ref(dbs[sIdx],`drivers/${id}`),u);
+    CM('Meditacc');toast('ok','تم التعديل ✅','');loadAccs();
+  }catch(err){shAl('al-eac','err','خطأ: '+(err.message||''));}
   btn.innerHTML=orig;btn.disabled=false;
 };
-window.delAcc=async id=>{
-  const snap=await get(ref(db,`drivers/${id}`)).catch(()=>null);
+window.delAcc=async(id,sIdx)=>{
+  sIdx=parseInt(sIdx)||0;
+  // Try to get name for confirm dialog
+  const snap=await get(ref(dbs[sIdx],`drivers/${id}`)).catch(()=>null);
   const nm=snap&&snap.exists()?snap.val().name:id;
-  if(!confirm(`⚠️ حذف حساب السائق "${nm}"؟\nسيُحذف أيضاً سجل المحادثة. لا يمكن التراجع!`))return;
+  if(!confirm(`حذف حساب "${nm}"؟\nسيُحذف سجل المحادثة أيضاً. لا يمكن التراجع!`))return;
   try{
-    await remove(ref(db,`drivers/${id}`));
-    await remove(ref(db,`chats/driver_supervisor_${id}`)).catch(()=>{});
-    toast('ok','تم الحذف','تم حذف حساب السائق وسجل محادثته');
-    loadAccs();
-  }catch(err){toast('err','خطأ',err.message||'فشل الحذف');}
+    await remove(ref(dbs[sIdx],`drivers/${id}`));
+    await remove(ref(dbs[0],`chats/driver_supervisor_${id}`)).catch(()=>{});
+    toast('ok','تم الحذف','');loadAccs();
+  }catch(err){toast('err','خطأ',err.message||'');}
 };
 
-/* ══════════════ SUPERVISOR PROFILE ══════════════ */
+/* ══ SUPERVISOR PROFILE ══ */
 const renderSProfile=()=>{
   $('dbody').innerHTML=`
   <div class="ptab">
-    <div class="cbox" style="text-align:center;margin-bottom:15px;background:linear-gradient(145deg,rgba(245,158,11,.12),rgba(212,160,23,.06))">
+    <div class="cbox" style="text-align:center;margin-bottom:15px">
       <div class="pav sup-av-b" style="width:88px;height:88px;margin:0 auto 13px;font-size:34px">👨‍💼</div>
       <div style="font-size:18px;font-weight:900;margin-bottom:5px">${esc(CU.name)}</div>
       <div class="prole rls" style="display:inline-block">👨‍💼 مشرف المكتب</div>
     </div>
     <div class="cbox">
-      <div style="font-size:14px;font-weight:800;margin-bottom:14px;display:flex;align-items:center;gap:7px"><i class="fas fa-user-pen" style="color:var(--a)"></i> تعديل البيانات</div>
       <div class="fg"><label class="fl"><i class="fas fa-user"></i> الاسم</label><input class="fi" id="sp-nm" value="${esc(CU.name)}"></div>
       <div class="fg"><label class="fl"><i class="fas fa-at"></i> اسم المستخدم</label><input class="fi" value="${esc(CU.email||'')}" disabled></div>
-      <div class="fg"><label class="fl"><i class="fas fa-lock"></i> كلمة مرور جديدة (اتركها فارغة للإبقاء)</label><input class="fi" type="password" id="sp-pw" placeholder="••••••••"></div>
-      <button class="ba" onclick="saveSProf()"><i class="fas fa-save"></i> حفظ التغييرات</button>
+      <div class="fg"><label class="fl"><i class="fas fa-lock"></i> كلمة مرور جديدة</label><input class="fi" type="password" id="sp-pw" placeholder="اتركها فارغة للإبقاء"></div>
+      <button class="ba" onclick="saveSProf()"><i class="fas fa-save"></i> حفظ</button>
     </div>
   </div>`;
 };
@@ -1402,115 +1281,21 @@ window.saveSProf=async()=>{
   const nm=$('sp-nm').value.trim(),pw=$('sp-pw').value;
   if(!nm)return toast('err','خطأ','الاسم لا يمكن أن يكون فارغاً');
   const u={name:nm};if(pw)u.password=pw;
-  await update(ref(db,`supervisors/${CU.id}`),u);
-  CU={...CU,...u};toast('ok','تم الحفظ ✅','تم تحديث بياناتك بنجاح');
+  await update(ref(dbs[0],`supervisors/${CU.id}`),u);
+  CU={...CU,...u};toast('ok','تم الحفظ ✅','');
 };
 
-/* ══════════════ LOGOUT ══════════════ */
+/* ══ LOGOUT ══ */
 window.logout=async()=>{
-  stopLocTracking();
-  camStop();
+  stopLocTracking();camStop();
   if(CR==='driver'&&CU){
-    await update(ref(db,`drivers/${CU.id}`),{status:'offline',lastSeen:Date.now()}).catch(()=>{});
-    await update(ref(db,`typing/driver_supervisor_${CU.id}`),{driver:false}).catch(()=>{});
+    await update(ref(dbs[CU._shard||0],`drivers/${CU.id}`),{status:'offline',lastSeen:Date.now()}).catch(()=>{});
+    await update(ref(dbs[0],`typing/driver_supervisor_${CU.id}`),{driver:false}).catch(()=>{});
   }
   clrListeners();CU=null;CR=null;avData='';
   $('PD').style.display='none';$('PL').style.display='block';
   $('ntabs').innerHTML='';$('navav').textContent='👤';$('navav').classList.remove('sup-av');
 };
 </script>
-
-<!-- Firebase Rules (paste in Firebase Console) -->
-<!--
-════════════════════════════════════════
-   FIREBASE REALTIME DATABASE RULES
-   مناسبة لـ 100 مستخدم يومي
-════════════════════════════════════════
-
-{
-  "rules": {
-    ".read": false,
-    ".write": false,
-
-    "drivers": {
-      ".read": true,
-      "$driverId": {
-        ".read": true,
-        ".write": "auth == null || $driverId == auth.uid || root.child('supervisors').child(auth.uid).exists()",
-        "name": {
-          ".validate": "newData.isString() && newData.val().length >= 2 && newData.val().length <= 60"
-        },
-        "phone": {
-          ".validate": "newData.isString() && newData.val().length >= 7"
-        },
-        "password": {
-          ".validate": "newData.isString() && newData.val().length >= 4"
-        },
-        "status": {
-          ".validate": "newData.isString() && (newData.val() == 'online' || newData.val() == 'offline')"
-        },
-        "lat": { ".validate": "newData.isNumber()" },
-        "lng": { ".validate": "newData.isNumber()" },
-        "avatar": { ".validate": "newData.isString() && newData.val().length <= 350000" },
-        "lastSeen": { ".validate": "newData.isNumber()" },
-        "locUpdated": { ".validate": "newData.isNumber()" },
-        "createdAt": { ".validate": "newData.isNumber()" },
-        "role": { ".validate": "newData.val() == 'driver'" }
-      }
-    },
-
-    "supervisors": {
-      ".read": true,
-      "$supId": {
-        ".read": true,
-        ".write": true,
-        "name": { ".validate": "newData.isString() && newData.val().length >= 2 && newData.val().length <= 60" },
-        "email": { ".validate": "newData.isString() && newData.val().length >= 2" },
-        "password": { ".validate": "newData.isString() && newData.val().length >= 4" },
-        "role": { ".validate": "newData.val() == 'supervisor'" },
-        "createdAt": { ".validate": "newData.isNumber()" }
-      }
-    },
-
-    "chats": {
-      "$chatId": {
-        ".read": true,
-        ".write": true,
-        "$msgId": {
-          ".validate": "newData.hasChildren(['sender','ts'])",
-          "sender": { ".validate": "newData.isString()" },
-          "senderName": { ".validate": "newData.isString()" },
-          "text": { ".validate": "!newData.exists() || (newData.isString() && newData.val().length <= 4000)" },
-          "url": { ".validate": "!newData.exists() || (newData.isString() && newData.val().length <= 6000000)" },
-          "type": { ".validate": "newData.isString()" },
-          "ts": { ".validate": "newData.isNumber()" },
-          "edited": { ".validate": "newData.isBoolean()" },
-          "deleted": { ".validate": "newData.isBoolean()" },
-          "$other": { ".validate": false }
-        }
-      }
-    },
-
-    "typing": {
-      "$chatId": {
-        ".read": true,
-        ".write": true,
-        "driver": { ".validate": "newData.isBoolean()" },
-        "supervisor": { ".validate": "newData.isBoolean()" }
-      }
-    },
-
-    "alerts": {
-      ".read": true,
-      ".write": true,
-      "$alertId": {
-        ".validate": "newData.hasChildren(['type','driverId','ts'])"
-      }
-    }
-  }
-}
-
-════════════════════════════════════════
--->
 </body>
 </html>
