@@ -1176,7 +1176,10 @@ const initDash=()=>{
   }
 };
 
+let _tabBusy=false;
 window.nTab=t=>{
+  if(_tabBusy)return;
+  _tabBusy=true;
   document.querySelectorAll('.ntab').forEach(b=>b.classList.remove('on','sup-on'));
   const el=$('nt-'+t);if(el)el.classList.add(CR==='supervisor'?'sup-on':'on');
   clrListeners();
@@ -1193,12 +1196,20 @@ window.nTab=t=>{
     else if(t==='accounts')renderAccs();
     else renderSProfile();
   }
+  setTimeout(()=>{_tabBusy=false;},400);
 };
 
 const clrListeners=()=>{
-  LSNRS.forEach(({r})=>off(r));LSNRS.length=0;
+  // Safely detach each listener — some may be Firebase refs, some cleanup objects
+  LSNRS.forEach(({r})=>{
+    try{
+      if(r&&typeof r.off==='function'){r.off();}          // custom cleanup object
+      else if(r)off(r);                                   // Firebase ref
+    }catch(e){}
+  });
+  LSNRS.length=0;
   selDrv=null;editMid=null;editPath=null;
-  if(leafletMap){leafletMap.remove();leafletMap=null;mapMarkers={};}
+  if(leafletMap){try{leafletMap.remove();}catch(e){}leafletMap=null;mapMarkers={};}
   camStop();
 };
 const addL=(r)=>LSNRS.push({r});
@@ -1413,7 +1424,7 @@ const renderMap=()=>{
       <div class="st"><div class="stic" style="background:rgba(251,146,60,.14);color:#fb923c"><i class="fas fa-coffee"></i></div><div><div class="stv" id="mOrange">0</div><div class="stl">استراحة 🟠</div></div></div>
       <div class="st"><div class="stic" style="background:rgba(248,113,113,.14);color:#f87171"><i class="fas fa-car"></i></div><div><div class="stv" id="mRed">0</div><div class="stl">مشغول 🔴</div></div></div>
     </div>
-    <div id="driverMap" style="flex:1"></div>
+    <div id="driverMap" style="flex:1;min-height:200px"></div>
     <div class="map-legend">
       <div style="font-size:11px;font-weight:800;color:var(--w);margin-bottom:6px">ألوان التكسي</div>
       <div class="map-legend-item"><div class="leg-dot" style="background:#34d399"></div>متاح</div>
@@ -1423,32 +1434,41 @@ const renderMap=()=>{
     </div>
   </div>`;
 
-  setTimeout(()=>{
-    leafletMap=L.map('driverMap',{zoomControl:true}).setView([32.31,35.03],12);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:19}).addTo(leafletMap);
+  // Use requestAnimationFrame to ensure DOM is painted before Leaflet init
+  requestAnimationFrame(()=>{
+    requestAnimationFrame(()=>{
+      const mapEl=$('driverMap');
+      if(!mapEl||leafletMap)return; // safety: element gone or map already exists
+      try{
+        leafletMap=L.map('driverMap',{zoomControl:true}).setView([32.31,35.03],12);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:19}).addTo(leafletMap);
+      }catch(e){console.error('Map init error:',e);return;}
 
-    dbs.forEach((sdb,sIdx)=>{
-      const r=ref(sdb,'drivers');
-      onValue(r,snap=>{
-        if(!snap.exists())return;
-        const entries=Object.entries(snap.val());
-        // Update stats
-        const allEnt=Object.entries(allDrvs);
-        const g=$('mGreen'),o=$('mOrange'),rd=$('mRed');
-        if(g)g.textContent=allEnt.filter(([,d])=>d.taxiColor==='green'||(!d.taxiColor&&d.status==='online')).length;
-        if(o)o.textContent=allEnt.filter(([,d])=>d.taxiColor==='orange').length;
-        if(rd)rd.textContent=allEnt.filter(([,d])=>d.taxiColor==='red'||d.status==='busy').length;
-        entries.forEach(([id,d])=>{if(d.lat&&d.lng)updateMarker(id,d,sIdx);});
+      dbs.forEach((sdb,sIdx)=>{
+        const r=ref(sdb,'drivers');
+        onValue(r,snap=>{
+          if(!leafletMap)return; // map was destroyed, ignore
+          if(!snap.exists())return;
+          const entries=Object.entries(snap.val());
+          const allEnt=Object.entries(allDrvs);
+          const g=$('mGreen'),o=$('mOrange'),rd=$('mRed');
+          if(g)g.textContent=allEnt.filter(([,d])=>d.taxiColor==='green'||(!d.taxiColor&&d.status==='online')).length;
+          if(o)o.textContent=allEnt.filter(([,d])=>d.taxiColor==='orange').length;
+          if(rd)rd.textContent=allEnt.filter(([,d])=>d.taxiColor==='red'||d.status==='busy').length;
+          entries.forEach(([id,d])=>{if(d.lat&&d.lng)updateMarker(id,d,sIdx);});
+        });
+        addL(r);
       });
-      addL(r);
+
+      // Refresh shift timers on markers every 30 seconds
+      const mapRefreshTimer=setInterval(()=>{
+        if(!leafletMap){clearInterval(mapRefreshTimer);return;}
+        Object.entries(allDrvs).forEach(([id,d])=>{if(d.lat&&d.lng&&d.shiftStart)updateMarker(id,d,d._shard||0);});
+      },30000);
+      // Store as cleanup object (not a Firebase ref)
+      LSNRS.push({r:{off:()=>clearInterval(mapRefreshTimer)}});
     });
-    // Refresh shift timers on markers every 30 seconds
-    const mapRefreshTimer=setInterval(()=>{
-      if(!leafletMap)return;
-      Object.entries(allDrvs).forEach(([id,d])=>{if(d.lat&&d.lng&&d.shiftStart)updateMarker(id,d,d._shard||0);});
-    },30000);
-    LSNRS.push({r:{off:()=>clearInterval(mapRefreshTimer)}});
-  },100);
+  });
 };
 
 const updateMarker=(id,d,sIdx)=>{
