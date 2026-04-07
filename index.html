@@ -302,6 +302,7 @@ img{max-width:100%;display:block}
 .drv-marker.break{border-color:#fb923c}
 .drv-marker-wrap{display:flex;flex-direction:column;align-items:center;gap:3px}
 .drv-marker-name{background:rgba(8,15,28,.9);color:#fff;font-size:9px;font-weight:800;padding:2px 6px;border-radius:6px;white-space:nowrap;border:1px solid rgba(255,255,255,.1);font-family:'Cairo',sans-serif}
+.drv-marker-time{background:rgba(16,185,129,.15);color:#34d399;font-size:9px;font-weight:800;padding:2px 6px;border-radius:6px;white-space:nowrap;border:1px solid rgba(16,185,129,.3);font-family:'Cairo',sans-serif;margin-top:2px;text-align:center}
 .map-legend{position:absolute;bottom:16px;right:16px;z-index:400;background:rgba(8,15,28,.92);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:10px 14px;font-size:11px}
 .map-legend-item{display:flex;align-items:center;gap:7px;margin-bottom:5px;color:var(--g4)}
 .map-legend-item:last-child{margin-bottom:0}
@@ -749,6 +750,89 @@ let pendingReq=null;
 let reqTimeoutTimer=null;
 let selTaxiId=null,selReqData=null;
 let pendingReqFlash={};
+let shiftStartTime=null; // timestamp when driver started shift
+let shiftTimerInterval=null; // interval to update map timer label
+
+/* ── Sound System ── */
+const AC=window.AudioContext||window.webkitAudioContext;
+let audioCtx=null;
+const getAC=()=>{if(!audioCtx&&AC)audioCtx=new AC();return audioCtx;};
+
+// Play a notification beep pattern
+const playSound=(type)=>{
+  try{
+    const ctx=getAC();if(!ctx)return;
+    // Resume context if suspended (browser autoplay policy)
+    if(ctx.state==='suspended')ctx.resume();
+    const patterns={
+      request:[  // new request: urgent double beep
+        {f:880,d:.12,g:.9,t:0},
+        {f:1100,d:.12,g:.9,t:.15},
+        {f:880,d:.12,g:.9,t:.30},
+        {f:1100,d:.18,g:.9,t:.45}
+      ],
+      accept:[   // accepted: pleasant rising tone
+        {f:523,d:.12,g:.7,t:0},
+        {f:659,d:.12,g:.7,t:.13},
+        {f:784,d:.2,g:.7,t:.26}
+      ],
+      reject:[   // rejected: descending tone
+        {f:784,d:.12,g:.6,t:0},
+        {f:523,d:.2,g:.6,t:.15}
+      ],
+      sos:[      // SOS: urgent repeating
+        {f:1200,d:.1,g:1,t:0},{f:1200,d:.1,g:1,t:.15},{f:1200,d:.1,g:1,t:.3},
+        {f:800,d:.3,g:1,t:.5},{f:800,d:.3,g:1,t:.9},{f:800,d:.3,g:1,t:1.3},
+        {f:1200,d:.1,g:1,t:1.7},{f:1200,d:.1,g:1,t:1.85},{f:1200,d:.1,g:1,t:2.0}
+      ],
+      notif:[    // general notification: single soft ding
+        {f:660,d:.18,g:.6,t:0},
+        {f:880,d:.1,g:.4,t:.2}
+      ],
+      shift:[    // shift start: cheerful
+        {f:523,d:.1,g:.7,t:0},{f:659,d:.1,g:.7,t:.12},{f:784,d:.1,g:.7,t:.24},{f:1047,d:.25,g:.7,t:.36}
+      ]
+    };
+    const notes=patterns[type]||patterns.notif;
+    notes.forEach(({f,d,g,t})=>{
+      const osc=ctx.createOscillator(),gain=ctx.createGain();
+      osc.connect(gain);gain.connect(ctx.destination);
+      osc.type='sine';osc.frequency.value=f;
+      gain.gain.setValueAtTime(0,ctx.currentTime+t);
+      gain.gain.linearRampToValueAtTime(g,ctx.currentTime+t+0.02);
+      gain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+t+d);
+      osc.start(ctx.currentTime+t);
+      osc.stop(ctx.currentTime+t+d+0.05);
+    });
+  }catch(e){console.warn('Sound error:',e);}
+};
+
+// Unlock audio on first user interaction
+const unlockAudio=()=>{
+  try{const ctx=getAC();if(ctx&&ctx.state==='suspended')ctx.resume();}catch(e){}
+};
+document.addEventListener('click',unlockAudio,{once:true});
+document.addEventListener('touchstart',unlockAudio,{once:true});
+
+/* ── Shift timer helpers ── */
+const fmtElapsed=ms=>{
+  const tot=Math.floor(ms/1000);
+  const h=Math.floor(tot/3600),m=Math.floor((tot%3600)/60),s=tot%60;
+  if(h>0)return`${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  return`${m}:${String(s).padStart(2,'0')}`;
+};
+const startShiftTimer=()=>{
+  stopShiftTimer();
+  shiftTimerInterval=setInterval(()=>{
+    if(!shiftStartTime)return;
+    Object.keys(mapMarkers).forEach(id=>{
+      if(id===CU.id&&allDrvs[id]){
+        updateMarker(id,{...allDrvs[id],shiftStart:shiftStartTime},allDrvs[id]._shard||0);
+      }
+    });
+  },10000);
+};
+const stopShiftTimer=()=>{if(shiftTimerInterval){clearInterval(shiftTimerInterval);shiftTimerInterval=null;}};
 
 /* ── Helpers ── */
 const $=id=>document.getElementById(id);
@@ -896,6 +980,11 @@ window.dLogin=async()=>{
     if((found.carNumber||'').toLowerCase()!==car.toLowerCase()){shAl('al-drv','err','رقم السيارة غير صحيح');btn.innerHTML=orig;btn.disabled=false;return;}
     await update(ref(dbs[foundSIdx],`drivers/${phKey}`),{status:'online',lastSeen:Date.now(),taxiColor:'green'});
     CU={...found,id:phKey,_shard:foundSIdx};CR='driver';
+    // Restore active shift if exists
+    if(found.shiftStart&&!found.shiftEnd){
+      shiftStartTime=found.shiftStart;
+      startShiftTimer();
+    }
     CM('Mdriver');
     requestDriverLocation(phKey,foundSIdx);
     initDash();
@@ -927,6 +1016,7 @@ const showDriverRequest=(rid,reqData)=>{
   $('reqRejectReason').value='';
   $('ReqNotif').classList.add('on');
   vibrate([300,100,300,100,300]);
+  playSound('request');
   // Timeout: after 30s notify supervisor if no response
   clearTimeout(reqTimeoutTimer);
   reqTimeoutTimer=setTimeout(async()=>{
@@ -952,6 +1042,7 @@ window.acceptReq=async()=>{
   await push(ref(dbs[CU._shard||0],`drivers/${CU.id}/deliveryLog`),{status:'accepted',ts:Date.now(),reqId:rid});
   $('ReqNotif').classList.remove('on');
   vibrate([200]);
+  playSound('accept');
   toast('ok','تم قبول الطلب 🚕','');
   updateDriverStatus('busy');
 };
@@ -965,6 +1056,7 @@ window.submitReject=async()=>{
   await push(ref(dbs[0],'notifications'),{type:'reject',driverId:CU.id,driverName:CU.name,reqId:rid,reason,msg:`❌ السائق ${CU.name} رفض الطلب - السبب: ${reason}`,ts:Date.now(),read:false});
   $('ReqNotif').classList.remove('on');
   vibrate([100,50,100]);
+  playSound('reject');
   toast('info','تم رفض الطلب','');
 };
 
@@ -1052,6 +1144,7 @@ const listenSupNotifications=()=>{
     // Flash on new reject/timeout
     const entries=Object.values(snap.val()).filter(n=>!n.read&&(n.type==='reject'||n.type==='timeout'));
     if(entries.length>0)vibrate([200,100,200]);
+    if(entries.length>0)playSound('notif');
   });
   LSNRS.push({r});
 };
@@ -1349,6 +1442,12 @@ const renderMap=()=>{
       });
       addL(r);
     });
+    // Refresh shift timers on markers every 30 seconds
+    const mapRefreshTimer=setInterval(()=>{
+      if(!leafletMap)return;
+      Object.entries(allDrvs).forEach(([id,d])=>{if(d.lat&&d.lng&&d.shiftStart)updateMarker(id,d,d._shard||0);});
+    },30000);
+    LSNRS.push({r:{off:()=>clearInterval(mapRefreshTimer)}});
   },100);
 };
 
@@ -1356,15 +1455,25 @@ const updateMarker=(id,d,sIdx)=>{
   if(!leafletMap)return;
   const cs=getTaxiColorStyle(d);
   const avHtml=d.avatar?`<img src="${d.avatar}" style="width:36px;height:36px;border-radius:50%;object-fit:cover">`:`<span style="font-size:20px">🚕</span>`;
+  // Shift elapsed time label
+  let shiftLabel='';
+  if(d.shiftStart&&d.status!=='offline'){
+    const elapsed=Date.now()-d.shiftStart;
+    shiftLabel=`<div class="drv-marker-time">⏱ ${fmtElapsed(elapsed)}</div>`;
+  }
   const iconHtml=`<div class="drv-marker-wrap">
     <div class="drv-marker" style="border-color:${cs.border}">${avHtml}</div>
     <div class="drv-marker-name">${d.name}</div>
+    ${shiftLabel}
   </div>`;
-  const icon=L.divIcon({html:iconHtml,className:'',iconSize:[50,60],iconAnchor:[25,60]});
+  const icon=L.divIcon({html:iconHtml,className:'',iconSize:[55,72],iconAnchor:[27,72]});
+  const shiftInfo=d.shiftStart&&d.status!=='offline'
+    ?`<div style="font-size:10px;color:#34d399;margin-bottom:3px">⏱ وقت الشيفت: ${fmtElapsed(Date.now()-d.shiftStart)}</div>`:'';
   const popHtml=`<div style="text-align:center;padding:4px">
     <div style="font-size:13px;font-weight:800;margin-bottom:4px">${d.name}</div>
     <div style="font-size:11px;color:#94a3b8;margin-bottom:3px">${d.phone||''} • <span style="color:${cs.border}">${cs.label}</span></div>
     ${d.carNumber?`<div style="font-size:11px;color:#94a3b8;margin-bottom:3px">🚗 ${d.carNumber}</div>`:''}
+    ${shiftInfo}
     ${d.locUpdated?`<div style="font-size:10px;color:#64748b">آخر تحديث: ${fmt(d.locUpdated)}</div>`:''}
     <a href="https://www.google.com/maps?q=${d.lat},${d.lng}&z=16" target="_blank" style="display:inline-block;margin-top:8px;padding:5px 12px;background:#2563a8;color:#fff;border-radius:7px;font-size:11px;text-decoration:none;font-family:Cairo,sans-serif">فتح في Google Maps</a>
   </div>`;
@@ -1499,6 +1608,7 @@ window.confirmTaxiSel=async()=>{
       }
     },30000);
     toast('ok','تم إرسال الطلب للسائق 🚕','سيصله إشعار الآن');
+    playSound('notif');
     closeTaxiSel();
   }catch(err){toast('err','خطأ',err.message||'');}
   btn.innerHTML='<i class="fas fa-paper-plane"></i> إرسال للسائق المحدد';btn.disabled=false;
@@ -1538,17 +1648,53 @@ const renderDriverReports=async()=>{
   $('dbody').innerHTML=`<div class="report-panel"><div class="atitle"><i class="fas fa-chart-bar"></i> تقاريري</div><div id="DREP"><div style="text-align:center;padding:32px;color:var(--g5)"><div class="spin"></div></div></div></div>`;
   const today=new Date().toISOString().split('T')[0];
   const snap=await get(ref(dbs[CU._shard||0],`drivers/${CU.id}/dailyReport/${today}`)).catch(()=>null);
-  const todayData=snap&&snap.exists()?snap.val():{deliveries:0};
+  const todayData=snap&&snap.exists()?snap.val():{deliveries:0,shifts:[]};
   const totalDel=CU.deliveries||0;
+  const shifts=todayData.shifts||[];
+  // Calculate total shift hours
+  let totalShiftMin=0;
+  const shiftRows=shifts.map((s,i)=>{
+    const startFmt=s.start?new Date(s.start).toLocaleTimeString('ar',{hour:'2-digit',minute:'2-digit'}):'-';
+    const endFmt=s.end?new Date(s.end).toLocaleTimeString('ar',{hour:'2-digit',minute:'2-digit'}):'جارٍ الآن';
+    const dur=s.durationMin||(s.end?Math.round((s.end-s.start)/60000):shiftStartTime?Math.round((Date.now()-s.start)/60000):0);
+    totalShiftMin+=dur;
+    const h=Math.floor(dur/60),m=dur%60;
+    const durStr=h>0?`${h} ساعة ${m} دقيقة`:`${m} دقيقة`;
+    return`<div class="report-stat">
+      <span class="report-stat-label">شيفت ${i+1}: ${startFmt} — ${endFmt}</span>
+      <span class="report-stat-val" style="font-size:13px;color:var(--a)">${durStr}</span>
+    </div>`;
+  }).join('');
+  const totalH=Math.floor(totalShiftMin/60),totalM=totalShiftMin%60;
+  const totalShiftStr=totalH>0?`${totalH} ساعة ${totalM} دقيقة`:`${totalShiftMin} دقيقة`;
+  // Current shift live timer
+  const liveShift=shiftStartTime?`<div class="report-stat"><span class="report-stat-label">⏱ الشيفت الحالي</span><span class="report-stat-val" style="color:#34d399" id="liveShiftTimer">${fmtElapsed(Date.now()-shiftStartTime)}</span></div>`:'';
   const list=$('DREP');if(!list)return;
   list.innerHTML=`
   <div class="report-card">
     <div class="report-title"><i class="fas fa-calendar-day"></i> تقرير اليوم (${today})</div>
     <div class="report-stat"><span class="report-stat-label">توصيلات اليوم</span><span class="report-stat-val">${todayData.deliveries||0} 📦</span></div>
-    <div class="report-stat"><span class="report-stat-label">إجمالي التوصيلات</span><span class="report-stat-val">${totalDel} 🚕</span></div>
+    <div class="report-stat"><span class="report-stat-label">إجمالي ساعات العمل</span><span class="report-stat-val" style="color:#38bdf8">${totalShiftStr} ⏰</span></div>
+    <div class="report-stat"><span class="report-stat-label">عدد الشيفتات</span><span class="report-stat-val">${shifts.length}</span></div>
+    ${liveShift}
     <div class="report-stat"><span class="report-stat-label">الحالة الحالية</span><span class="report-stat-val" style="color:${CU.taxiColor==='red'?'#f87171':CU.taxiColor==='orange'?'#fb923c':'#34d399'}">${CU.taxiColor==='red'?'مشغول 🔴':CU.taxiColor==='orange'?'استراحة 🟠':'متاح 🟢'}</span></div>
     <div class="report-stat"><span class="report-stat-label">رقم السيارة</span><span class="report-stat-val" style="color:var(--a)">${esc(CU.carNumber||'-')}</span></div>
-  </div>`;
+  </div>
+  ${shifts.length?`<div class="report-card">
+    <div class="report-title"><i class="fas fa-clock"></i> تفصيل الشيفتات</div>
+    ${shiftRows}
+  </div>`:''}`;
+  // Live update timer for current shift
+  if(shiftStartTime){
+    const liveEl=$('liveShiftTimer');
+    if(liveEl){
+      const liveInt=setInterval(()=>{
+        const el=$('liveShiftTimer');
+        if(!el||!shiftStartTime){clearInterval(liveInt);return;}
+        el.textContent=fmtElapsed(Date.now()-shiftStartTime);
+      },1000);
+    }
+  }
 };
 
 /* ══ REPORTS - SUPERVISOR ══ */
@@ -1564,6 +1710,17 @@ const renderSupReports=async()=>{
   const reportPromises=all.map(([id,d])=>get(ref(dbs[d._shard||0],`drivers/${id}/dailyReport/${today}`)).catch(()=>null));
   const reports=await Promise.all(reportPromises);
   const totalDeliveries=reports.reduce((sum,s)=>sum+(s&&s.exists()?s.val().deliveries||0:0),0);
+  // Calculate total shift minutes per driver
+  const calcShiftMin=(rep)=>{
+    if(!rep||!rep.shifts)return 0;
+    return rep.shifts.reduce((sum,s)=>{
+      if(s.durationMin)return sum+s.durationMin;
+      if(s.end&&s.start)return sum+Math.round((s.end-s.start)/60000);
+      if(s.start&&!s.end)return sum+Math.round((Date.now()-s.start)/60000);
+      return sum;
+    },0);
+  };
+  const fmtMin=m=>{const h=Math.floor(m/60),mn=m%60;return h>0?`${h}س ${mn}د`:`${mn}د`;};
   list.innerHTML=`
   <div class="report-card">
     <div class="report-title"><i class="fas fa-globe"></i> ملخص اليوم (${today})</div>
@@ -1575,19 +1732,38 @@ const renderSupReports=async()=>{
   <div class="report-card">
     <div class="report-title"><i class="fas fa-list"></i> تفصيل لكل سائق</div>
     ${all.map(([id,d],i)=>{
-      const rep=reports[i]&&reports[i].exists()?reports[i].val():{deliveries:0};
+      const rep=reports[i]&&reports[i].exists()?reports[i].val():{deliveries:0,shifts:[]};
       const cs=getTaxiColorStyle(d);
+      const shiftMin=calcShiftMin(rep);
+      const shifts=rep.shifts||[];
+      // Build shift timeline rows
+      const shiftDetail=shifts.map((s,si)=>{
+        const sTime=s.start?new Date(s.start).toLocaleTimeString('ar',{hour:'2-digit',minute:'2-digit'}):'-';
+        const eTime=s.end?new Date(s.end).toLocaleTimeString('ar',{hour:'2-digit',minute:'2-digit'}):'جارٍ الآن ⏱';
+        const dur=s.durationMin||(s.end?Math.round((s.end-s.start)/60000):s.start?Math.round((Date.now()-s.start)/60000):0);
+        return`<div style="font-size:10px;color:var(--g5);margin-top:3px;display:flex;gap:6px;align-items:center">
+          <i class="fas fa-clock" style="color:var(--a);font-size:9px"></i>
+          شيفت ${si+1}: ${sTime} — ${eTime}
+          <span style="color:#38bdf8">(${fmtMin(dur)})</span>
+        </div>`;
+      }).join('');
+      // Live shift indicator
+      const isActive=d.shiftStart&&d.status!=='offline';
       return`<div class="report-drv-card">
-        <div style="display:flex;align-items:center;gap:10px">
-          <div class="dav" style="width:40px;height:40px;border:2px solid ${cs.border}">${d.avatar?`<img src="${d.avatar}">`:'🚕'}</div>
-          <div style="flex:1">
-            <div style="font-weight:800;font-size:13px">${esc(d.name)}</div>
-            <div style="font-size:11px;color:${cs.dot}">${cs.label}</div>
-            ${d.carNumber?`<div style="font-size:11px;color:var(--g5)">🚗 ${esc(d.carNumber)}</div>`:''}
+        <div style="display:flex;align-items:flex-start;gap:10px">
+          <div class="dav" style="width:44px;height:44px;border:2px solid ${cs.border};flex-shrink:0">${d.avatar?`<img src="${d.avatar}">`:'🚕'}</div>
+          <div style="flex:1;min-width:0">
+            <div style="font-weight:800;font-size:13px;margin-bottom:2px">${esc(d.name)}</div>
+            <div style="font-size:11px;color:${cs.dot};margin-bottom:2px">${cs.label}</div>
+            ${d.carNumber?`<div style="font-size:11px;color:var(--g5);margin-bottom:3px">🚗 ${esc(d.carNumber)}</div>`:''}
+            ${isActive?`<div style="font-size:11px;color:#34d399;margin-bottom:3px">⏱ الشيفت الحالي: ${fmtElapsed(Date.now()-d.shiftStart)}</div>`:''}
+            ${shiftDetail}
           </div>
-          <div style="text-align:center">
-            <div style="font-size:20px;font-weight:900;color:var(--ok)">${rep.deliveries||0}</div>
-            <div style="font-size:10px;color:var(--g5)">توصيلة</div>
+          <div style="text-align:center;flex-shrink:0">
+            <div style="font-size:18px;font-weight:900;color:var(--ok)">${rep.deliveries||0}</div>
+            <div style="font-size:9px;color:var(--g5)">توصيلة</div>
+            <div style="font-size:14px;font-weight:800;color:#38bdf8;margin-top:4px">${fmtMin(shiftMin)}</div>
+            <div style="font-size:9px;color:var(--g5)">عمل</div>
           </div>
         </div>
       </div>`;
@@ -1727,13 +1903,42 @@ window.qAct=async(t,cp)=>{
   const statusMap={start:'online',end:'offline',break:'break',pray:'pray',busy:'busy'};
   await push(ref(dbs[0],`chats/${cp}`),{text:m[t],sender:'driver',senderName:CU.name,ts:Date.now(),type:'text'});
   if(statusMap[t])await updateDriverStatus(statusMap[t]);
-  if(t==='end'){
-    // Show daily report summary
-    const today=new Date().toISOString().split('T')[0];
-    const snap=await get(ref(dbs[CU._shard||0],`drivers/${CU.id}/dailyReport/${today}`)).catch(()=>null);
-    const del=snap&&snap.exists()?snap.val().deliveries||0:0;
-    toast('ok','انتهى الشيفت 🏁',`توصيلاتك اليوم: ${del}`);
-    await push(ref(dbs[0],`chats/${cp}`),{text:`📊 تقرير نهاية الشيفت - توصيلات اليوم: ${del}`,sender:'driver',senderName:CU.name,ts:Date.now(),type:'text'});
+  const today=new Date().toISOString().split('T')[0];
+  if(t==='start'){
+    // Record shift start time
+    const now=Date.now();
+    shiftStartTime=now;
+    CU.shiftStart=now;
+    await update(ref(dbs[CU._shard||0],`drivers/${CU.id}`),{shiftStart:now,shiftEnd:null});
+    // Log shift entry in daily report
+    const lRef=ref(dbs[CU._shard||0],`drivers/${CU.id}/dailyReport/${today}`);
+    const snap=await get(lRef).catch(()=>null);
+    const prev=snap&&snap.exists()?snap.val():{deliveries:0,shifts:[]};
+    const shifts=[...(prev.shifts||[]),{start:now}];
+    await set(lRef,{...prev,shifts,lastUpdate:now});
+    playSound('shift');
+    toast('ok','بدأ الشيفت 🟢','وقت الشيفت يظهر على الخريطة');
+    startShiftTimer();
+  } else if(t==='end'){
+    // Record shift end
+    const now=Date.now();
+    const shiftDur=shiftStartTime?Math.round((now-shiftStartTime)/60000):0;
+    // Update daily report with end time
+    const lRef=ref(dbs[CU._shard||0],`drivers/${CU.id}/dailyReport/${today}`);
+    const snap=await get(lRef).catch(()=>null);
+    const prev=snap&&snap.exists()?snap.val():{deliveries:0,shifts:[]};
+    const shifts=[...(prev.shifts||[])];
+    // Close last open shift
+    if(shifts.length>0&&!shifts[shifts.length-1].end){
+      shifts[shifts.length-1].end=now;
+      shifts[shifts.length-1].durationMin=shiftDur;
+    }
+    const del=prev.deliveries||0;
+    await set(lRef,{...prev,shifts,lastUpdate:now});
+    await update(ref(dbs[CU._shard||0],`drivers/${CU.id}`),{shiftStart:null,shiftEnd:now});
+    shiftStartTime=null;stopShiftTimer();
+    toast('ok','انتهى الشيفت 🏁',`مدة الشيفت: ${shiftDur} دقيقة • التوصيلات: ${del}`);
+    await push(ref(dbs[0],`chats/${cp}`),{text:`📊 تقرير نهاية الشيفت — مدة العمل: ${shiftDur} دقيقة — التوصيلات: ${del}`,sender:'driver',senderName:CU.name,ts:Date.now(),type:'text'});
   } else {
     toast('ok','تم الإرسال ✅','');
   }
@@ -1744,12 +1949,14 @@ window.qAct=async(t,cp)=>{
     const ci=colors[t];if(ci){dot.style.color=ci.c;dot.textContent=ci.l;}
   }
 };
+
 window.doSOS=async cp=>{
   if(!confirm('إرسال نداء طوارئ للمشرف؟'))return;
   await push(ref(dbs[0],`chats/${cp}`),{text:`🆘 نداء طوارئ! السائق ${CU.name} يحتاج مساعدة!`,sender:'driver',senderName:CU.name,ts:Date.now(),type:'sos'});
   await push(ref(dbs[0],'alerts'),{type:'sos',driverId:CU.id,driverName:CU.name,ts:Date.now(),resolved:false});
   await push(ref(dbs[0],'notifications'),{type:'warn',driverId:CU.id,driverName:CU.name,msg:`🆘 SOS! السائق ${CU.name} يحتاج مساعدة فورية!`,ts:Date.now(),read:false});
   vibrate([500,100,500,100,500]);
+  playSound('sos');
   toast('err','🆘 SOS أُرسل','');
 };
 
@@ -1895,7 +2102,7 @@ window.saveSProf=async()=>{
 
 /* ══ LOGOUT ══ */
 window.logout=async()=>{
-  stopLocTracking();camStop();clearTimeout(reqTimeoutTimer);
+  stopLocTracking();camStop();clearTimeout(reqTimeoutTimer);stopShiftTimer();
   $('ReqNotif').classList.remove('on');
   if(CR==='driver'&&CU){
     await update(ref(dbs[CU._shard||0],`drivers/${CU.id}`),{status:'offline',taxiColor:'green',lastSeen:Date.now()}).catch(()=>{});
