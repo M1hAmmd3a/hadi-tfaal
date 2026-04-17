@@ -17,7 +17,7 @@
   --green:#059669;--green-l:#ECFDF5;--green-m:#A7F3D0;
   --red:#DC2626;--red-l:#FEF2F2;--red-m:#FECACA;
   --orange:#EA580C;--orange-l:#FFF7ED;--orange-m:#FED7AA;
-  --cyan:#0891B2;--cyan-l:#ECFEFF;
+  --cyan:#0891B2;--cyan-l:#ECFEFF;--cyan-m:#A5F3FC;
   --warn:#F59E0B;--warn-l:#FFFBEB;
   --shadow:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.04);
   --shadow-md:0 4px 8px rgba(0,0,0,.07),0 2px 4px rgba(0,0,0,.04);
@@ -29,13 +29,11 @@
 html,body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;font-size:14px}
 img{max-width:100%;display:block}
 .h{display:none!important}
-button{font-family:'Cairo',sans-serif}
-textarea,input{font-family:'Cairo',sans-serif}
+button,textarea,input,select{font-family:'Cairo',sans-serif}
 .spin{width:18px;height:18px;border:2.5px solid rgba(29,78,216,.15);border-top-color:var(--primary);border-radius:50%;animation:sp .7s linear infinite;display:inline-block;vertical-align:middle}
 .spin.wh{border-color:rgba(255,255,255,.3);border-top-color:#fff}
 @keyframes sp{to{transform:rotate(360deg)}}
 
-/* ═══ STATUS BADGES ═══ */
 .sbadge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px}
 .sb-green{background:var(--green-l);color:var(--green);border:1px solid var(--green-m)}
 .sb-red{background:var(--red-l);color:var(--red);border:1px solid var(--red-m)}
@@ -43,18 +41,18 @@ textarea,input{font-family:'Cairo',sans-serif}
 .sb-amber{background:var(--amber-l);color:var(--amber);border:1px solid var(--amber-m)}
 .sb-gray{background:var(--bg3);color:var(--text3);border:1px solid var(--border2)}
 .sb-blue{background:var(--primary-l);color:var(--primary);border:1px solid var(--primary-m)}
-.sb-warn{background:var(--warn-l);color:var(--warn);border:1px solid var(--amber-m)}
-.pulse-dot{width:7px;height:7px;border-radius:50%;display:inline-block;flex-shrink:0}
-.pulse-green{background:var(--green);animation:pdot 1.5s infinite}
-.pulse-red{background:var(--red)}
-.pulse-orange{background:var(--orange)}
-.pulse-warn{background:var(--warn);animation:pdot 1s infinite}
-@keyframes pdot{0%,100%{opacity:1}50%{opacity:.4}}
+.sb-cyan{background:var(--cyan-l);color:var(--cyan);border:1px solid var(--cyan-m)}
+.pdot{width:7px;height:7px;border-radius:50%;display:inline-block;flex-shrink:0}
+.pd-green{background:var(--green);animation:blink 1.5s infinite}
+.pd-red{background:var(--red)}
+.pd-orange{background:var(--orange)}
+.pd-amber{background:var(--warn);animation:blink 1s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
 
-/* ═══ LANDING ═══ */
+/* LANDING */
 #PL{min-height:100vh;background:#fff;display:flex;flex-direction:column;position:relative;overflow:hidden}
 .land-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 50% at 10% 20%,#EFF6FF 0%,transparent 60%),radial-gradient(ellipse 60% 40% at 90% 80%,#FFFBEB 0%,transparent 55%);pointer-events:none}
-.land-grid{position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:44px 44px;opacity:.35;pointer-events:none}
+.land-grid{position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:44px 44px;opacity:.4;pointer-events:none}
 .lnav{position:fixed;top:0;right:0;left:0;z-index:200;padding:13px 24px;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);box-shadow:var(--shadow)}
 .logo{display:flex;align-items:center;gap:12px;text-decoration:none;cursor:pointer}
 .lgic{width:42px;height:42px;background:linear-gradient(135deg,#D97706,#B45309);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 3px 10px rgba(217,119,6,.28);flex-shrink:0}
@@ -64,38 +62,32 @@ textarea,input{font-family:'Cairo',sans-serif}
 .btn-outline{padding:9px 17px;background:var(--bg);border:1.5px solid var(--border2);border-radius:var(--r);color:var(--text2);font-size:12px;font-weight:700;cursor:pointer;transition:var(--tr);display:flex;align-items:center;gap:7px;box-shadow:var(--shadow)}
 .btn-outline:hover{border-color:var(--primary);color:var(--primary);background:var(--primary-l)}
 .btn-primary{padding:9px 17px;background:var(--primary);border:none;border-radius:var(--r);color:#fff;font-size:12px;font-weight:700;cursor:pointer;transition:var(--tr);display:flex;align-items:center;gap:7px;box-shadow:0 3px 10px rgba(29,78,216,.28)}
-.btn-primary:hover{background:var(--primary-d);transform:translateY(-1px);box-shadow:0 5px 16px rgba(29,78,216,.35)}
+.btn-primary:hover{background:var(--primary-d);transform:translateY(-1px)}
 .hero{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:110px 24px 80px;position:relative;z-index:1}
 .hero-pill{display:inline-flex;align-items:center;gap:8px;background:var(--primary-l);border:1px solid var(--primary-m);border-radius:50px;padding:6px 18px;font-size:12px;color:var(--primary);font-weight:700;margin-bottom:28px}
 .hero-title{font-family:'Tajawal',sans-serif;font-size:clamp(36px,7vw,72px);font-weight:900;line-height:1.08;margin-bottom:18px;color:var(--text)}
 .hero-title .hl{background:linear-gradient(135deg,var(--primary),#7C3AED,var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .hero-sub{font-size:15px;color:var(--text3);max-width:520px;margin:0 auto 48px;line-height:1.85}
 .hero-cards{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-bottom:36px}
-.hcard{width:min(260px,90vw);background:var(--bg);border:1.5px solid var(--border);border-radius:var(--rll);padding:32px 24px;cursor:pointer;transition:all .28s cubic-bezier(.34,1.45,.64,1);text-align:center;box-shadow:var(--shadow-md);position:relative;overflow:hidden}
-.hcard::after{content:'';position:absolute;inset:0;border-radius:var(--rll);opacity:0;transition:.25s}
+.hcard{width:min(260px,90vw);background:var(--bg);border:1.5px solid var(--border);border-radius:var(--rll);padding:32px 24px;cursor:pointer;transition:all .28s cubic-bezier(.34,1.45,.64,1);text-align:center;box-shadow:var(--shadow-md)}
 .hcard:hover{transform:translateY(-7px);box-shadow:var(--shadow-xl)}
-.hcard.hd:hover::after{background:radial-gradient(circle at 50% 0%,rgba(29,78,216,.04),transparent);opacity:1}
-.hcard.hs:hover::after{background:radial-gradient(circle at 50% 0%,rgba(217,119,6,.05),transparent);opacity:1}
-.hcard:hover.hd{border-color:var(--primary-m)}
-.hcard:hover.hs{border-color:var(--amber-m)}
+.hcard:hover.hd{border-color:var(--primary-m)}.hcard:hover.hs{border-color:var(--amber-m)}
 .hcic{width:72px;height:72px;border-radius:20px;margin:0 auto 18px;display:flex;align-items:center;justify-content:center;font-size:32px}
 .hd .hcic{background:linear-gradient(145deg,#EFF6FF,#DBEAFE);box-shadow:0 6px 18px rgba(29,78,216,.18)}
 .hs .hcic{background:linear-gradient(145deg,#FFFBEB,#FEF3C7);box-shadow:0 6px 18px rgba(217,119,6,.18)}
 .hctitle{font-family:'Tajawal',sans-serif;font-size:18px;font-weight:900;margin-bottom:8px;color:var(--text)}
 .hcdesc{font-size:12px;color:var(--text3);line-height:1.75;margin-bottom:20px}
 .hcbtn{width:100%;padding:11px;border-radius:var(--r);font-size:13px;font-weight:700;cursor:pointer;border:none;transition:var(--tr)}
-.hd .hcbtn{background:var(--primary);color:#fff;box-shadow:0 3px 10px rgba(29,78,216,.25)}
-.hd .hcbtn:hover{background:var(--primary-d)}
-.hs .hcbtn{background:linear-gradient(135deg,#D97706,#B45309);color:#fff;box-shadow:0 3px 10px rgba(217,119,6,.25)}
+.hd .hcbtn{background:var(--primary);color:#fff}.hd .hcbtn:hover{background:var(--primary-d)}
+.hs .hcbtn{background:linear-gradient(135deg,#D97706,#B45309);color:#fff}
 .hero-feats{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
-.hfeat{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text3);background:var(--bg2);border:1px solid var(--border);padding:6px 14px;border-radius:50px;box-shadow:var(--shadow)}
+.hfeat{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text3);background:var(--bg2);border:1px solid var(--border);padding:6px 14px;border-radius:50px}
 .hfeat i{color:var(--green);font-size:10px}
 
-/* ═══ MODALS ═══ */
-.ov{position:fixed;inset:0;background:rgba(15,23,42,.6);backdrop-filter:blur(6px);z-index:500;display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;visibility:hidden;transition:opacity .22s,visibility .22s}
+/* MODALS */
+.ov{position:fixed;inset:0;background:rgba(15,23,42,.55);backdrop-filter:blur(6px);z-index:500;display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;visibility:hidden;transition:opacity .22s,visibility .22s}
 .ov.on{opacity:1;visibility:visible}
 .mdl{background:var(--bg);border:1px solid var(--border);border-radius:var(--rll);padding:28px 24px;width:100%;max-width:400px;max-height:92vh;overflow-y:auto;box-shadow:var(--shadow-xl);transform:scale(.93) translateY(14px);transition:transform .26s cubic-bezier(.34,1.3,.64,1);position:relative;scrollbar-width:thin;scrollbar-color:var(--border2) transparent}
-.mdl::-webkit-scrollbar{width:4px}.mdl::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
 .ov.on .mdl{transform:scale(1) translateY(0)}
 .mclose{position:absolute;top:16px;left:16px;width:32px;height:32px;background:var(--bg2);border:1px solid var(--border);border-radius:9px;color:var(--text3);cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;transition:var(--tr)}
 .mclose:hover{background:var(--red-l);color:var(--red);border-color:var(--red-m)}
@@ -106,10 +98,10 @@ textarea,input{font-family:'Cairo',sans-serif}
 .tabs{display:flex;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:3px;margin-bottom:20px;gap:3px}
 .tab{flex:1;padding:9px;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;transition:var(--tr);background:transparent;color:var(--text3)}
 .tab.on{background:var(--primary);color:#fff;box-shadow:var(--shadow)}
-.tab.gld.on{background:linear-gradient(135deg,#D97706,#B45309)}
+.tab.gld.on{background:linear-gradient(135deg,#D97706,#B45309);color:#fff}
 .fg{margin-bottom:14px}
 .fl{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:var(--text3);margin-bottom:6px}
-.fi{width:100%;padding:10px 13px;background:var(--bg2);border:1.5px solid var(--border);border-radius:var(--r);color:var(--text);font-family:'Cairo',sans-serif;font-size:13px;transition:var(--tr);outline:none}
+.fi{width:100%;padding:10px 13px;background:var(--bg2);border:1.5px solid var(--border);border-radius:var(--r);color:var(--text);font-size:13px;transition:var(--tr);outline:none}
 .fi:focus{border-color:var(--primary);background:var(--primary-l);box-shadow:0 0 0 3px rgba(29,78,216,.08)}
 .fi::placeholder{color:var(--text4)}.fi:disabled{opacity:.5;cursor:not-allowed;background:var(--bg3)}
 .al{display:none;padding:10px 13px;border-radius:var(--r);font-size:12px;font-weight:600;margin-bottom:14px;align-items:center;gap:8px}
@@ -127,11 +119,12 @@ textarea,input{font-family:'Cairo',sans-serif}
 .bdng:hover{background:var(--red-m)}
 .mediainp{display:none}
 
-/* ═══ DASHBOARD NAV ═══ */
+/* DASHBOARD */
 #PD{display:none;min-height:100vh;background:var(--bg2)}
+#PR{display:none;min-height:100vh;background:var(--bg2)}
 .dnav{position:fixed;top:0;right:0;left:0;z-index:100;height:60px;background:var(--bg);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 18px;gap:10px;box-shadow:var(--shadow)}
 .dnav .logo{flex:0 0 auto}
-.ntabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;flex:1;margin:0 10px}
+.ntabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;flex:1;margin:0 8px}
 .ntabs::-webkit-scrollbar{display:none}
 .ntab{padding:7px 14px;border:none;border-radius:9px;background:transparent;color:var(--text3);font-size:12px;font-weight:700;cursor:pointer;transition:var(--tr);white-space:nowrap;display:flex;align-items:center;gap:6px;flex-shrink:0}
 .ntab:hover{background:var(--bg2);color:var(--text2)}
@@ -145,72 +138,61 @@ textarea,input{font-family:'Cairo',sans-serif}
 .bout:hover{background:var(--red-m)}
 .dbody{padding-top:60px;height:100vh;overflow:hidden}
 .ntab-badge{background:var(--red);color:#fff;font-size:9px;font-weight:800;padding:1px 5px;border-radius:8px;min-width:16px;text-align:center}
-
-/* ═══ RECEIVER DASHBOARD ═══ */
-#PR{display:none;min-height:100vh;background:var(--bg2)}
-
-/* ═══ SCROLLABLE PANEL ═══ */
 .panel{padding:20px;overflow-y:auto;height:calc(100vh - 60px)}
 
-/* ═══ DRIVER LAYOUT ═══ */
+/* DRIVER LAYOUT */
 .dlayout{display:flex;height:calc(100vh - 60px)}
 .dside{width:260px;flex-shrink:0;background:var(--bg);border-left:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
 .dmain{flex:1;overflow:hidden;display:flex;flex-direction:column;background:var(--bg2)}
-
-/* ═══ DRIVER PROFILE CARD ═══ */
 .pcard{background:linear-gradient(145deg,var(--primary-l),#fff);border:1px solid var(--primary-m);border-radius:var(--rl);padding:18px;text-align:center;margin:12px}
+.pcard.gold-card{background:linear-gradient(145deg,var(--amber-l),#fff);border-color:var(--amber-m)}
 .pav{width:70px;height:70px;border-radius:50%;border:2.5px solid var(--primary);margin:0 auto 10px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:26px;background:var(--bg2)}
-.pav.gold{border-color:var(--amber)}
+.pav.goldav{border-color:var(--amber)}
 .pav img{width:100%;height:100%;object-fit:cover}
 .pname{font-weight:800;font-size:14px;margin-bottom:4px;color:var(--text)}
-.prole{font-size:10px;padding:3px 10px;border-radius:20px;display:inline-block;font-weight:700;margin-bottom:8px}
 .ssec{padding:10px 12px;border-top:1px solid var(--border)}
 .slbl{font-size:10px;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px;display:flex;align-items:center;gap:5px}
-
-/* ═══ QUICK ACTION BUTTONS ═══ */
 .qbtns{display:grid;grid-template-columns:1fr 1fr;gap:7px}
 .qbtn{padding:11px 7px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);color:var(--text2);font-size:11px;cursor:pointer;transition:var(--tr);text-align:center;display:flex;flex-direction:column;align-items:center;gap:5px}
-.qbtn i{font-size:17px}
+.qbtn i{font-size:16px}
 .qbtn:hover{background:var(--primary-l);border-color:var(--primary-m);color:var(--primary);transform:translateY(-2px)}
 .qbtn.sos{grid-column:span 2;background:var(--red-l);border-color:var(--red-m);color:var(--red);flex-direction:row;justify-content:center;font-size:12px;font-weight:800;padding:10px;animation:sosGlow 2s infinite}
-@keyframes sosGlow{0%,100%{box-shadow:0 0 0 0 rgba(220,38,38,.2)}50%{box-shadow:0 0 0 5px rgba(220,38,38,0)}}
+@keyframes sosGlow{0%,100%{box-shadow:none}50%{box-shadow:0 0 0 4px rgba(220,38,38,.15)}}
 .qbtn.sos:hover{background:var(--red-m)}
 
-/* ═══ REQUEST AREA (DRIVER VIEW) ═══ */
+/* REQ AREA */
 .dreq-wrap{flex:1;display:flex;flex-direction:column;overflow:hidden}
-.dreq-hd{padding:14px 16px;background:var(--bg);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.dreq-hd{padding:13px 16px;background:var(--bg);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
 .dreq-hd-title{font-family:'Tajawal',sans-serif;font-size:15px;font-weight:900;color:var(--text);display:flex;align-items:center;gap:8px}
 .dreq-list{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
-.dreq-empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--text4);gap:10px;padding:40px}
-.dreq-empty i{font-size:48px;opacity:.2}
-.dreq-empty p{font-size:13px;text-align:center;line-height:1.7}
+.dreq-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 20px;color:var(--text4);gap:12px;text-align:center}
+.dreq-empty i{font-size:44px;opacity:.2}
+.dreq-empty p{font-size:13px;line-height:1.7}
 
-/* ═══ REQUEST CARD ═══ */
-.reqcard{background:var(--bg);border:1.5px solid var(--border);border-radius:var(--rl);padding:16px;transition:var(--tr);position:relative;overflow:hidden}
-.reqcard:hover{box-shadow:var(--shadow-md);border-color:var(--border2)}
-.reqcard.rc-pending{border-color:var(--amber-m);background:linear-gradient(135deg,var(--amber-l),#fff)}
-.reqcard.rc-accepted{border-color:var(--green-m);background:linear-gradient(135deg,var(--green-l),#fff)}
-.reqcard.rc-rejected{border-color:var(--red-m);background:var(--red-l);opacity:.7}
-.reqcard.rc-waiting{border-color:var(--orange-m);background:var(--orange-l)}
-.reqcard.rc-near{border-color:var(--warn-l);animation:nearGlow 1.5s infinite}
-.reqcard.rc-cancelled{border-color:var(--border2);background:var(--bg3);opacity:.6}
-.reqcard.rc-modified{border-color:var(--cyan);background:var(--cyan-l);animation:modFlash .8s ease 3}
-@keyframes nearGlow{0%,100%{box-shadow:0 0 0 0 rgba(245,158,11,.3)}50%{box-shadow:0 0 0 6px rgba(245,158,11,0)}}
-@keyframes modFlash{0%,100%{background:var(--cyan-l)}50%{background:#CFFAFE}}
-.req-no-resp{animation:noRespFlash 1s ease infinite;border-color:var(--red)!important}
+/* REQUEST CARD */
+.reqcard{background:var(--bg);border:1.5px solid var(--border);border-radius:var(--rl);padding:16px;transition:var(--tr);position:relative}
+.reqcard:hover{box-shadow:var(--shadow-md)}
+.rc-pending{border-color:var(--amber-m);background:linear-gradient(135deg,#FFFBEB,#fff)}
+.rc-accepted{border-color:var(--green-m);background:linear-gradient(135deg,#ECFDF5,#fff)}
+.rc-rejected{border-color:var(--red-m);background:var(--red-l);opacity:.7}
+.rc-waiting{border-color:var(--orange-m);background:var(--orange-l)}
+.rc-near{border-color:var(--warn);animation:nearPulse 1.8s infinite}
+.rc-cancelled{border-color:var(--border2);background:var(--bg3);opacity:.65}
+.rc-modified{border-color:var(--cyan);background:var(--cyan-l);animation:modPulse .9s ease 4}
+.rc-done{border-color:var(--green-m);background:var(--green-l);opacity:.8}
+.no-resp-flash{animation:noRespFlash .9s ease infinite;border-color:var(--red)!important}
+@keyframes nearPulse{0%,100%{box-shadow:0 0 0 0 rgba(245,158,11,.3)}50%{box-shadow:0 0 0 6px rgba(245,158,11,0)}}
+@keyframes modPulse{0%,100%{background:var(--cyan-l)}50%{background:#CFFAFE}}
 @keyframes noRespFlash{0%,100%{border-color:var(--red-m)}50%{border-color:var(--red);box-shadow:0 0 0 3px rgba(220,38,38,.2)}}
 
-.reqcard-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;gap:8px}
-.reqcard-phone{font-size:15px;font-weight:900;color:var(--text);display:flex;align-items:center;gap:6px}
-.reqcard-phone i{color:var(--primary);font-size:13px}
-.reqcard-times{display:flex;flex-direction:column;gap:2px;align-items:flex-end}
-.reqtime{font-size:10px;color:var(--text3);display:flex;align-items:center;gap:4px}
-.reqcard-details{font-size:12px;color:var(--text2);line-height:1.7;margin-bottom:10px;display:flex;align-items:flex-start;gap:6px}
-.reqcard-details i{color:var(--amber);flex-shrink:0;margin-top:3px;font-size:12px}
-.reqcard-driver{display:flex;align-items:center;gap:8px;margin-bottom:10px;padding:8px 10px;background:rgba(0,0,0,.03);border-radius:9px;border:1px solid var(--border)}
-.reqcard-driver-av{width:32px;height:32px;border-radius:9px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;background:var(--bg2);border:1.5px solid var(--border2)}
-.reqcard-driver-av img{width:100%;height:100%;object-fit:cover}
-.reqcard-actions{display:flex;gap:7px;flex-wrap:wrap;align-items:center}
+.reqtop{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:9px;gap:8px}
+.reqphone{font-size:15px;font-weight:900;color:var(--text);display:flex;align-items:center;gap:6px}
+.reqphone i{color:var(--primary);font-size:12px}
+.reqtimes{display:flex;flex-direction:column;gap:2px;align-items:flex-end}
+.reqtime{font-size:10px;color:var(--text3);display:flex;align-items:center;gap:3px}
+.reqdetails{font-size:12px;color:var(--text2);line-height:1.7;margin-bottom:10px;display:flex;align-items:flex-start;gap:6px}
+.reqdetails i{color:var(--amber);flex-shrink:0;margin-top:3px}
+.reqacts{display:flex;gap:7px;flex-wrap:wrap;align-items:center}
 .rca{padding:8px 14px;border-radius:9px;font-size:12px;font-weight:700;cursor:pointer;border:none;transition:var(--tr);display:flex;align-items:center;gap:5px}
 .rca-primary{background:var(--primary);color:#fff}.rca-primary:hover{background:var(--primary-d)}
 .rca-green{background:var(--green-l);color:var(--green);border:1px solid var(--green-m)}.rca-green:hover{background:var(--green-m)}
@@ -218,40 +200,22 @@ textarea,input{font-family:'Cairo',sans-serif}
 .rca-amber{background:var(--amber-l);color:var(--amber);border:1px solid var(--amber-m)}.rca-amber:hover{background:var(--amber-m)}
 .rca-orange{background:var(--orange-l);color:var(--orange);border:1px solid var(--orange-m)}.rca-orange:hover{background:var(--orange-m)}
 .rca-gray{background:var(--bg2);color:var(--text2);border:1px solid var(--border)}.rca-gray:hover{background:var(--bg3)}
+.rca-cyan{background:var(--cyan-l);color:var(--cyan);border:1px solid var(--cyan-m)}.rca-cyan:hover{background:var(--cyan-m)}
+.mod-diff{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:10px;margin-bottom:9px;font-size:12px}
+.mod-old{display:flex;align-items:flex-start;gap:5px;color:var(--red);text-decoration:line-through;margin-bottom:5px}
+.mod-new{display:flex;align-items:flex-start;gap:5px;color:var(--green);font-weight:700}
+.mod-notice{background:var(--cyan-l);border:1px solid var(--cyan-m);border-radius:var(--r);padding:8px 12px;font-size:12px;color:var(--cyan);font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.cancel-msg{padding:8px 10px;background:var(--red-l);border:1px solid var(--red-m);border-radius:var(--r);font-size:12px;color:var(--red);font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px}
 
-/* modification display */
-.mod-diff{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:10px;margin-bottom:10px;font-size:12px}
-.mod-old{display:flex;align-items:flex-start;gap:6px;color:var(--red);text-decoration:line-through;margin-bottom:5px}
-.mod-new{display:flex;align-items:flex-start;gap:6px;color:var(--green);font-weight:700}
-.mod-confirm-needed{background:var(--cyan-l);border:1px solid var(--cyan);border-radius:var(--r);padding:8px 12px;font-size:12px;color:var(--cyan);font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+/* SUPERVISOR LAYOUT */
+.sup-req-layout{display:flex;height:calc(100vh - 60px);overflow:hidden}
+.sup-req-col{width:360px;flex-shrink:0;border-left:1px solid var(--border);background:var(--bg);display:flex;flex-direction:column}
+.sup-req-main{flex:1;overflow:hidden;display:flex;flex-direction:column;background:var(--bg2)}
+.col-hd{padding:12px 15px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg);flex-shrink:0}
+.col-hd-title{font-family:'Tajawal',sans-serif;font-size:14px;font-weight:900;color:var(--text);display:flex;align-items:center;gap:7px}
+.col-scroll{flex:1;overflow-y:auto;padding:8px;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
 
-/* ═══ SUPERVISOR LAYOUT ═══ */
-.slayout{display:flex;height:calc(100vh - 60px)}
-.sside{width:270px;flex-shrink:0;background:var(--bg);border-left:1px solid var(--border);display:flex;flex-direction:column}
-.smain{flex:1;display:flex;flex-direction:column;overflow:hidden;background:var(--bg2)}
-
-/* driver list */
-.dlhd{padding:11px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg)}
-.dlhd span{font-size:13px;font-weight:800;color:var(--text)}
-.dlcnt{font-size:11px;color:var(--text3);background:var(--bg2);border:1px solid var(--border);padding:3px 9px;border-radius:6px}
-.sbox{margin:9px 10px 5px;position:relative}
-.sbox i{position:absolute;top:50%;right:12px;transform:translateY(-50%);color:var(--text4);font-size:12px}
-.sinp{width:100%;padding:9px 34px 9px 12px;background:var(--bg2);border:1.5px solid var(--border);border-radius:var(--r);color:var(--text);font-size:12px;outline:none;transition:var(--tr)}
-.sinp:focus{border-color:var(--amber)}.sinp::placeholder{color:var(--text4)}
-.dlist{flex:1;overflow-y:auto;padding:6px;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
-.dlist::-webkit-scrollbar{width:3px}.dlist::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
-.ditem{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:var(--r);cursor:pointer;transition:var(--tr);border:1px solid transparent;margin-bottom:3px}
-.ditem:hover{background:var(--bg2);border-color:var(--border)}
-.ditem.on{background:var(--amber-l);border-color:var(--amber-m)}
-.dav{width:40px;height:40px;border-radius:11px;overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:17px;background:var(--bg2);position:relative;border:2px solid transparent;transition:border-color .25s}
-.dav img{width:100%;height:100%;object-fit:cover}
-.dstdot{position:absolute;bottom:1px;right:1px;width:9px;height:9px;border-radius:50%;border:2px solid var(--bg);transition:background .25s}
-.dinfo{flex:1;min-width:0}
-.dnm{font-size:13px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--text)}
-.dst{font-size:10px;color:var(--text3);margin-top:2px;display:flex;align-items:center;gap:4px}
-.dtm{font-size:10px;color:var(--text4);flex-shrink:0}
-
-/* Stats strip */
+/* STATS */
 .ststrip{display:flex;gap:8px;padding:10px 14px;border-bottom:1px solid var(--border);background:var(--bg);flex-shrink:0;overflow-x:auto;scrollbar-width:none}
 .ststrip::-webkit-scrollbar{display:none}
 .st{display:flex;align-items:center;gap:8px;padding:9px 13px;background:var(--bg2);border-radius:var(--r);border:1px solid var(--border);white-space:nowrap;flex-shrink:0}
@@ -259,47 +223,41 @@ textarea,input{font-family:'Cairo',sans-serif}
 .stv{font-size:17px;font-weight:900;line-height:1;color:var(--text)}
 .stl{font-size:9px;color:var(--text4);margin-top:1px}
 
-/* ═══ SUPERVISOR REQ PANEL ═══ */
-.sup-req-layout{display:flex;height:calc(100vh - 60px);overflow:hidden}
-.sup-req-list-col{width:380px;flex-shrink:0;border-left:1px solid var(--border);background:var(--bg);display:flex;flex-direction:column}
-.sup-req-main{flex:1;overflow:hidden;display:flex;flex-direction:column;background:var(--bg2)}
-.col-hd{padding:13px 15px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg);flex-shrink:0}
-.col-hd-title{font-family:'Tajawal',sans-serif;font-size:14px;font-weight:900;color:var(--text);display:flex;align-items:center;gap:7px}
-.col-scroll{flex:1;overflow-y:auto;padding:8px;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
-.col-scroll::-webkit-scrollbar{width:3px}.col-scroll::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
-.add-req-btn{padding:10px 14px;background:var(--primary-l);border:1.5px dashed var(--primary-m);border-radius:var(--r);color:var(--primary);font-size:12px;font-weight:700;cursor:pointer;transition:var(--tr);width:calc(100% - 16px);display:flex;align-items:center;justify-content:center;gap:7px;margin:8px}
-.add-req-btn:hover{background:var(--primary);color:#fff;border-style:solid}
-
-/* ═══ MAP CONTAINER ═══ */
-.map-wrap{flex:1;position:relative;display:flex;flex-direction:column;overflow:hidden}
-.map-inner{flex:1;min-height:0}
+/* MAP */
 .map-legend{position:absolute;bottom:14px;right:14px;z-index:400;background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:10px 14px;font-size:11px;box-shadow:var(--shadow-md)}
 .map-legend-item{display:flex;align-items:center;gap:7px;margin-bottom:5px;color:var(--text2)}
 .map-legend-item:last-child{margin-bottom:0}
 .leg-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
-.drv-marker{width:38px;height:38px;border-radius:50%;overflow:hidden;box-shadow:0 3px 10px rgba(0,0,0,.2);background:var(--bg2);display:flex;align-items:center;justify-content:center;transition:border-color .25s;border:3px solid var(--green)}
+.drv-marker{width:38px;height:38px;border-radius:50%;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.18);background:var(--bg2);display:flex;align-items:center;justify-content:center;border:3px solid var(--green)}
 .drv-marker img{width:100%;height:100%;object-fit:cover}
 .drv-marker-wrap{display:flex;flex-direction:column;align-items:center;gap:2px}
-.drv-marker-name{background:rgba(15,23,42,.88);color:#fff;font-size:9px;font-weight:800;padding:2px 6px;border-radius:5px;white-space:nowrap;font-family:'Cairo',sans-serif}
+.drv-marker-name{background:rgba(15,23,42,.85);color:#fff;font-size:9px;font-weight:800;padding:2px 6px;border-radius:5px;white-space:nowrap;font-family:'Cairo',sans-serif}
 .drv-marker-time{background:var(--green-l);color:var(--green);font-size:9px;font-weight:700;padding:2px 6px;border-radius:5px;white-space:nowrap;font-family:'Cairo',sans-serif;border:1px solid var(--green-m)}
 .leaflet-popup-content-wrapper{background:var(--bg)!important;color:var(--text)!important;border:1px solid var(--border)!important;border-radius:12px!important;box-shadow:var(--shadow-lg)!important}
 .leaflet-popup-tip{background:var(--bg)!important}
 .leaflet-popup-content{font-family:'Cairo',sans-serif!important;font-size:12px!important}
 .leaflet-control-zoom a{background:var(--bg)!important;color:var(--text2)!important;border-color:var(--border)!important}
 
-/* ═══ DRIVER REQUEST NOTIFICATION ═══ */
+/* DRIVER REQUEST NOTIFICATION (full screen with message) */
 .req-notif{position:fixed;inset:0;background:rgba(15,23,42,.7);backdrop-filter:blur(10px);z-index:9998;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;visibility:hidden;transition:opacity .28s,visibility .28s}
 .req-notif.on{opacity:1;visibility:visible}
-.req-card{background:var(--bg);border:2px solid var(--amber-m);border-radius:var(--rll);padding:28px 24px;width:100%;max-width:380px;text-align:center;box-shadow:var(--shadow-xl);animation:reqPulse 1.8s ease infinite}
-@keyframes reqPulse{0%,100%{box-shadow:var(--shadow-xl)}50%{box-shadow:var(--shadow-xl),0 0 0 10px rgba(217,119,6,.12)}}
-.req-icon{width:68px;height:68px;border-radius:50%;background:linear-gradient(135deg,#D97706,#B45309);margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-size:30px;animation:reqBounce .65s ease infinite alternate}
-@keyframes reqBounce{from{transform:scale(1)}to{transform:scale(1.1)}}
+.req-card{background:var(--bg);border:2px solid var(--amber-m);border-radius:var(--rll);padding:28px 24px;width:100%;max-width:400px;text-align:center;box-shadow:var(--shadow-xl);animation:reqPulse 2s ease infinite;max-height:90vh;overflow-y:auto}
+@keyframes reqPulse{0%,100%{box-shadow:var(--shadow-xl)}50%{box-shadow:var(--shadow-xl),0 0 0 10px rgba(217,119,6,.1)}}
+.req-icon{width:66px;height:66px;border-radius:50%;background:linear-gradient(135deg,#D97706,#B45309);margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-size:29px;animation:rBounce .65s ease infinite alternate}
+@keyframes rBounce{from{transform:scale(1)}to{transform:scale(1.09)}}
 .req-title{font-family:'Tajawal',sans-serif;font-size:19px;font-weight:900;margin-bottom:7px;color:var(--text)}
-.req-sub{font-size:12px;color:var(--text3);margin-bottom:16px;line-height:1.7}
-.req-details-box{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:13px;margin-bottom:16px;text-align:right}
+.req-sub{font-size:12px;color:var(--text3);margin-bottom:12px;line-height:1.7}
+.req-countdown{font-size:12px;color:var(--text3);margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:5px}
+.req-countdown-num{font-size:18px;font-weight:900;color:var(--red)}
+.req-details-box{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:13px;margin-bottom:12px;text-align:right}
 .req-detail-row{display:flex;align-items:flex-start;gap:8px;margin-bottom:6px;font-size:12px;color:var(--text2)}
 .req-detail-row:last-child{margin-bottom:0}
 .req-detail-row i{color:var(--amber);margin-top:2px;flex-shrink:0}
+/* message box in request notification */
+.req-msg-box{background:var(--primary-l);border:1px solid var(--primary-m);border-radius:var(--r);padding:11px 13px;margin-bottom:12px;text-align:right}
+.req-msg-from{font-size:10px;color:var(--primary);font-weight:700;margin-bottom:4px}
+.req-msg-text{font-size:13px;color:var(--text);font-weight:700;line-height:1.6}
+.req-mod-notice{background:var(--cyan-l);border:1px solid var(--cyan-m);border-radius:var(--r);padding:9px 12px;margin-bottom:12px;font-size:12px;color:var(--cyan);font-weight:700;text-align:right}
 .req-btns{display:flex;gap:10px}
 .req-accept{flex:1;padding:13px;background:var(--green);border:none;border-radius:var(--r);color:#fff;font-size:14px;font-weight:800;cursor:pointer;transition:var(--tr)}
 .req-accept:hover{opacity:.9}
@@ -307,11 +265,9 @@ textarea,input{font-family:'Cairo',sans-serif}
 .req-reject-btn:hover{background:var(--red-m)}
 .req-reject-area{display:none;margin-top:12px}
 .req-reject-area.on{display:block}
-.req-countdown{font-size:12px;color:var(--text3);margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:5px}
-.req-countdown-num{font-size:18px;font-weight:900;color:var(--red)}
 
-/* ═══ SELECT TAXI MODAL ═══ */
-.sel-taxi-modal{position:fixed;inset:0;background:rgba(15,23,42,.6);backdrop-filter:blur(6px);z-index:700;display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;visibility:hidden;transition:opacity .22s,visibility .22s}
+/* SELECT TAXI */
+.sel-taxi-modal{position:fixed;inset:0;background:rgba(15,23,42,.55);backdrop-filter:blur(6px);z-index:700;display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;visibility:hidden;transition:opacity .22s,visibility .22s}
 .sel-taxi-modal.on{opacity:1;visibility:visible}
 .sel-taxi-box{background:var(--bg);border:1px solid var(--border);border-radius:var(--rll);padding:24px;width:100%;max-width:420px;max-height:85vh;overflow-y:auto;box-shadow:var(--shadow-xl)}
 .sel-taxi-list{display:flex;flex-direction:column;gap:7px;margin:12px 0}
@@ -321,15 +277,20 @@ textarea,input{font-family:'Cairo',sans-serif}
 .sel-taxi-av{width:40px;height:40px;border-radius:11px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:17px;background:var(--bg3);flex-shrink:0;border:2px solid transparent}
 .sel-taxi-av img{width:100%;height:100%;object-fit:cover}
 
-/* ═══ EDIT REQUEST MODAL ═══ */
-.mod-change-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
-.mod-old-box{background:var(--red-l);border:1px solid var(--red-m);border-radius:var(--r);padding:9px;font-size:12px}
-.mod-old-box .mod-lbl{font-size:10px;font-weight:700;color:var(--red);margin-bottom:3px;display:flex;align-items:center;gap:4px}
-.mod-new-box{background:var(--green-l);border:1px solid var(--green-m);border-radius:var(--r);padding:9px;font-size:12px}
-.mod-new-box .mod-lbl{font-size:10px;font-weight:700;color:var(--green);margin-bottom:3px;display:flex;align-items:center;gap:4px}
+/* SOS BROADCAST (supervisor sends to all drivers) */
+.sos-broadcast-notif{position:fixed;inset:0;background:rgba(220,38,38,.85);backdrop-filter:blur(8px);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+.sos-broadcast-notif.on{opacity:1;visibility:visible}
+.sos-broadcast-card{background:#fff;border:3px solid var(--red);border-radius:var(--rll);padding:32px 28px;width:100%;max-width:420px;text-align:center;box-shadow:0 0 0 0 rgba(220,38,38,.4);animation:sosBroadcast 1s infinite}
+@keyframes sosBroadcast{0%,100%{box-shadow:0 0 0 0 rgba(220,38,38,.4)}50%{box-shadow:0 0 0 16px rgba(220,38,38,0)}}
+.sos-bc-icon{font-size:48px;margin-bottom:12px;animation:rBounce .5s ease infinite alternate}
+.sos-bc-title{font-family:'Tajawal',sans-serif;font-size:22px;font-weight:900;color:var(--red);margin-bottom:8px}
+.sos-bc-from{font-size:12px;color:var(--text3);margin-bottom:12px}
+.sos-bc-msg{background:var(--red-l);border:1px solid var(--red-m);border-radius:var(--r);padding:14px;font-size:14px;font-weight:700;color:var(--text);line-height:1.7;margin-bottom:16px;text-align:right}
+.sos-bc-ack{padding:13px 24px;background:var(--red);border:none;border-radius:var(--r);color:#fff;font-size:15px;font-weight:800;cursor:pointer;transition:var(--tr)}
+.sos-bc-ack:hover{opacity:.9}
 
-/* ═══ NOTIFICATIONS ═══ */
-.notif-item{background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:13px;margin-bottom:8px;display:flex;gap:11px;align-items:flex-start;transition:var(--tr)}
+/* NOTIFICATIONS */
+.notif-item{background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:12px;margin-bottom:8px;display:flex;gap:11px;align-items:flex-start;transition:var(--tr)}
 .notif-item:hover{box-shadow:var(--shadow)}
 .notif-item.unread{border-color:var(--amber-m);background:var(--amber-l)}
 .notif-ic{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
@@ -337,12 +298,13 @@ textarea,input{font-family:'Cairo',sans-serif}
 .ni-red{background:var(--red-l);color:var(--red)}
 .ni-amber{background:var(--amber-l);color:var(--amber)}
 .ni-blue{background:var(--primary-l);color:var(--primary)}
+.ni-cyan{background:var(--cyan-l);color:var(--cyan)}
 .notif-body{flex:1}
 .notif-title{font-size:12px;font-weight:800;margin-bottom:2px;color:var(--text)}
 .notif-sub{font-size:11px;color:var(--text3);line-height:1.5}
 .notif-time{font-size:10px;color:var(--text4);margin-top:4px}
 
-/* ═══ REPORTS ═══ */
+/* REPORTS */
 .report-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--rl);padding:18px;margin-bottom:14px;box-shadow:var(--shadow)}
 .report-title{font-family:'Tajawal',sans-serif;font-size:15px;font-weight:900;margin-bottom:12px;display:flex;align-items:center;gap:8px;color:var(--text)}
 .report-title i{color:var(--amber)}
@@ -352,7 +314,7 @@ textarea,input{font-family:'Cairo',sans-serif}
 .report-stat-val{font-size:14px;font-weight:900;color:var(--green)}
 .report-drv-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:13px;margin-bottom:8px}
 
-/* ═══ ACCOUNTS ═══ */
+/* ACCOUNTS */
 .acc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
 .acccard{background:var(--bg);border:1px solid var(--border);border-radius:var(--rl);padding:17px;transition:var(--tr);box-shadow:var(--shadow)}
 .acccard:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
@@ -371,53 +333,59 @@ textarea,input{font-family:'Cairo',sans-serif}
 .adel{background:var(--red-l);border:1px solid var(--red-m);color:var(--red)}.adel:hover{background:var(--red-m)}
 .ptab{padding:20px;overflow-y:auto;height:calc(100vh - 60px);max-width:500px;margin:0 auto}
 .cbox{background:var(--bg);border:1px solid var(--border);border-radius:var(--rl);padding:20px;margin-bottom:14px;box-shadow:var(--shadow)}
+.atitle{font-family:'Tajawal',sans-serif;font-size:19px;font-weight:900;margin-bottom:16px;display:flex;align-items:center;gap:10px;color:var(--text)}
+.atitle i{color:var(--amber)}
+.shard-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px}
+.sh1{background:var(--cyan-l);color:var(--cyan);border:1px solid var(--cyan-m)}
+.sh2{background:#F5F3FF;color:#7C3AED;border:1px solid #DDD6FE}
+.sh3{background:var(--amber-l);color:var(--amber);border:1px solid var(--amber-m)}
 
-/* ═══ TOASTS ═══ */
+/* SUPPORT (دعم فني) */
+.support-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-bottom:20px}
+.support-drv-card{background:var(--bg);border:1.5px solid var(--border);border-radius:var(--rl);padding:16px;display:flex;align-items:center;gap:13px;transition:var(--tr);box-shadow:var(--shadow)}
+.support-drv-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
+.support-drv-av{width:52px;height:52px;border-radius:14px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:22px;background:var(--bg2);flex-shrink:0;border:2px solid var(--border2)}
+.support-drv-av img{width:100%;height:100%;object-fit:cover}
+.support-drv-info{flex:1;min-width:0}
+.support-drv-name{font-size:14px;font-weight:800;color:var(--text);margin-bottom:3px}
+.support-drv-phone{font-size:12px;color:var(--text3);display:flex;align-items:center;gap:4px;margin-bottom:5px}
+.support-drv-car{font-size:11px;color:var(--text4)}
+.support-wa-btn{padding:9px 16px;background:linear-gradient(135deg,#25D366,#128C7E);border:none;border-radius:9px;color:#fff;font-size:12px;font-weight:700;cursor:pointer;transition:var(--tr);display:flex;align-items:center;gap:6px;flex-shrink:0;text-decoration:none}
+.support-wa-btn:hover{opacity:.9;transform:translateY(-1px)}
+
+/* DELIVERIES COUNT BADGE */
+.deliv-badge{background:linear-gradient(135deg,var(--primary),var(--primary-d));color:#fff;font-size:11px;font-weight:800;padding:3px 9px;border-radius:20px;display:inline-flex;align-items:center;gap:4px}
+
+/* TOASTS */
 .toasts{position:fixed;bottom:20px;left:16px;z-index:9999;display:flex;flex-direction:column;gap:7px;pointer-events:none}
 .toast{background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:11px 14px;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow-lg);animation:toastIn .24s cubic-bezier(.34,1.56,.64,1);min-width:220px;max-width:300px;pointer-events:all}
 @keyframes toastIn{from{transform:translateX(-110%) scale(.9);opacity:0}to{transform:none;opacity:1}}
 .tst{font-size:17px;flex-shrink:0}.ttt{font-size:12px;font-weight:800;color:var(--text)}.tts{font-size:10px;color:var(--text3);margin-top:1px}
 
-/* ═══ DRIVER STATUS PANEL ═══ */
-.drv-status-btns{display:flex;flex-direction:column;gap:7px;padding:10px}
-.dsb{padding:10px 14px;border-radius:var(--r);font-size:12px;font-weight:700;cursor:pointer;border:1.5px solid;transition:var(--tr);display:flex;align-items:center;gap:8px}
-.dsb-waiting{background:var(--orange-l);border-color:var(--orange-m);color:var(--orange)}.dsb-waiting:hover{background:var(--orange-m)}
-.dsb-near{background:var(--amber-l);border-color:var(--amber-m);color:var(--amber)}.dsb-near:hover{background:var(--amber-m);animation:none}
+/* SOS supervisor modal */
+.sos-sup-modal{position:fixed;inset:0;background:rgba(15,23,42,.6);backdrop-filter:blur(6px);z-index:800;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;visibility:hidden;transition:opacity .22s,visibility .22s}
+.sos-sup-modal.on{opacity:1;visibility:visible}
+.sos-sup-box{background:var(--bg);border:2px solid var(--red-m);border-radius:var(--rll);padding:28px 24px;width:100%;max-width:420px;box-shadow:var(--shadow-xl)}
 
-/* ═══ ATITLE ═══ */
-.atitle{font-family:'Tajawal',sans-serif;font-size:19px;font-weight:900;margin-bottom:16px;display:flex;align-items:center;gap:10px;color:var(--text)}
-.atitle i{color:var(--amber)}
-
-/* ═══ SHARD BADGE ═══ */
-.shard-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px}
-.sh1{background:var(--cyan-l);color:var(--cyan);border:1px solid rgba(8,145,178,.25)}
-.sh2{background:#F5F3FF;color:#7C3AED;border:1px solid #DDD6FE}
-.sh3{background:var(--amber-l);color:var(--amber);border:1px solid var(--amber-m)}
-
-/* ═══ RESPONSIVE ═══ */
 @media(max-width:640px){
-  .dlayout,.slayout,.sup-req-layout{flex-direction:column}
-  .dside,.sside{width:100%;flex:0 0 auto;max-height:45vh;border-left:none;border-bottom:1px solid var(--border)}
-  .sup-req-list-col{width:100%;max-height:45vh;border-left:none;border-bottom:1px solid var(--border)}
+  .dlayout,.sup-req-layout{flex-direction:column}
+  .dside{width:100%;flex:0 0 auto;max-height:42vh;border-left:none;border-bottom:1px solid var(--border)}
+  .sup-req-col{width:100%;max-height:42vh;border-left:none;border-bottom:1px solid var(--border)}
   .ntab span{display:none}.ntab{padding:7px 10px}
-  .acc-grid{grid-template-columns:1fr}
-  .hcards{flex-direction:column;align-items:center}
-  .mod-change-row{grid-template-columns:1fr}
+  .acc-grid,.support-grid{grid-template-columns:1fr}
+  .hero-cards{flex-direction:column;align-items:center}
 }
 @media(min-width:641px) and (max-width:900px){
-  .dside{width:210px}.sside{width:230px}.sup-req-list-col{width:310px}
+  .dside{width:210px}.sup-req-col{width:290px}
 }
 </style>
 </head>
 <body>
-<!-- ═══ LANDING ═══ -->
+<!-- LANDING -->
 <div id="PL">
   <div class="land-bg"></div><div class="land-grid"></div>
   <nav class="lnav">
-    <div class="logo">
-      <div class="lgic">🚕</div>
-      <div><div class="lgn1">هادي التفال</div><div class="lgn2">منصة الطلبات</div></div>
-    </div>
+    <div class="logo"><div class="lgic">🚕</div><div><div class="lgn1">هادي التفال</div><div class="lgn2">منصة الطلبات</div></div></div>
     <div class="lnav-btns">
       <button class="btn-outline" onclick="OM('Mrecvsecret')"><i class="fas fa-inbox"></i> المستقبل</button>
       <button class="btn-primary" onclick="OM('Msecret')"><i class="fas fa-shield-halved"></i> المشرف</button>
@@ -445,13 +413,13 @@ textarea,input{font-family:'Cairo',sans-serif}
       <div class="hfeat"><i class="fas fa-check-circle"></i> خريطة مباشرة</div>
       <div class="hfeat"><i class="fas fa-check-circle"></i> إشعارات فورية</div>
       <div class="hfeat"><i class="fas fa-check-circle"></i> تعديل الطلبات</div>
-      <div class="hfeat"><i class="fas fa-check-circle"></i> تتبع السائقين</div>
+      <div class="hfeat"><i class="fas fa-check-circle"></i> دعم فني</div>
       <div class="hfeat"><i class="fas fa-check-circle"></i> تقارير يومية</div>
     </div>
   </div>
 </div>
 
-<!-- ═══ MODAL: SUPERVISOR SECRET ═══ -->
+<!-- MODAL: SUPERVISOR SECRET -->
 <div class="ov" id="Msecret">
   <div class="mdl">
     <button class="mclose" onclick="CM('Msecret')"><i class="fas fa-times"></i></button>
@@ -465,21 +433,21 @@ textarea,input{font-family:'Cairo',sans-serif}
   </div>
 </div>
 
-<!-- ═══ MODAL: RECEIVER SECRET ═══ -->
+<!-- MODAL: RECEIVER SECRET — same as supervisor -->
 <div class="ov" id="Mrecvsecret">
   <div class="mdl">
     <button class="mclose" onclick="CM('Mrecvsecret')"><i class="fas fa-times"></i></button>
     <div class="mhd">
-      <div class="mic" style="background:var(--cyan-l);border:1px solid rgba(8,145,178,.2)"><i class="fas fa-inbox" style="color:var(--cyan)"></i></div>
-      <div><div class="mtitle">نظام المستقبل</div><div class="msub">أدخل كلمة المرور</div></div>
+      <div class="mic" style="background:var(--amber-l);border:1px solid var(--amber-m)"><i class="fas fa-inbox" style="color:var(--amber)"></i></div>
+      <div><div class="mtitle">منصة الطلبات</div><div class="msub">أدخل كلمة المرور للوصول</div></div>
     </div>
     <div class="al" id="al-recsec"></div>
-    <div class="fg"><label class="fl"><i class="fas fa-key"></i> كلمة المرور</label><input type="password" class="fi" id="irecvsec" placeholder="••••••••" onkeydown="if(event.key==='Enter')chkRecvSec()"></div>
-    <button class="bp" onclick="chkRecvSec()"><i class="fas fa-unlock-alt"></i> دخول</button>
+    <div class="fg"><label class="fl"><i class="fas fa-key"></i> كلمة المرور السرية</label><input type="password" class="fi" id="irecvsec" placeholder="••••••••" onkeydown="if(event.key==='Enter')chkRecvSec()"></div>
+    <button class="ba" onclick="chkRecvSec()"><i class="fas fa-unlock-alt"></i> دخول منصة الطلبات</button>
   </div>
 </div>
 
-<!-- ═══ MODAL: DRIVER LOGIN ═══ -->
+<!-- MODAL: DRIVER -->
 <div class="ov" id="Mdriver">
   <div class="mdl">
     <button class="mclose" onclick="CM('Mdriver')"><i class="fas fa-times"></i></button>
@@ -514,7 +482,7 @@ textarea,input{font-family:'Cairo',sans-serif}
   </div>
 </div>
 
-<!-- ═══ MODAL: SUPERVISOR LOGIN ═══ -->
+<!-- MODAL: SUPERVISOR LOGIN -->
 <div class="ov" id="Msup">
   <div class="mdl">
     <button class="mclose" onclick="CM('Msup')"><i class="fas fa-times"></i></button>
@@ -542,7 +510,7 @@ textarea,input{font-family:'Cairo',sans-serif}
   </div>
 </div>
 
-<!-- ═══ MODAL: ADD REQUEST ═══ -->
+<!-- MODAL: ADD REQUEST -->
 <div class="ov" id="MaddReq">
   <div class="mdl">
     <button class="mclose" onclick="CM('MaddReq')"><i class="fas fa-times"></i></button>
@@ -557,7 +525,7 @@ textarea,input{font-family:'Cairo',sans-serif}
   </div>
 </div>
 
-<!-- ═══ MODAL: EDIT REQUEST ═══ -->
+<!-- MODAL: EDIT REQUEST -->
 <div class="ov" id="MeditReq">
   <div class="mdl">
     <button class="mclose" onclick="CM('MeditReq')"><i class="fas fa-times"></i></button>
@@ -574,7 +542,7 @@ textarea,input{font-family:'Cairo',sans-serif}
   </div>
 </div>
 
-<!-- ═══ MODAL: EDIT ACCOUNT ═══ -->
+<!-- MODAL: EDIT ACCOUNT -->
 <div class="ov" id="Meditacc">
   <div class="mdl">
     <button class="mclose" onclick="CM('Meditacc')"><i class="fas fa-times"></i></button>
@@ -590,12 +558,7 @@ textarea,input{font-family:'Cairo',sans-serif}
   </div>
 </div>
 
-<!-- ═══ MODAL: VIEW IMAGE ═══ -->
-<div class="ov" id="MviewImg" onclick="CM('MviewImg')" style="cursor:pointer">
-  <img id="bigImg" style="max-width:92vw;max-height:90vh;border-radius:12px;object-fit:contain" src="">
-</div>
-
-<!-- ═══ SELECT TAXI MODAL ═══ -->
+<!-- SELECT TAXI MODAL -->
 <div class="sel-taxi-modal" id="SelTaxiModal">
   <div class="sel-taxi-box">
     <div class="mhd" style="margin-bottom:12px">
@@ -611,7 +574,20 @@ textarea,input{font-family:'Cairo',sans-serif}
   </div>
 </div>
 
-<!-- ═══ DRIVER REQUEST NOTIFICATION ═══ -->
+<!-- SOS SUPERVISOR MODAL -->
+<div class="sos-sup-modal" id="SosSupModal">
+  <div class="sos-sup-box">
+    <div class="mhd" style="margin-bottom:16px">
+      <div class="mic" style="background:var(--red-l);border:1px solid var(--red-m)"><i class="fas fa-triangle-exclamation" style="color:var(--red)"></i></div>
+      <div><div class="mtitle" style="color:var(--red)">إرسال SOS لجميع السائقين</div><div class="msub">ستصل الرسالة فوراً لجميع السائقين المتصلين</div></div>
+    </div>
+    <div class="fg"><label class="fl"><i class="fas fa-comment"></i> رسالة الطوارئ</label><textarea class="fi" id="sos-sup-msg" rows="3" placeholder="مثال: انتبهوا، حادثة عند دوار المنارة..."></textarea></div>
+    <button style="width:100%;padding:13px;background:var(--red);border:none;border-radius:var(--r);color:#fff;font-size:14px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px" onclick="sendSosBroadcast()"><i class="fas fa-triangle-exclamation"></i> إرسال SOS لجميع السائقين</button>
+    <button style="width:100%;margin-top:8px;padding:10px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);color:var(--text2);font-size:13px;font-weight:700;cursor:pointer" onclick="document.getElementById('SosSupModal').classList.remove('on')">إلغاء</button>
+  </div>
+</div>
+
+<!-- DRIVER REQUEST NOTIFICATION -->
 <div class="req-notif" id="ReqNotif">
   <div class="req-card">
     <div class="req-icon">📦</div>
@@ -623,7 +599,12 @@ textarea,input{font-family:'Cairo',sans-serif}
       <div class="req-detail-row"><i class="fas fa-map-marker-alt"></i><span id="reqLocation">-</span></div>
       <div class="req-detail-row"><i class="fas fa-clock"></i><span id="reqTime">-</span></div>
     </div>
-    <div id="reqModNotice" style="display:none;background:var(--cyan-l);border:1px solid var(--cyan);border-radius:var(--r);padding:9px 12px;margin-bottom:12px;font-size:12px;color:var(--cyan);font-weight:700;text-align:right">
+    <!-- message from supervisor displayed here -->
+    <div id="reqMsgBox" class="req-msg-box" style="display:none">
+      <div class="req-msg-from"><i class="fas fa-user-tie" style="margin-left:4px"></i> رسالة من المشرف</div>
+      <div class="req-msg-text" id="reqMsgText"></div>
+    </div>
+    <div id="reqModNotice" style="display:none;" class="req-mod-notice">
       <i class="fas fa-edit" style="margin-left:5px"></i><span id="reqModText"></span>
     </div>
     <div class="req-btns">
@@ -638,13 +619,21 @@ textarea,input{font-family:'Cairo',sans-serif}
   </div>
 </div>
 
-<!-- ═══ DASHBOARD ═══ -->
+<!-- SOS BROADCAST NOTIFICATION (for drivers) -->
+<div class="sos-broadcast-notif" id="SosBroadcastNotif">
+  <div class="sos-broadcast-card">
+    <div class="sos-bc-icon">🆘</div>
+    <div class="sos-bc-title">تنبيه طوارئ من المشرف</div>
+    <div class="sos-bc-from" id="sosBcFrom">من: هادي التفال</div>
+    <div class="sos-bc-msg" id="sosBcMsg">-</div>
+    <button class="sos-bc-ack" onclick="ackSosBroadcast()"><i class="fas fa-check"></i> استلمت — شكراً</button>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
 <div id="PD">
   <nav class="dnav">
-    <div class="logo">
-      <div class="lgic">🚕</div>
-      <div><div class="lgn1">منصة الطلبات</div><div class="lgn2">هادي التفال</div></div>
-    </div>
+    <div class="logo"><div class="lgic">🚕</div><div><div class="lgn1">منصة الطلبات</div><div class="lgn2">هادي التفال</div></div></div>
     <div class="ntabs" id="ntabs"></div>
     <div class="navr">
       <div id="navav" class="navav">👤</div>
@@ -654,24 +643,17 @@ textarea,input{font-family:'Cairo',sans-serif}
   <div class="dbody" id="dbody"></div>
 </div>
 
-<!-- ═══ RECEIVER DASHBOARD ═══ -->
+<!-- RECEIVER = same as supervisor dashboard -->
 <div id="PR">
   <nav class="dnav">
-    <div class="logo">
-      <div class="lgic">📥</div>
-      <div><div class="lgn1">نظام المستقبل</div><div class="lgn2">منصة الطلبات</div></div>
-    </div>
+    <div class="logo"><div class="lgic">🚕</div><div><div class="lgn1">منصة الطلبات</div><div class="lgn2">هادي التفال</div></div></div>
+    <div class="ntabs" id="recv-ntabs"></div>
     <div class="navr">
+      <div id="recv-navav" class="navav sup-av">👨‍💼</div>
       <button class="bout" onclick="logoutRecv()"><i class="fas fa-right-from-bracket"></i> خروج</button>
     </div>
   </nav>
-  <div class="dbody">
-    <div class="panel">
-      <div class="atitle"><i class="fas fa-inbox"></i> صندوق الطلبات</div>
-      <button class="add-req-btn" style="margin:0 0 14px;width:100%" onclick="OM('MaddReq')"><i class="fas fa-plus"></i> إضافة طلب جديد</button>
-      <div id="recvList"><div style="text-align:center;padding:32px;color:var(--text4)"><div class="spin"></div></div></div>
-    </div>
-  </div>
+  <div class="dbody" id="recv-dbody"></div>
 </div>
 
 <div class="toasts" id="toasts"></div>
@@ -687,17 +669,17 @@ const shardIdx=id=>{let h=0;for(let i=0;i<id.length;i++)h=(h*31+id.charCodeAt(i)
 const shardLabel=i=>['خادم 1','خادم 2','خادم 3'][i];
 const shardClass=i=>['sh1','sh2','sh3'][i];
 
-/* ── State ── */
-let CU=null,CR=null,selDrv=null,allDrvs={};
+let CU=null,CR=null,allDrvs={};
 const LSNRS=[];
-let avData='',camStream=null,locWatcher=null;
+let avData='',locWatcher=null;
 let leafletMap=null,mapMarkers={};
-let pendingReq=null,reqTimeoutTimer=null,reqCountdownTimer=null;
+let reqCountdownTimer=null;
 let selTaxiId=null,selReqData=null;
-let shiftStartTime=null,shiftTimerInterval=null;
+let shiftStartTime=null;
 let pendingFlash={};
+let recvCU=null; // receiver user (same as supervisor)
 
-/* ── Audio ── */
+/* AUDIO */
 const AC=window.AudioContext||window.webkitAudioContext;
 let aCtx=null;
 const getAC=()=>{if(!aCtx&&AC)aCtx=new AC();return aCtx;};
@@ -716,7 +698,8 @@ const playSound=t=>{
       edit:[{f:660,d:.1,g:.6,t:0},{f:880,d:.1,g:.6,t:.12},{f:660,d:.1,g:.6,t:.24}],
       sos:[{f:1200,d:.1,g:1,t:0},{f:1200,d:.1,g:1,t:.15},{f:1200,d:.1,g:1,t:.3},{f:800,d:.3,g:1,t:.5},{f:800,d:.3,g:1,t:.9},{f:1200,d:.1,g:1,t:1.4},{f:1200,d:.1,g:1,t:1.55},{f:1200,d:.1,g:1,t:1.7}],
       notif:[{f:660,d:.18,g:.6,t:0},{f:880,d:.1,g:.4,t:.2}],
-      shift:[{f:523,d:.1,g:.7,t:0},{f:659,d:.1,g:.7,t:.12},{f:784,d:.1,g:.7,t:.24},{f:1047,d:.25,g:.7,t:.36}]
+      shift:[{f:523,d:.1,g:.7,t:0},{f:659,d:.1,g:.7,t:.12},{f:784,d:.1,g:.7,t:.24},{f:1047,d:.25,g:.7,t:.36}],
+      msg:[{f:440,d:.1,g:.6,t:0},{f:660,d:.15,g:.7,t:.12}]
     };
     (P[t]||P.notif).forEach(({f,d,g,t:s})=>{
       const o=ctx.createOscillator(),gn=ctx.createGain();
@@ -732,11 +715,9 @@ const playSound=t=>{
 
 const vibrate=p=>{if(navigator.vibrate)navigator.vibrate(p);};
 
-/* ── Helpers ── */
 const $=id=>document.getElementById(id);
 const H=(id,v)=>{const e=$(id);if(e)e.classList[v?'add':'remove']('h')};
 const fmt=ts=>new Date(ts).toLocaleTimeString('ar',{hour:'2-digit',minute:'2-digit'});
-const fmtDate=ts=>{const d=new Date(ts),t=new Date(),diff=(t-d)/864e5;if(diff<1)return'اليوم';if(diff<2)return'أمس';return d.toLocaleDateString('ar',{day:'numeric',month:'short'})};
 const esc=s=>(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 const eAt=s=>(s||'').replace(/'/g,'&#39;').replace(/"/g,'&quot;');
 const fmtElapsed=ms=>{const t=Math.floor(ms/1000),h=Math.floor(t/3600),m=Math.floor((t%3600)/60),s=t%60;return h>0?`${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`:`${m}:${String(s).padStart(2,'0')}`;};
@@ -751,45 +732,22 @@ window.toast=(t,ti,s='')=>{
   $('toasts').appendChild(el);
   setTimeout(()=>{el.style.cssText='opacity:0;transform:translateX(-110%);transition:.2s';setTimeout(()=>el.remove(),220)},3800);
 };
-
-/* ── Tabs ── */
+window.prevAv=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{const img=new Image();img.onload=()=>{const M=280,c=document.createElement('canvas');let w=img.width,h=img.height;if(w>h){if(w>M){h=Math.round(h*M/w);w=M;}}else{if(h>M){w=Math.round(w*M/h);h=M;}}c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);avData=c.toDataURL('image/jpeg',.78);const wrap=$('avpw');if(wrap)wrap.innerHTML=`<img src="${avData}" style="width:68px;height:68px;object-fit:cover;border-radius:50%">`;};img.src=ev.target.result;};r.readAsDataURL(f);};
 window.dtab=t=>{$('dt1').classList.toggle('on',t==='li');$('dt2').classList.toggle('on',t==='rg');H('dli',t!=='li');H('drg',t!=='rg');clrAl();if(t==='rg'){avData='';const w=$('avpw');if(w)w.innerHTML='📷';}};
 window.stab=t=>{$('st1').classList.toggle('on',t==='li');$('st2').classList.toggle('on',t==='rg');H('sli',t!=='li');H('srg',t!=='rg');clrAl();};
 window.chkSec=()=>{if($('isec').value==='12345132'){CM('Msecret');$('isec').value='';OM('Msup');}else{shAl('al-sec','err','كلمة المرور غير صحيحة');$('isec').value='';}};
-window.chkRecvSec=()=>{if($('irecvsec').value==='123451'){CM('Mrecvsecret');$('irecvsec').value='';initRecvDash();}else{shAl('al-recsec','err','كلمة المرور غير صحيحة');$('irecvsec').value='';}};
-window.prevAv=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{const img=new Image();img.onload=()=>{const M=280,c=document.createElement('canvas');let w=img.width,h=img.height;if(w>h){if(w>M){h=Math.round(h*M/w);w=M;}}else{if(h>M){w=Math.round(w*M/h);h=M;}}c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);avData=c.toDataURL('image/jpeg',.78);const wrap=$('avpw');if(wrap)wrap.innerHTML=`<img src="${avData}" style="width:68px;height:68px;object-fit:cover;border-radius:50%">`;};img.src=ev.target.result;};r.readAsDataURL(f);};
 
-/* ═══ RECEIVER DASHBOARD ═══ */
-const initRecvDash=()=>{$('PL').style.display='none';$('PR').style.display='block';listenRecvItems();};
-let recvItems=[];
-const listenRecvItems=()=>{const r=ref(dbs[0],'recvRequests');onValue(r,snap=>{recvItems=[];if(snap.exists())Object.entries(snap.val()).forEach(([id,d])=>recvItems.push({id,...d}));recvItems.sort((a,b)=>(b.ts||0)-(a.ts||0));renderRecvList();});LSNRS.push({r});};
-const renderRecvList=()=>{
-  const list=$('recvList');if(!list)return;
-  if(!recvItems.length){list.innerHTML=`<div style="text-align:center;padding:40px;color:var(--text4)"><i class="fas fa-inbox" style="font-size:38px;opacity:.2;display:block;margin-bottom:10px"></i>لا يوجد طلبات</div>`;return;}
-  list.innerHTML=recvItems.map(item=>`
-  <div class="reqcard" style="margin-bottom:10px">
-    <div class="reqcard-top">
-      <div class="reqcard-phone"><i class="fas fa-phone"></i>${esc(item.phone||'-')}</div>
-      <span class="sbadge sb-blue" style="font-size:10px">${fmt(item.ts||Date.now())}</span>
-    </div>
-    <div class="reqcard-details"><i class="fas fa-map-marker-alt"></i><span>${esc(item.details||'-')}</span></div>
-    <div class="reqcard-actions">
-      <button class="rca rca-primary" onclick="openSupFromRecv('${item.id}','${eAt(item.phone||'')}','${eAt(item.details||'')}')"><i class="fas fa-paper-plane"></i> إرسال للمشرف</button>
-      <button class="rca rca-red" onclick="delRecvItem('${item.id}')"><i class="fas fa-trash"></i></button>
-    </div>
-  </div>`).join('');
+/* RECEIVER = supervisor with same password */
+window.chkRecvSec=()=>{
+  if($('irecvsec').value==='12345132'){
+    CM('Mrecvsecret');$('irecvsec').value='';
+    OM('Msup'); // open supervisor login
+  } else {
+    shAl('al-recsec','err','كلمة المرور غير صحيحة');$('irecvsec').value='';
+  }
 };
-window.addReqItem=async()=>{
-  const phone=($('req-phone').value||'').trim(),details=($('req-details').value||'').trim();
-  if(!phone||!details)return shAl('al-req','err','يرجى ملء جميع الحقول');
-  await push(ref(dbs[0],'recvRequests'),{phone,details,ts:Date.now()});
-  $('req-phone').value='';$('req-details').value='';CM('MaddReq');toast('ok','تم إضافة الطلب','');
-};
-window.delRecvItem=async id=>{if(!confirm('حذف هذا الطلب؟'))return;await remove(ref(dbs[0],`recvRequests/${id}`));toast('ok','تم الحذف','');};
-window.openSupFromRecv=(id,phone,details)=>{window._recvSendPending={id,phone:phone.replace(/&#39;/g,"'"),details:details.replace(/&#39;/g,"'")};toast('info','جاهز للإرسال','سجل دخول كمشرف لإرسال الطلب للسائق');};
-window.logoutRecv=()=>{LSNRS.forEach(({r})=>{try{if(r&&typeof r.off==='function')r.off();else if(r)off(r);}catch(e){}});LSNRS.length=0;$('PR').style.display='none';$('PL').style.display='block';};
 
-/* ═══ DRIVER REGISTER ═══ */
+/* DRIVER REGISTER */
 window.dReg=async()=>{
   const nm=($('dr-nm').value||'').trim(),ph=($('dr-ph').value||'').trim(),car=($('dr-car').value||'').trim(),pw=$('dr-pw').value||'',pw2=$('dr-pw2').value||'';
   if(!nm||!ph||!pw||!car)return shAl('al-drv','err','يرجى ملء جميع الحقول');
@@ -801,15 +759,15 @@ window.dReg=async()=>{
   try{
     const checks=await Promise.all(dbs.map(d=>get(ref(d,`drivers/${phKey}`))));
     if(checks.some(s=>s.exists())){shAl('al-drv','err','رقم الهاتف مسجل مسبقاً');btn.innerHTML=orig;btn.disabled=false;return;}
-    await set(ref(dbs[sIdx],`drivers/${phKey}`),{name:nm,phone:ph,carNumber:car,password:pw,avatar:avData||'',status:'online',taxiColor:'green',deliveries:0,createdAt:Date.now(),role:'driver',lastSeen:Date.now(),shard:sIdx});
-    avData='';shAl('al-drv','ok',`✅ تم الإنشاء! سجل الدخول`);
+    await set(ref(dbs[sIdx],`drivers/${phKey}`),{name:nm,phone:ph,carNumber:car,password:pw,avatar:avData||'',status:'online',taxiColor:'green',deliveries:0,totalDeliveries:0,createdAt:Date.now(),role:'driver',lastSeen:Date.now(),shard:sIdx});
+    avData='';shAl('al-drv','ok','✅ تم الإنشاء! سجل الدخول');
     ['dr-nm','dr-ph','dr-car','dr-pw','dr-pw2'].forEach(id=>{const el=$(id);if(el)el.value='';});
     setTimeout(()=>dtab('li'),1800);
   }catch(err){shAl('al-drv','err','خطأ: '+(err.message||''));}
   btn.innerHTML=orig;btn.disabled=false;
 };
 
-/* ═══ DRIVER LOGIN ═══ */
+/* DRIVER LOGIN */
 window.dLogin=async()=>{
   const ph=($('dl-ph').value||'').trim(),pw=$('dl-pw').value||'',car=($('dl-car').value||'').trim();
   if(!ph||!pw||!car)return shAl('al-drv','err','يرجى ملء جميع الحقول');
@@ -824,16 +782,48 @@ window.dLogin=async()=>{
     if((found.carNumber||'').toLowerCase()!==car.toLowerCase()){shAl('al-drv','err','رقم السيارة غير صحيح');btn.innerHTML=orig;btn.disabled=false;return;}
     await update(ref(dbs[foundSIdx],`drivers/${phKey}`),{status:'online',lastSeen:Date.now(),taxiColor:'green'});
     CU={...found,id:phKey,_shard:foundSIdx};CR='driver';
-    if(found.shiftStart&&!found.shiftEnd){shiftStartTime=found.shiftStart;}
+    if(found.shiftStart&&!found.shiftEnd)shiftStartTime=found.shiftStart;
     CM('Mdriver');
     reqGPS(phKey,foundSIdx);
     initDash();
     toast('ok','أهلاً '+found.name,'🚕 جاهز لاستقبال الطلبات');
     listenDriverRequests(phKey);
+    listenSosBroadcast();
   }catch(err){shAl('al-drv','err','خطأ: '+(err.message||''));btn.innerHTML=orig;btn.disabled=false;}
 };
 
-/* ── Listen driver requests ── */
+/* Listen for SOS broadcasts (for drivers) */
+const listenSosBroadcast=()=>{
+  const r=ref(dbs[0],'sosBroadcast');
+  onValue(r,snap=>{
+    if(!snap.exists())return;
+    const entries=Object.entries(snap.val()).filter(([,d])=>!d.acked||(d.acked&&!d.acked[CU.id]));
+    if(!entries.length)return;
+    const [bid,bdata]=entries[entries.length-1];
+    if(bdata.acked&&bdata.acked[CU.id])return;
+    showSosBroadcast(bid,bdata);
+  });
+  LSNRS.push({r});
+};
+
+const showSosBroadcast=(bid,bdata)=>{
+  $('sosBcMsg').textContent=bdata.msg||'-';
+  $('sosBcFrom').textContent=`من: ${bdata.senderName||'المشرف'} • ${fmt(bdata.ts||Date.now())}`;
+  $('SosBroadcastNotif')._bid=bid;
+  $('SosBroadcastNotif').classList.add('on');
+  vibrate([500,100,500,100,500,100,500]);
+  playSound('sos');
+};
+
+window.ackSosBroadcast=async()=>{
+  const bid=$('SosBroadcastNotif')._bid;
+  if(bid&&CU){
+    await update(ref(dbs[0],`sosBroadcast/${bid}/acked`),{[CU.id]:true}).catch(()=>{});
+  }
+  $('SosBroadcastNotif').classList.remove('on');
+};
+
+/* Listen driver requests */
 const listenDriverRequests=drvId=>{
   const r=ref(dbs[0],`driverRequests/${drvId}`);
   onValue(r,snap=>{
@@ -854,18 +844,20 @@ const showDriverReq=(rid,rd)=>{
   $('reqTime').textContent=fmt(rd.ts||Date.now());
   $('reqRejectArea').classList.remove('on');
   $('reqRejectReason').value='';
+  // Show message from supervisor if present
+  const msgBox=$('reqMsgBox');
+  if(rd.message){msgBox.style.display='block';$('reqMsgText').textContent=rd.message;}
+  else{msgBox.style.display='none';}
   const modNotice=$('reqModNotice');
   if(rd.status==='modified'&&rd.prevPhone){
     modNotice.style.display='block';
     $('reqModText').textContent=`تم تعديل الطلب • الهاتف: ${rd.prevPhone} ← ${rd.phone} • الموقع: ${rd.prevDetails||'-'} ← ${rd.details}`;
-    playSound('edit');
+    playSound('edit');vibrate([200,100,200]);
   } else {
     modNotice.style.display='none';
-    playSound('request');
+    playSound('request');vibrate([300,100,300,100,300]);
   }
   $('ReqNotif').classList.add('on');
-  vibrate([300,100,300,100,300]);
-  // Countdown 60s
   let count=60;
   $('reqCountNum').textContent=count;
   clearInterval(reqCountdownTimer);
@@ -877,8 +869,7 @@ const showDriverReq=(rid,rd)=>{
       if($('ReqNotif').classList.contains('on')){
         await update(ref(dbs[0],`driverRequests/${CU.id}/${rid}`),{status:'no_response'});
         await push(ref(dbs[0],'notifications'),{type:'timeout',driverId:CU.id,driverName:CU.name,reqId:rid,msg:`⏰ السائق ${CU.name} لم يرد خلال دقيقة`,ts:Date.now(),read:false});
-        $('ReqNotif').classList.remove('on');
-        toast('warn','انتهى الوقت','تم إرسال إشعار للمشرف');
+        $('ReqNotif').classList.remove('on');toast('warn','انتهى الوقت','تم إرسال إشعار للمشرف');
       }
     }
   },1000);
@@ -906,7 +897,7 @@ window.submitReject=async()=>{
   vibrate([100,50,100]);playSound('reject');toast('info','تم رفض الطلب','');
 };
 
-/* ── GPS ── */
+/* GPS */
 const reqGPS=(id,sIdx)=>{
   if(!navigator.geolocation)return;
   navigator.geolocation.getCurrentPosition(async pos=>{
@@ -920,7 +911,7 @@ const startGPS=(id,sIdx)=>{
   let lLat=null,lLng=null;
   locWatcher=setInterval(()=>{
     navigator.geolocation.getCurrentPosition(async pos=>{
-      const {latitude:lat,longitude:lng}=pos.coords;
+      const{latitude:lat,longitude:lng}=pos.coords;
       if(lLat!==null){const d=Math.sqrt((lat-lLat)**2+(lng-lLng)**2)*111000;if(d<10)return;}
       lLat=lat;lLng=lng;
       await update(ref(dbs[sIdx],`drivers/${id}`),{lat,lng,locUpdated:Date.now()}).catch(()=>{});
@@ -928,7 +919,6 @@ const startGPS=(id,sIdx)=>{
   },10000);
 };
 
-/* ── Status ── */
 const updStatus=async s=>{
   if(!CU)return;
   const cm={'online':'green','busy':'red','break':'orange','pray':'orange','waiting':'orange','near':'orange','offline':'green'};
@@ -937,7 +927,7 @@ const updStatus=async s=>{
   CU.taxiColor=c;CU.status=s;
 };
 
-/* ═══ SUPERVISOR REGISTER / LOGIN ═══ */
+/* SUPERVISOR REGISTER / LOGIN */
 window.sReg=async()=>{
   const nm=($('sr-nm').value||'').trim(),em=($('sr-em').value||'').trim(),pw=$('sr-pw').value||'',pw2=$('sr-pw2').value||'';
   if(!nm||!em||!pw)return shAl('al-sup','err','يرجى ملء جميع الحقول');
@@ -953,6 +943,7 @@ window.sReg=async()=>{
   }catch(err){shAl('al-sup','err','خطأ: '+(err.message||''));}
   btn.innerHTML=orig;btn.disabled=false;
 };
+
 window.sLogin=async()=>{
   const em=($('sl-em').value||'').trim(),pw=$('sl-pw').value||'';
   if(!em||!pw)return shAl('al-sup','err','يرجى ملء جميع الحقول');
@@ -962,7 +953,8 @@ window.sLogin=async()=>{
   try{
     const snap=await get(ref(dbs[0],`supervisors/${key}`));
     if(!snap.exists()||snap.val().password!==pw){shAl('al-sup','err','بيانات غير صحيحة');btn.innerHTML=orig;btn.disabled=false;return;}
-    const d=snap.val();CU={...d,id:key};CR='supervisor';CM('Msup');initDash();
+    const d=snap.val();CU={...d,id:key};CR='supervisor';CM('Msup');
+    initDash();
     toast('ok','مرحباً '+d.name,'👨‍💼 منصة الطلبات');
     listenSupNotifs();
   }catch(err){shAl('al-sup','err','خطأ: '+(err.message||''));btn.innerHTML=orig;btn.disabled=false;}
@@ -974,13 +966,13 @@ const listenSupNotifs=()=>{
     if(!snap.exists())return;
     const unread=Object.values(snap.val()).filter(n=>!n.read).length;
     const b=$('notif-badge');if(b){b.textContent=unread;b.style.display=unread>0?'inline':'none';}
-    const rejects=Object.values(snap.val()).filter(n=>!n.read&&(n.type==='reject'||n.type==='timeout'));
-    if(rejects.length>0){vibrate([200,100,200]);playSound('notif');}
+    const urgent=Object.values(snap.val()).filter(n=>!n.read&&(n.type==='reject'||n.type==='timeout'||n.type==='sos'));
+    if(urgent.length>0){vibrate([200,100,200]);playSound('notif');}
   });
   LSNRS.push({r});
 };
 
-/* ═══ INIT DASHBOARD ═══ */
+/* INIT DASHBOARD */
 const initDash=()=>{
   $('PL').style.display='none';$('PD').style.display='block';
   const nav=$('navav');
@@ -993,6 +985,7 @@ const initDash=()=>{
       <button class="ntab on" id="nt-reqs" onclick="nTab('reqs')"><i class="fas fa-inbox"></i><span> الطلبات</span></button>
       <button class="ntab" id="nt-map" onclick="nTab('map')"><i class="fas fa-map-location-dot"></i><span> موقعي</span></button>
       <button class="ntab" id="nt-reports" onclick="nTab('reports')"><i class="fas fa-chart-bar"></i><span> تقاريري</span></button>
+      <button class="ntab" id="nt-support" onclick="nTab('support')"><i class="fas fa-headset"></i><span> دعم فني</span></button>
       <button class="ntab" id="nt-profile" onclick="nTab('profile')"><i class="fas fa-user-cog"></i><span> حسابي</span></button>`;
     renderDriverReqs();
   } else {
@@ -1002,6 +995,7 @@ const initDash=()=>{
       <button class="ntab" id="nt-notifs" onclick="nTab('notifs')"><i class="fas fa-bell"></i><span> التنبيهات <span class="ntab-badge" id="notif-badge" style="display:none">0</span></span></button>
       <button class="ntab" id="nt-reports" onclick="nTab('reports')"><i class="fas fa-chart-bar"></i><span> التقارير</span></button>
       <button class="ntab" id="nt-accounts" onclick="nTab('accounts')"><i class="fas fa-users"></i><span> السائقون</span></button>
+      <button class="ntab" id="nt-support" onclick="nTab('support')"><i class="fas fa-headset"></i><span> دعم فني</span></button>
       <button class="ntab" id="nt-profile" onclick="nTab('profile')"><i class="fas fa-user-cog"></i><span> حسابي</span></button>`;
     renderSupReqs();
     loadSupDrivers();
@@ -1011,13 +1005,14 @@ const initDash=()=>{
 let _tabBusy=false;
 window.nTab=t=>{
   if(_tabBusy)return;_tabBusy=true;
-  document.querySelectorAll('.ntab').forEach(b=>b.classList.remove('on','sup-on'));
+  document.querySelectorAll('#ntabs .ntab').forEach(b=>b.classList.remove('on','sup-on'));
   const el=$('nt-'+t);if(el)el.classList.add(CR==='supervisor'?'sup-on':'on');
   clrListeners(true);
   if(CR==='driver'){
     if(t==='reqs')renderDriverReqs();
     else if(t==='map')renderDriverMap();
     else if(t==='reports')renderDriverReports();
+    else if(t==='support')renderSupport('driver');
     else renderDProfile();
   } else {
     if(t==='reqs')renderSupReqs();
@@ -1025,6 +1020,7 @@ window.nTab=t=>{
     else if(t==='notifs')renderNotifs();
     else if(t==='reports')renderSupReports();
     else if(t==='accounts')renderAccs();
+    else if(t==='support')renderSupport('supervisor');
     else renderSProfile();
   }
   setTimeout(()=>{_tabBusy=false;},400);
@@ -1033,12 +1029,10 @@ window.nTab=t=>{
 const clrListeners=(keepDrvs=false)=>{
   LSNRS.forEach(({r,keep})=>{if(keepDrvs&&keep)return;try{if(r&&typeof r.off==='function')r.off();else if(r)off(r);}catch(e){}});
   if(keepDrvs){const kept=LSNRS.filter(l=>l.keep);LSNRS.length=0;kept.forEach(l=>LSNRS.push(l));}else{LSNRS.length=0;}
-  selDrv=null;
   if(leafletMap){try{leafletMap.remove();}catch(e){}leafletMap=null;mapMarkers={};}
 };
 const addL=(r,keep=false)=>LSNRS.push({r,keep});
 
-/* ═══ STATUS HELPERS ═══ */
 const getTCS=d=>{
   if(d.taxiColor==='red'||d.status==='busy')return{border:'#DC2626',dot:'#DC2626',label:'مشغول 🔴',cls:'sb-red'};
   if(d.taxiColor==='orange'||d.status==='break'||d.status==='pray'||d.status==='waiting'||d.status==='near')return{border:'#EA580C',dot:'#EA580C',label:d.status==='near'?'قريب ⚠️':'بالانتظار 🟠',cls:'sb-orange'};
@@ -1046,9 +1040,8 @@ const getTCS=d=>{
   return{border:'#94A3B8',dot:'#94A3B8',label:'غير متصل ⚫',cls:'sb-gray'};
 };
 
-/* ═══ LOAD ALL DRIVERS (persistent listener) ═══ */
 const loadSupDrivers=()=>{
-  if(LSNRS.some(l=>l.keep))return; // already loaded
+  if(LSNRS.some(l=>l.keep))return;
   allDrvs={};
   dbs.forEach((sdb,sIdx)=>{
     const r=ref(sdb,'drivers');
@@ -1060,7 +1053,7 @@ const loadSupDrivers=()=>{
   });
 };
 
-/* ═══ DRIVER REQUESTS VIEW ═══ */
+/* DRIVER REQUESTS VIEW */
 const renderDriverReqs=()=>{
   $('dbody').innerHTML=`
   <div class="dlayout">
@@ -1068,9 +1061,10 @@ const renderDriverReqs=()=>{
       <div class="pcard">
         <div class="pav">${CU.avatar?`<img src="${CU.avatar}">`:'🚕'}</div>
         <div class="pname">${esc(CU.name)}</div>
-        <div class="prole" style="background:var(--primary-l);color:var(--primary);border:1px solid var(--primary-m)">🚕 سائق تكسي</div>
-        <div style="margin:5px 0"><span class="sbadge" id="drvStatus">${getStatusBadge(CU)}</span></div>
-        <div style="font-size:11px;color:var(--text3);margin-top:4px"><i class="fas fa-car" style="margin-left:3px"></i>${esc(CU.carNumber||'-')}</div>
+        <div class="prole" style="display:inline-block;font-size:10px;padding:3px 10px;border-radius:20px;background:var(--primary-l);color:var(--primary);border:1px solid var(--primary-m)">🚕 سائق تكسي</div>
+        <div style="margin:5px 0"><span id="drvStatusBadge">${getStatusBadge(CU)}</span></div>
+        <div style="font-size:11px;color:var(--text3);margin-top:2px"><i class="fas fa-car" style="margin-left:3px"></i>${esc(CU.carNumber||'-')}</div>
+        <div style="margin-top:6px"><span class="deliv-badge"><i class="fas fa-box"></i> ${CU.totalDeliveries||CU.deliveries||0} توصيلة</span></div>
       </div>
       <div class="ssec">
         <div class="slbl"><i class="fas fa-bolt"></i> إجراءات سريعة</div>
@@ -1079,12 +1073,12 @@ const renderDriverReqs=()=>{
           <button class="qbtn" onclick="drvAct('end')"><i class="fas fa-stop-circle" style="color:var(--red)"></i>إنهاء الشيفت</button>
           <button class="qbtn" onclick="drvAct('break')"><i class="fas fa-coffee" style="color:var(--amber)"></i>استراحة</button>
           <button class="qbtn" onclick="drvAct('pray')"><i class="fas fa-mosque" style="color:#7C3AED"></i>صلاة</button>
-          <button class="qbtn dsb-waiting" onclick="drvStatusBtn('waiting')"><i class="fas fa-hourglass-half"></i>بالانتظار</button>
-          <button class="qbtn dsb-near" onclick="drvStatusBtn('near')"><i class="fas fa-map-pin" style="color:var(--amber)"></i>قريب</button>
-          <button class="qbtn sos" onclick="doSOS()"><i class="fas fa-triangle-exclamation"></i> 🆘 طوارئ SOS</button>
+          <button class="qbtn" style="background:var(--orange-l);border-color:var(--orange-m);color:var(--orange)" onclick="drvStatusBtn('waiting')"><i class="fas fa-hourglass-half"></i>بالانتظار</button>
+          <button class="qbtn" style="background:var(--amber-l);border-color:var(--amber-m);color:var(--amber)" onclick="drvStatusBtn('near')"><i class="fas fa-map-pin"></i>قريب</button>
+          <button class="qbtn sos" onclick="doDriverSOS()"><i class="fas fa-triangle-exclamation"></i> 🆘 طوارئ SOS</button>
         </div>
         <div class="fg" style="margin-top:10px">
-          <input type="text" class="fi" id="custom-excuse" placeholder="عذر مخصص..." style="font-size:12px">
+          <input type="text" class="fi" id="custom-excuse" placeholder="رسالة مخصصة..." style="font-size:12px">
           <button class="bp" style="margin-top:6px;padding:8px;font-size:12px" onclick="sendExcuse()"><i class="fas fa-paper-plane"></i> إرسال</button>
         </div>
       </div>
@@ -1104,9 +1098,7 @@ const renderDriverReqs=()=>{
   listenDriverReqsList();
 };
 
-const getStatusBadge=d=>{
-  const cs=getTCS(d);return`<span class="sbadge ${cs.cls}"><span class="pulse-dot pulse-green" style="background:${cs.dot}"></span>${cs.label}</span>`;
-};
+const getStatusBadge=d=>{const cs=getTCS(d);return`<span class="sbadge ${cs.cls}"><span class="pdot pd-green" style="background:${cs.dot}"></span>${cs.label}</span>`;};
 
 const listenDriverReqsList=()=>{
   const r=ref(dbs[0],`driverRequests/${CU.id}`);
@@ -1121,33 +1113,30 @@ const listenDriverReqsList=()=>{
 };
 
 const mkDriverReqCard=(id,req)=>{
-  const statusMap={pending:'rc-pending',accepted:'rc-accepted',rejected:'rc-rejected',waiting:'rc-waiting',near:'rc-near',cancelled:'rc-cancelled',modified:'rc-pending',no_response:'rc-rejected'};
+  const statusMap={pending:'rc-pending',accepted:'rc-accepted',rejected:'rc-rejected',waiting:'rc-waiting',near:'rc-near',cancelled:'rc-cancelled',modified:'rc-pending',no_response:'rc-rejected',done:'rc-done'};
   const cls=statusMap[req.status]||'';
-  const noResp=req.status==='pending'&&req.ts&&(Date.now()-req.ts)>60000?'req-no-resp':'';
-  const statusLabel={pending:'⏳ في الانتظار',accepted:'✅ تم القبول',rejected:'❌ مرفوض',waiting:'🕐 بالانتظار',near:'⚠️ قريب',cancelled:'🚫 ملغي',modified:'✏️ تم التعديل',no_response:'⏰ لم يُستجب'}[req.status]||req.status;
-  const modDiff=req.status==='modified'&&req.prevPhone?`
-  <div class="mod-diff">
-    <div class="mod-old"><i class="fas fa-times-circle"></i>${esc(req.prevPhone)} • ${esc(req.prevDetails||'')}</div>
-    <div class="mod-new"><i class="fas fa-check-circle"></i>${esc(req.phone)} • ${esc(req.details||'')}</div>
-  </div>`:'';
-  const confirmBtn=req.status==='modified'&&!req.driverConfirmed?`<div class="mod-confirm-needed"><i class="fas fa-bell"></i>يرجى تأكيد استلام التعديل</div><button class="rca rca-green" onclick="confirmMod('${id}')"><i class="fas fa-check"></i> تأكيد استلام التعديل</button>`:'';
-  const cancelledMsg=req.status==='cancelled'?`<div style="padding:8px;background:var(--red-l);border-radius:var(--r);font-size:12px;color:var(--red);font-weight:700;margin-bottom:8px"><i class="fas fa-ban" style="margin-left:5px"></i>تم إلغاء الطلب من قبل الزبون</div>`:'';
+  const noResp=req.status==='pending'&&req.ts&&(Date.now()-req.ts)>60000?'no-resp-flash':'';
+  const statusLabel={pending:'⏳ في الانتظار',accepted:'✅ تم القبول',rejected:'❌ مرفوض',waiting:'🕐 بالانتظار',near:'⚠️ قريب',cancelled:'🚫 ملغي',modified:'✏️ تم التعديل',no_response:'⏰ لم يُستجب',done:'✅ تم التوصيل'}[req.status]||req.status;
+  const modDiff=req.status==='modified'&&req.prevPhone?`<div class="mod-diff"><div class="mod-old"><i class="fas fa-times-circle"></i>${esc(req.prevPhone)} • ${esc(req.prevDetails||'')}</div><div class="mod-new"><i class="fas fa-check-circle"></i>${esc(req.phone)} • ${esc(req.details||'')}</div></div>`:'';
+  const confirmBtn=req.status==='modified'&&!req.driverConfirmed?`<div class="mod-notice"><i class="fas fa-bell"></i>يرجى تأكيد استلام التعديل</div><button class="rca rca-green" onclick="confirmMod('${id}')"><i class="fas fa-check"></i> تأكيد استلام التعديل</button>`:'';
+  const cancelledMsg=req.status==='cancelled'?`<div class="cancel-msg"><i class="fas fa-ban"></i>تم إلغاء الطلب من قبل الزبون</div>`:'';
+  const msgShow=req.message?`<div class="req-msg-box" style="margin-bottom:9px"><div class="req-msg-from"><i class="fas fa-user-tie" style="margin-left:4px"></i>رسالة المشرف</div><div class="req-msg-text">${esc(req.message)}</div></div>`:'';
   const waitingBtn=(req.status==='accepted')&&!req.doneDelivery?`
     <button class="rca rca-orange" onclick="setDrvWaiting('${id}')"><i class="fas fa-hourglass-half"></i> بالانتظار</button>
     <button class="rca rca-amber" onclick="setDrvNear('${id}')"><i class="fas fa-map-pin"></i> قريب</button>
     <button class="rca rca-green" onclick="doneDelivery('${id}')"><i class="fas fa-flag-checkered"></i> تم التوصيل</button>`:'';
   return`<div class="reqcard ${cls} ${noResp}" id="dreq-${id}">
-    <div class="reqcard-top">
-      <div class="reqcard-phone"><i class="fas fa-phone"></i>${esc(req.phone||'-')}</div>
-      <div class="reqcard-times">
-        <span class="sbadge ${req.status==='accepted'?'sb-green':req.status==='rejected'?'sb-red':req.status==='cancelled'?'sb-gray':'sb-amber'}" style="font-size:10px">${statusLabel}</span>
+    <div class="reqtop">
+      <div class="reqphone"><i class="fas fa-phone"></i>${esc(req.phone||'-')}</div>
+      <div class="reqtimes">
+        <span class="sbadge ${req.status==='accepted'?'sb-green':req.status==='rejected'?'sb-red':req.status==='cancelled'?'sb-gray':req.status==='done'?'sb-green':'sb-amber'}" style="font-size:10px">${statusLabel}</span>
         <span class="reqtime"><i class="fas fa-clock"></i>${fmt(req.ts||Date.now())}</span>
         ${req.acceptedAt?`<span class="reqtime" style="color:var(--green)"><i class="fas fa-check"></i>قبول: ${fmt(req.acceptedAt)}</span>`:''}
       </div>
     </div>
-    <div class="reqcard-details"><i class="fas fa-map-marker-alt"></i><span>${esc(req.details||'-')}</span></div>
-    ${modDiff}${cancelledMsg}${confirmBtn}
-    <div class="reqcard-actions">${waitingBtn}</div>
+    <div class="reqdetails"><i class="fas fa-map-marker-alt"></i><span>${esc(req.details||'-')}</span></div>
+    ${msgShow}${modDiff}${cancelledMsg}${confirmBtn}
+    <div class="reqacts">${waitingBtn}</div>
   </div>`;
 };
 
@@ -1169,16 +1158,19 @@ window.confirmMod=async id=>{
 };
 window.doneDelivery=async id=>{
   if(!CU)return;
-  const count=(CU.deliveries||0)+1;
-  await update(ref(dbs[CU._shard||0],`drivers/${CU.id}`),{taxiColor:'green',status:'online',deliveries:count});
-  CU.deliveries=count;CU.taxiColor='green';CU.status='online';
+  const count=(CU.totalDeliveries||CU.deliveries||0)+1;
+  await update(ref(dbs[CU._shard||0],`drivers/${CU.id}`),{taxiColor:'green',status:'online',totalDeliveries:count,deliveries:count});
+  CU.totalDeliveries=count;CU.taxiColor='green';CU.status='online';
   await update(ref(dbs[0],`driverRequests/${CU.id}/${id}`),{status:'done',doneAt:Date.now(),doneDelivery:true});
   const today=new Date().toISOString().split('T')[0];
   const lRef=ref(dbs[CU._shard||0],`drivers/${CU.id}/dailyReport/${today}`);
   const snap=await get(lRef);const prev=snap.exists()?snap.val():{deliveries:0};
   await set(lRef,{...prev,deliveries:(prev.deliveries||0)+1,lastUpdate:Date.now()});
-  await push(ref(dbs[0],'notifications'),{type:'done',driverId:CU.id,driverName:CU.name,msg:`📦 السائق ${CU.name} أتم توصيل الطلب`,ts:Date.now(),read:false});
-  toast('ok','تم التوصيل! 🎉',`إجمالي طلباتك: ${count}`);playSound('accept');
+  await push(ref(dbs[0],'notifications'),{type:'done',driverId:CU.id,driverName:CU.name,msg:`📦 السائق ${CU.name} أتم توصيل الطلب — إجمالي: ${count}`,ts:Date.now(),read:false});
+  toast('ok','تم التوصيل! 🎉',`إجمالي توصيلاتك: ${count}`);playSound('accept');
+  // update badge in sidebar
+  const b=$('drvStatusBadge');if(b)b.innerHTML=getStatusBadge(CU);
+  const db=document.querySelector('.deliv-badge');if(db)db.innerHTML=`<i class="fas fa-box"></i> ${count} توصيلة`;
 };
 
 window.drvAct=async t=>{
@@ -1203,7 +1195,7 @@ window.drvAct=async t=>{
     await update(ref(dbs[CU._shard||0],`drivers/${CU.id}`),{shiftStart:null,shiftEnd:now});
     shiftStartTime=null;toast('ok','انتهى الشيفت 🏁',`مدة: ${dur} دقيقة`);
   } else {toast('ok','تم الإرسال ✅','');}
-  await push(ref(dbs[0],`notifications`),{type:'info',driverId:CU.id,driverName:CU.name,msg:`${msgs[t]} — ${CU.name}`,ts:Date.now(),read:false});
+  await push(ref(dbs[0],'notifications'),{type:'info',driverId:CU.id,driverName:CU.name,msg:`${msgs[t]} — ${CU.name}`,ts:Date.now(),read:false});
 };
 window.drvStatusBtn=async s=>{
   await updStatus(s);
@@ -1214,16 +1206,16 @@ window.drvStatusBtn=async s=>{
 window.sendExcuse=async()=>{
   const e=($('custom-excuse').value||'').trim();if(!e)return;
   await push(ref(dbs[0],'notifications'),{type:'info',driverId:CU.id,driverName:CU.name,msg:`📝 ${e} — ${CU.name}`,ts:Date.now(),read:false});
-  $('custom-excuse').value='';toast('ok','تم الإرسال','');
+  $('custom-excuse').value='';toast('ok','تم الإرسال','');playSound('msg');
 };
-window.doSOS=async()=>{
+window.doDriverSOS=async()=>{
   if(!confirm('إرسال نداء طوارئ للمشرف؟'))return;
   await push(ref(dbs[0],'notifications'),{type:'sos',driverId:CU.id,driverName:CU.name,msg:`🆘 SOS! السائق ${CU.name} يحتاج مساعدة فورية!`,ts:Date.now(),read:false,urgent:true});
   await push(ref(dbs[0],'alerts'),{type:'sos',driverId:CU.id,driverName:CU.name,ts:Date.now(),resolved:false});
   vibrate([500,100,500,100,500]);playSound('sos');toast('err','🆘 SOS أُرسل','');
 };
 
-/* ═══ DRIVER MAP VIEW ═══ */
+/* DRIVER MAP */
 const renderDriverMap=()=>{
   $('dbody').innerHTML=`<div style="height:calc(100vh - 60px);display:flex;flex-direction:column;position:relative">
     <div style="padding:12px 16px;background:var(--bg);border-bottom:1px solid var(--border);font-size:13px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px;flex-shrink:0">
@@ -1234,44 +1226,79 @@ const renderDriverMap=()=>{
   </div>`;
   requestAnimationFrame(()=>requestAnimationFrame(()=>{
     const el=$('driverMap');if(!el||leafletMap)return;
-    try{
-      leafletMap=L.map('driverMap').setView([32.31,35.03],12);
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:19}).addTo(leafletMap);
-    }catch(e){return;}
+    try{leafletMap=L.map('driverMap').setView([32.31,35.03],12);L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:19}).addTo(leafletMap);}catch(e){return;}
     const r=ref(dbs[CU._shard||0],`drivers/${CU.id}`);
     onValue(r,snap=>{if(!leafletMap||!snap.exists())return;const d=snap.val();if(d.lat&&d.lng)updateMarker(CU.id,d,CU._shard||0);});
     addL(r);
   }));
 };
 
-/* ═══ SUPERVISOR REQUESTS ═══ */
+/* SUPERVISOR REQUESTS — includes map on right side */
 const renderSupReqs=()=>{
   $('dbody').innerHTML=`<div class="sup-req-layout">
-    <div class="sup-req-list-col">
+    <div class="sup-req-col">
       <div class="col-hd">
         <div class="col-hd-title"><i class="fas fa-inbox" style="color:var(--primary)"></i> الطلبات الواردة</div>
-        <button class="btn-primary" style="padding:7px 12px;font-size:11px" onclick="OM('MaddReq')"><i class="fas fa-plus"></i> جديد</button>
+        <div style="display:flex;gap:6px">
+          <button class="btn-primary" style="padding:7px 12px;font-size:11px" onclick="OM('MaddReq')"><i class="fas fa-plus"></i> جديد</button>
+          <button style="padding:7px 12px;background:var(--red-l);border:1px solid var(--red-m);border-radius:var(--r);color:var(--red);font-size:11px;font-weight:700;cursor:pointer" onclick="OM('SosSupModal')"><i class="fas fa-triangle-exclamation"></i> SOS</button>
+        </div>
       </div>
       <div class="col-scroll" id="supReqList">
         <div style="text-align:center;padding:32px;color:var(--text4)"><div class="spin"></div></div>
       </div>
     </div>
-    <div class="sup-req-main">
-      <div class="ststrip">
+    <div class="sup-req-main" style="display:flex;flex-direction:column;overflow:hidden">
+      <div class="ststrip" style="flex-shrink:0">
         <div class="st"><div class="stic" style="background:var(--primary-l)"><i class="fas fa-users" style="color:var(--primary)"></i></div><div><div class="stv" id="sTot">0</div><div class="stl">سائقون</div></div></div>
         <div class="st"><div class="stic" style="background:var(--green-l)"><i class="fas fa-circle-dot" style="color:var(--green)"></i></div><div><div class="stv" id="sOn">0</div><div class="stl">متاح</div></div></div>
         <div class="st"><div class="stic" style="background:var(--red-l)"><i class="fas fa-car" style="color:var(--red)"></i></div><div><div class="stv" id="sBusy">0</div><div class="stl">مشغول</div></div></div>
         <div class="st"><div class="stic" style="background:var(--orange-l)"><i class="fas fa-hourglass-half" style="color:var(--orange)"></i></div><div><div class="stv" id="sBreak">0</div><div class="stl">استراحة</div></div></div>
         <div class="st"><div class="stic" style="background:var(--amber-l)"><i class="fas fa-map-pin" style="color:var(--amber)"></i></div><div><div class="stv" id="sNear">0</div><div class="stl">قريب</div></div></div>
       </div>
-      <div class="panel" style="height:calc(100vh - 60px - 58px - 1px)" id="supNotifReqs">
-        <div class="atitle"><i class="fas fa-bell"></i> تنبيهات الطلبات</div>
-        <div id="supNotifList"><div style="text-align:center;padding:24px;color:var(--text4)">لا يوجد تنبيهات</div></div>
+      <!-- MAP EMBEDDED IN REQ PANEL -->
+      <div style="position:relative;height:220px;flex-shrink:0;border-bottom:1px solid var(--border)">
+        <div id="reqMapInline" style="height:100%;width:100%"></div>
+        <div class="map-legend" style="bottom:8px;right:8px;padding:7px 10px;font-size:10px">
+          <div class="map-legend-item"><div class="leg-dot" style="background:#059669"></div>متاح</div>
+          <div class="map-legend-item"><div class="leg-dot" style="background:#EA580C"></div>انتظار</div>
+          <div class="map-legend-item"><div class="leg-dot" style="background:#DC2626"></div>مشغول</div>
+        </div>
+      </div>
+      <!-- NOTIFS -->
+      <div style="flex:1;overflow-y:auto;padding:12px" id="supNotifReqs">
+        <div style="font-family:'Tajawal',sans-serif;font-size:14px;font-weight:900;margin-bottom:10px;display:flex;align-items:center;gap:7px;color:var(--text)"><i class="fas fa-bell" style="color:var(--amber)"></i> تنبيهات الطلبات</div>
+        <div id="supNotifList"><div style="text-align:center;padding:20px;color:var(--text4);font-size:12px">لا يوجد تنبيهات</div></div>
       </div>
     </div>
   </div>`;
-  loadSupReqList();loadSupNotifList();
-  listenDriverStats();
+  loadSupReqList();loadSupNotifList();listenDriverStats();
+  // Init inline map
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    const el=$('reqMapInline');if(!el)return;
+    try{
+      const inlineMap=L.map('reqMapInline',{zoomControl:false,scrollWheelZoom:false}).setView([32.31,35.03],11);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'',maxZoom:19}).addTo(inlineMap);
+      // Store inline map to update markers
+      window._inlineMap=inlineMap;window._inlineMarkers={};
+      // Listen to all drivers
+      dbs.forEach((sdb,sIdx)=>{
+        const r=ref(sdb,'drivers');
+        onValue(r,snap=>{
+          if(!snap.exists())return;
+          Object.entries(snap.val()).forEach(([id,d])=>{
+            if(!d.lat||!d.lng)return;
+            const cs=getTCS(d);
+            const avH=d.avatar?`<img src="${d.avatar}" style="width:30px;height:30px;border-radius:50%;object-fit:cover">`:`<span style="font-size:15px">🚕</span>`;
+            const ic=L.divIcon({html:`<div style="display:flex;flex-direction:column;align-items:center;gap:1px"><div style="width:32px;height:32px;border-radius:50%;overflow:hidden;border:2.5px solid ${cs.border};background:#fff;display:flex;align-items:center;justify-content:center">${avH}</div><div style="background:rgba(15,23,42,.82);color:#fff;font-size:8px;font-weight:700;padding:1px 5px;border-radius:4px;white-space:nowrap;font-family:'Cairo',sans-serif">${d.name}</div></div>`,className:'',iconSize:[40,50],iconAnchor:[20,50]});
+            if(window._inlineMarkers[id]){window._inlineMarkers[id].setLatLng([d.lat,d.lng]);window._inlineMarkers[id].setIcon(ic);}
+            else{window._inlineMarkers[id]=L.marker([d.lat,d.lng],{icon:ic}).addTo(inlineMap).bindPopup(`<div style="font-family:'Cairo',sans-serif;font-size:12px;text-align:center"><b>${d.name}</b><br><span style="color:${cs.dot}">${cs.label}</span><br>${d.phone||''}</div>`);}
+          });
+        });
+        addL(r);
+      });
+    }catch(e){console.warn('inline map error',e);}
+  }));
 };
 
 const listenDriverStats=()=>{
@@ -1299,18 +1326,19 @@ const loadSupReqList=()=>{
     if(!snap.exists()){list.innerHTML=`<div style="text-align:center;padding:32px;color:var(--text4)"><i class="fas fa-inbox" style="font-size:32px;opacity:.2;display:block;margin-bottom:8px"></i>لا يوجد طلبات</div>`;return;}
     const items=Object.entries(snap.val()).sort((a,b)=>(b[1].ts||0)-(a[1].ts||0));
     list.innerHTML=items.map(([id,d])=>mkSupReqCard(id,d)).join('');
-    Object.keys(pendingFlash).forEach(id=>{const el=$(`sreq-${id}`);if(el)el.classList.add('req-no-resp');});
+    Object.keys(pendingFlash).forEach(id=>{const el=$(`sreq-${id}`);if(el)el.classList.add('no-resp-flash');});
   });
   addL(r);
 };
+
 const mkSupReqCard=(id,d)=>`
   <div class="reqcard" id="sreq-${id}" style="margin-bottom:9px">
-    <div class="reqcard-top">
-      <div class="reqcard-phone"><i class="fas fa-phone"></i>${esc(d.phone||'-')}</div>
-      <div class="reqcard-times"><span class="reqtime"><i class="fas fa-clock"></i>${fmt(d.ts||Date.now())}</span></div>
+    <div class="reqtop">
+      <div class="reqphone"><i class="fas fa-phone"></i>${esc(d.phone||'-')}</div>
+      <div class="reqtimes"><span class="reqtime"><i class="fas fa-clock"></i>${fmt(d.ts||Date.now())}</span></div>
     </div>
-    <div class="reqcard-details"><i class="fas fa-map-marker-alt"></i><span>${esc(d.details||'-')}</span></div>
-    <div class="reqcard-actions">
+    <div class="reqdetails"><i class="fas fa-map-marker-alt"></i><span>${esc(d.details||'-')}</span></div>
+    <div class="reqacts">
       <button class="rca rca-primary" onclick="openTaxiSel('${id}','${eAt(d.phone||'')}','${eAt(d.details||'')}')"><i class="fas fa-car-side"></i> إرسال لسائق</button>
       <button class="rca rca-amber" onclick="openEditReq('${id}','${eAt(d.phone||'')}','${eAt(d.details||'')}')"><i class="fas fa-pen"></i></button>
       <button class="rca rca-red" onclick="cancelReq('${id}')"><i class="fas fa-ban"></i></button>
@@ -1322,12 +1350,12 @@ const loadSupNotifList=()=>{
   const r=ref(dbs[0],'notifications');
   onValue(r,snap=>{
     const list=$('supNotifList');if(!list)return;
-    if(!snap.exists()){list.innerHTML=`<div style="text-align:center;padding:16px;color:var(--text4);font-size:12px">لا يوجد تنبيهات</div>`;return;}
-    const items=Object.entries(snap.val()).sort((a,b)=>(b[1].ts||0)-(a[1].ts||0)).slice(0,25);
+    if(!snap.exists()){list.innerHTML=`<div style="text-align:center;padding:14px;color:var(--text4);font-size:12px">لا يوجد تنبيهات</div>`;return;}
+    const items=Object.entries(snap.val()).sort((a,b)=>(b[1].ts||0)-(a[1].ts||0)).slice(0,30);
     list.innerHTML=items.map(([nid,n])=>{
       const ic={accept:'ni-green',reject:'ni-red',timeout:'ni-red',done:'ni-green',waiting:'ni-amber',near:'ni-amber',sos:'ni-red',info:'ni-blue',cancel:'ni-red',edit:'ni-amber'}[n.type]||'ni-blue';
       const icon={accept:'check',reject:'times',timeout:'clock',done:'flag-checkered',waiting:'hourglass-half',near:'map-pin',sos:'triangle-exclamation',info:'info',cancel:'ban',edit:'pen'}[n.type]||'bell';
-      return`<div class="notif-item ${n.read?'':'unread'}" onclick="markNotifRead('${nid}')">
+      return`<div class="notif-item ${n.read?'':'unread'}">
         <div class="notif-ic ${ic}"><i class="fas fa-${icon}"></i></div>
         <div class="notif-body">
           <div class="notif-title">${esc(n.msg||'')}</div>
@@ -1340,14 +1368,20 @@ const loadSupNotifList=()=>{
   });
   addL(r);
 };
-window.markNotifRead=id=>update(ref(dbs[0],`notifications/${id}`),{read:true}).catch(()=>{});
 
-/* Edit req */
+window.addReqItem=async()=>{
+  const phone=($('req-phone').value||'').trim(),details=($('req-details').value||'').trim();
+  if(!phone||!details)return shAl('al-req','err','يرجى ملء جميع الحقول');
+  await push(ref(dbs[0],'recvRequests'),{phone,details,ts:Date.now(),addedBy:CU?CU.name:'المستقبل'});
+  $('req-phone').value='';$('req-details').value='';CM('MaddReq');toast('ok','تم إضافة الطلب','');playSound('notif');
+};
+window.delRecvItem=async id=>{if(!confirm('حذف هذا الطلب؟'))return;await remove(ref(dbs[0],`recvRequests/${id}`));toast('ok','تم الحذف','');};
+
 window.openEditReq=(id,phone,details)=>{
   $('editreq-id').value=id;
   $('editreq-phone').value=phone.replace(/&#39;/g,"'");
   $('editreq-details').value=details.replace(/&#39;/g,"'");
-  $('editReqOldData').innerHTML=`<div class="mod-old-box"><div class="mod-lbl"><i class="fas fa-times-circle"></i>البيانات الحالية</div><div>${esc(phone.replace(/&#39;/g,"'"))} • ${esc(details.replace(/&#39;/g,"'"))}</div></div>`;
+  $('editReqOldData').innerHTML=`<div style="background:var(--red-l);border:1px solid var(--red-m);border-radius:var(--r);padding:9px;font-size:12px;margin-bottom:10px"><div style="font-size:10px;font-weight:700;color:var(--red);margin-bottom:3px"><i class="fas fa-times-circle"></i> البيانات الحالية</div><div>${esc(phone.replace(/&#39;/g,"'"))} • ${esc(details.replace(/&#39;/g,"'"))}</div></div>`;
   OM('MeditReq');
 };
 window.saveReqEdit=async()=>{
@@ -1356,7 +1390,6 @@ window.saveReqEdit=async()=>{
   const snap=await get(ref(dbs[0],`recvRequests/${id}`)).catch(()=>null);
   const old=snap&&snap.exists()?snap.val():{};
   await update(ref(dbs[0],`recvRequests/${id}`),{phone:np,details:nd,editedAt:Date.now(),editedBy:CU.name,prevPhone:old.phone||'',prevDetails:old.details||''});
-  // notify all pending driverRequests referencing this
   const drsnap=await get(ref(dbs[0],'driverRequests')).catch(()=>null);
   if(drsnap&&drsnap.exists()){
     Object.entries(drsnap.val()).forEach(([drvId,reqs])=>{
@@ -1368,16 +1401,14 @@ window.saveReqEdit=async()=>{
       });
     });
   }
-  await push(ref(dbs[0],'notifications'),{type:'edit',driverId:'all',msg:`✏️ تم تعديل طلب: ${np} — ${nd}`,ts:Date.now(),read:false});
+  await push(ref(dbs[0],'notifications'),{type:'edit',msg:`✏️ تم تعديل طلب: ${np} — ${nd}`,ts:Date.now(),read:false});
   CM('MeditReq');toast('ok','تم التعديل','تم إرسال إشعار للسائق');playSound('edit');
 };
 
-/* Cancel req */
 window.cancelReq=async id=>{
   if(!confirm('إلغاء هذا الطلب؟'))return;
   const snap=await get(ref(dbs[0],`recvRequests/${id}`)).catch(()=>null);
   const old=snap&&snap.exists()?snap.val():{};
-  // notify driver
   const drsnap=await get(ref(dbs[0],'driverRequests')).catch(()=>null);
   if(drsnap&&drsnap.exists()){
     Object.entries(drsnap.val()).forEach(([drvId,reqs])=>{
@@ -1394,7 +1425,18 @@ window.cancelReq=async id=>{
   toast('ok','تم الإلغاء','');playSound('cancel');
 };
 
-/* ═══ SELECT TAXI ═══ */
+/* SOS BROADCAST — supervisor sends to all drivers */
+window.sendSosBroadcast=async()=>{
+  const msg=($('sos-sup-msg').value||'').trim();
+  if(!msg)return toast('warn','تنبيه','يرجى كتابة رسالة الطوارئ');
+  await push(ref(dbs[0],'sosBroadcast'),{msg,senderName:CU.name,ts:Date.now()});
+  await push(ref(dbs[0],'notifications'),{type:'sos',msg:`🆘 SOS من المشرف: ${msg}`,ts:Date.now(),read:false});
+  document.getElementById('SosSupModal').classList.remove('on');
+  $('sos-sup-msg').value='';
+  toast('err','🆘 SOS أُرسل لجميع السائقين','');playSound('sos');vibrate([400,100,400,100,400]);
+};
+
+/* SELECT TAXI */
 window.openTaxiSel=(reqId,phone,details)=>{
   selTaxiId=null;selReqData={id:reqId,phone:phone.replace(/&#39;/g,"'"),details:details.replace(/&#39;/g,"'")};
   const list=$('sel-taxi-list');
@@ -1408,6 +1450,7 @@ window.openTaxiSel=(reqId,phone,details)=>{
         <div style="font-weight:800;font-size:13px;color:var(--text)">${esc(d.name)}</div>
         <div style="font-size:11px;color:${cs.dot};margin-top:2px">${cs.label}</div>
         ${d.carNumber?`<div style="font-size:10px;color:var(--text4)">🚗 ${esc(d.carNumber)}</div>`:''}
+        <div style="margin-top:3px"><span class="deliv-badge" style="font-size:10px;padding:2px 7px"><i class="fas fa-box"></i> ${d.totalDeliveries||d.deliveries||0} توصيلة</span></div>
       </div>
       <i class="fas fa-check-circle" id="stchk-${id}" style="display:none;color:var(--primary);font-size:18px"></i>
     </div>`;
@@ -1423,26 +1466,31 @@ window.selectTaxi=id=>{
   $('confirmSelBtn').disabled=false;$('confirmSelBtn').style.opacity='1';
 };
 window.closeTaxiSel=()=>{$('SelTaxiModal').classList.remove('on');selTaxiId=null;selReqData=null;};
+
 window.confirmTaxiSel=async()=>{
   if(!selTaxiId||!selReqData)return;
+  // Optional message to driver
+  const msg=prompt('رسالة للسائق (اختياري، اضغط إلغاء للتخطي):','');
   const btn=$('confirmSelBtn');btn.innerHTML='<span class="spin wh"></span>';btn.disabled=true;
   try{
-    const reqId=await push(ref(dbs[0],`driverRequests/${selTaxiId}`),{phone:selReqData.phone,details:selReqData.details,status:'pending',ts:Date.now(),sentBy:CU.name,sentAt:Date.now()});
+    const payload={phone:selReqData.phone,details:selReqData.details,status:'pending',ts:Date.now(),sentBy:CU.name,sentAt:Date.now()};
+    if(msg)payload.message=msg;
+    const reqId=await push(ref(dbs[0],`driverRequests/${selTaxiId}`),payload);
     pendingFlash[selReqData.id]={rid:reqId.key,drvId:selTaxiId,ts:Date.now()};
-    const el=$(`sreq-${selReqData.id}`);if(el)el.classList.add('req-no-resp');
+    const el=$(`sreq-${selReqData.id}`);if(el)el.classList.add('no-resp-flash');
     setTimeout(async()=>{
       const sn=await get(ref(dbs[0],`driverRequests/${selTaxiId}/${reqId.key}`)).catch(()=>null);
       if(sn&&sn.exists()&&sn.val().status==='pending'){
         await push(ref(dbs[0],'notifications'),{type:'timeout',driverId:selTaxiId,driverName:allDrvs[selTaxiId]?.name||selTaxiId,reqId:reqId.key,msg:`⏰ السائق ${allDrvs[selTaxiId]?.name||selTaxiId} لم يرد خلال دقيقة`,ts:Date.now(),read:false});
-        const e2=$(`sreq-${selReqData.id}`);if(e2)e2.classList.add('req-no-resp');
-      } else {delete pendingFlash[selReqData.id];const e2=$(`sreq-${selReqData.id}`);if(e2)e2.classList.remove('req-no-resp');}
+        const e2=$(`sreq-${selReqData.id}`);if(e2)e2.classList.add('no-resp-flash');
+      } else {delete pendingFlash[selReqData.id];const e2=$(`sreq-${selReqData.id}`);if(e2)e2.classList.remove('no-resp-flash');}
     },60000);
     toast('ok','تم إرسال الطلب للسائق 🚕','');playSound('notif');closeTaxiSel();
   }catch(err){toast('err','خطأ',err.message||'');}
   btn.innerHTML='<i class="fas fa-paper-plane"></i> إرسال';btn.disabled=false;
 };
 
-/* ═══ MAP - SUPERVISOR ═══ */
+/* MAP SUPERVISOR (full tab) */
 const renderMapSup=()=>{
   $('dbody').innerHTML=`<div style="height:calc(100vh - 60px);display:flex;flex-direction:column;position:relative">
     <div class="ststrip" style="flex-shrink:0">
@@ -1455,9 +1503,9 @@ const renderMapSup=()=>{
     <div class="map-legend">
       <div style="font-size:11px;font-weight:800;color:var(--text);margin-bottom:6px">حالات السائقين</div>
       <div class="map-legend-item"><div class="leg-dot" style="background:#059669"></div>متاح</div>
-      <div class="map-legend-item"><div class="leg-dot" style="background:#EA580C"></div>استراحة / انتظار</div>
+      <div class="map-legend-item"><div class="leg-dot" style="background:#EA580C"></div>استراحة/انتظار</div>
       <div class="map-legend-item"><div class="leg-dot" style="background:#DC2626"></div>مشغول</div>
-      <div class="map-legend-item"><div class="leg-dot" style="background:#D97706"></div>قريب من الموقع</div>
+      <div class="map-legend-item"><div class="leg-dot" style="background:#D97706"></div>قريب</div>
       <div class="map-legend-item"><div class="leg-dot" style="background:#94A3B8"></div>غير متصل</div>
     </div>
   </div>`;
@@ -1487,20 +1535,22 @@ const updateMarker=(id,d,sIdx)=>{
   const av=d.avatar?`<img src="${d.avatar}" style="width:34px;height:34px;border-radius:50%;object-fit:cover">`:`<span style="font-size:18px">🚕</span>`;
   let shiftLbl='';if(d.shiftStart&&d.status!=='offline')shiftLbl=`<div class="drv-marker-time">⏱ ${fmtElapsed(Date.now()-d.shiftStart)}</div>`;
   const icon=L.divIcon({html:`<div class="drv-marker-wrap"><div class="drv-marker" style="border-color:${cs.border}">${av}</div><div class="drv-marker-name">${d.name}</div>${shiftLbl}</div>`,className:'',iconSize:[55,72],iconAnchor:[27,72]});
+  const delivCount=d.totalDeliveries||d.deliveries||0;
   const pop=`<div style="text-align:center;padding:4px;min-width:140px">
     <div style="font-weight:800;font-size:13px;margin-bottom:4px;color:var(--text)">${d.name}</div>
     <div style="font-size:11px;color:${cs.dot};margin-bottom:3px">${cs.label}</div>
     ${d.phone?`<div style="font-size:11px;color:var(--text3)">${d.phone}</div>`:''}
     ${d.carNumber?`<div style="font-size:11px;color:var(--text3)">🚗 ${d.carNumber}</div>`:''}
-    ${d.shiftStart?`<div style="font-size:10px;color:var(--green);margin-top:3px">⏱ ${fmtElapsed(Date.now()-d.shiftStart)}</div>`:''}
-    ${d.locUpdated?`<div style="font-size:10px;color:var(--text4);margin-top:3px">آخر تحديث: ${fmt(d.locUpdated)}</div>`:''}
-    <a href="https://www.google.com/maps?q=${d.lat},${d.lng}" target="_blank" style="display:inline-block;margin-top:8px;padding:5px 12px;background:var(--primary);color:#fff;border-radius:7px;font-size:11px;text-decoration:none;font-family:Cairo,sans-serif">فتح في خرائط Google</a>
+    <div style="font-size:11px;color:var(--primary);margin-top:3px;font-weight:700">📦 ${delivCount} توصيلة</div>
+    ${d.shiftStart?`<div style="font-size:10px;color:var(--green);margin-top:2px">⏱ ${fmtElapsed(Date.now()-d.shiftStart)}</div>`:''}
+    ${d.locUpdated?`<div style="font-size:10px;color:var(--text4);margin-top:2px">آخر تحديث: ${fmt(d.locUpdated)}</div>`:''}
+    <a href="https://www.google.com/maps?q=${d.lat},${d.lng}" target="_blank" style="display:inline-block;margin-top:8px;padding:5px 12px;background:var(--primary);color:#fff;border-radius:7px;font-size:11px;text-decoration:none;font-family:Cairo,sans-serif">فتح في Google Maps</a>
   </div>`;
   if(mapMarkers[id]){mapMarkers[id].setLatLng([d.lat,d.lng]);mapMarkers[id].setIcon(icon);mapMarkers[id].getPopup()?.setContent(pop);}
   else{mapMarkers[id]=L.marker([d.lat,d.lng],{icon}).addTo(leafletMap).bindPopup(pop);}
 };
 
-/* ═══ NOTIFICATIONS ═══ */
+/* NOTIFICATIONS */
 const renderNotifs=()=>{
   $('dbody').innerHTML=`<div class="panel"><div class="atitle"><i class="fas fa-bell"></i> التنبيهات</div><div id="NLIST"><div style="text-align:center;padding:32px;color:var(--text4)"><div class="spin"></div></div></div></div>`;
   const r=ref(dbs[0],'notifications');
@@ -1526,7 +1576,60 @@ const renderNotifs=()=>{
   addL(r);
 };
 
-/* ═══ DRIVER REPORTS ═══ */
+/* SUPPORT (دعم فني) */
+const renderSupport=async(role)=>{
+  $('dbody').innerHTML=`<div class="panel">
+    <div class="atitle"><i class="fas fa-headset"></i> الدعم الفني</div>
+    ${role==='supervisor'?`<div style="margin-bottom:16px;padding:14px;background:var(--red-l);border:1.5px solid var(--red-m);border-radius:var(--rl);display:flex;align-items:center;gap:12px">
+      <div style="width:44px;height:44px;border-radius:12px;background:var(--red);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">🆘</div>
+      <div style="flex:1"><div style="font-weight:800;font-size:14px;color:var(--red);margin-bottom:3px">إرسال SOS لجميع السائقين</div><div style="font-size:12px;color:var(--text3)">ستصل رسالة طوارئ فورية لجميع السائقين المتصلين</div></div>
+      <button style="padding:10px 18px;background:var(--red);border:none;border-radius:var(--r);color:#fff;font-size:13px;font-weight:800;cursor:pointer" onclick="OM('SosSupModal')"><i class="fas fa-triangle-exclamation"></i> إرسال SOS</button>
+    </div>`:''}
+    <div style="background:var(--primary-l);border:1px solid var(--primary-m);border-radius:var(--rl);padding:14px;margin-bottom:16px;font-size:13px;color:var(--primary-d);font-weight:700;display:flex;align-items:center;gap:8px">
+      <i class="fas fa-info-circle"></i>
+      اضغط على رقم الهاتف للتواصل عبر واتساب مباشرة
+    </div>
+    <div class="support-grid" id="SLIST">
+      <div style="text-align:center;padding:32px;color:var(--text4);grid-column:1/-1"><div class="spin"></div></div>
+    </div>
+  </div>`;
+  const snaps=await Promise.all(dbs.map(d=>get(ref(d,'drivers'))));
+  const list=$('SLIST');if(!list)return;
+  let all=[];snaps.forEach((s,si)=>{if(s.exists())Object.entries(s.val()).forEach(([id,d])=>all.push([id,{...d,_shard:si}]));});
+  if(role==='driver'){
+    // Driver sees only supervisor + other drivers
+    all=[]; // also add supervisor contact
+    // add fixed supervisor entry
+    const supSnap=await get(ref(dbs[0],'supervisors')).catch(()=>null);
+    if(supSnap&&supSnap.exists()){
+      Object.entries(supSnap.val()).forEach(([id,s])=>{
+        all.unshift(['sup_'+id,{...s,isSuper:true,carNumber:'مشرف',phone:s.phone||'0597000000',_shard:0}]);
+      });
+    }
+    // add drivers from shards
+    const drSnaps=await Promise.all(dbs.map(d=>get(ref(d,'drivers'))));
+    drSnaps.forEach((s,si)=>{if(s.exists())Object.entries(s.val()).forEach(([id,d])=>{if(id!==CU.id)all.push([id,{...d,_shard:si}]);});});
+  }
+  if(!all.length){list.innerHTML=`<div style="text-align:center;padding:32px;color:var(--text4);grid-column:1/-1">لا يوجد جهات اتصال</div>`;return;}
+  const cs=d=>getTCS(d);
+  list.innerHTML=all.map(([id,d])=>{
+    const phone=(d.phone||'').replace(/[^0-9]/g,'').replace(/^0/,'972');
+    const waLink=`https://wa.me/${phone}`;
+    const c=d.isSuper?{dot:'#D97706',label:'👨‍💼 المشرف',cls:'sb-amber'}:cs(d);
+    return`<div class="support-drv-card">
+      <div class="support-drv-av" style="border-color:${c.dot}">${d.avatar?`<img src="${d.avatar}">`:(d.isSuper?'👨‍💼':'🚕')}</div>
+      <div class="support-drv-info">
+        <div class="support-drv-name">${esc(d.name)}</div>
+        <div class="support-drv-phone" style="color:${c.dot}">${c.label}</div>
+        <div class="support-drv-car">${d.carNumber?`🚗 ${esc(d.carNumber)}`:''} ${d.phone?`• ${d.phone}`:''}</div>
+        ${!d.isSuper?`<div style="margin-top:4px"><span class="deliv-badge" style="font-size:10px;padding:2px 7px"><i class="fas fa-box"></i> ${d.totalDeliveries||d.deliveries||0}</span></div>`:''}
+      </div>
+      <a href="${waLink}" target="_blank" class="support-wa-btn"><i class="fab fa-whatsapp"></i> واتساب</a>
+    </div>`;
+  }).join('');
+};
+
+/* DRIVER REPORTS */
 const renderDriverReports=async()=>{
   $('dbody').innerHTML=`<div class="panel"><div class="atitle"><i class="fas fa-chart-bar"></i> تقاريري</div><div id="DREP"><div style="text-align:center;padding:32px;color:var(--text4)"><div class="spin"></div></div></div></div>`;
   const today=new Date().toISOString().split('T')[0];
@@ -1545,7 +1648,8 @@ const renderDriverReports=async()=>{
   list.innerHTML=`<div class="report-card">
     <div class="report-title"><i class="fas fa-calendar-day"></i> تقرير اليوم — ${today}</div>
     <div class="report-stat"><span class="report-stat-label">توصيلات اليوم</span><span class="report-stat-val">${td.deliveries||0} 📦</span></div>
-    <div class="report-stat"><span class="report-stat-label">إجمالي العمل</span><span class="report-stat-val" style="color:var(--primary)">${Math.floor(totalMin/60)}س ${totalMin%60}د</span></div>
+    <div class="report-stat"><span class="report-stat-label">إجمالي التوصيلات الكلي</span><span class="report-stat-val" style="color:var(--primary)">${CU.totalDeliveries||CU.deliveries||0} 📦</span></div>
+    <div class="report-stat"><span class="report-stat-label">إجمالي العمل اليوم</span><span class="report-stat-val" style="color:var(--primary)">${Math.floor(totalMin/60)}س ${totalMin%60}د</span></div>
     <div class="report-stat"><span class="report-stat-label">عدد الشيفتات</span><span class="report-stat-val">${shifts.length}</span></div>
     ${shiftStartTime?`<div class="report-stat"><span class="report-stat-label">⏱ الشيفت الحالي</span><span class="report-stat-val" style="color:var(--green)" id="liveTimer">${fmtElapsed(Date.now()-shiftStartTime)}</span></div>`:''}
     <div class="report-stat"><span class="report-stat-label">الحالة</span><span class="report-stat-val">${getTCS(CU).label}</span></div>
@@ -1555,7 +1659,7 @@ const renderDriverReports=async()=>{
   if(shiftStartTime){const li=$('liveTimer');if(li)setInterval(()=>{const e=$('liveTimer');if(e&&shiftStartTime)e.textContent=fmtElapsed(Date.now()-shiftStartTime);},1000);}
 };
 
-/* ═══ SUPERVISOR REPORTS ═══ */
+/* SUPERVISOR REPORTS */
 const renderSupReports=async()=>{
   $('dbody').innerHTML=`<div class="panel"><div class="atitle"><i class="fas fa-chart-bar"></i> تقارير السائقين</div><div id="SREP"><div style="text-align:center;padding:32px;color:var(--text4)"><div class="spin"></div></div></div></div>`;
   const today=new Date().toISOString().split('T')[0];
@@ -1565,6 +1669,7 @@ const renderSupReports=async()=>{
   if(!all.length){list.innerHTML=`<div style="text-align:center;padding:32px;color:var(--text4)">لا يوجد سائقون</div>`;return;}
   const reps=await Promise.all(all.map(([id,d])=>get(ref(dbs[d._shard||0],`drivers/${id}/dailyReport/${today}`)).catch(()=>null)));
   const totalDel=reps.reduce((s,r)=>s+(r&&r.exists()?r.val().deliveries||0:0),0);
+  const totalAllDel=all.reduce((s,[,d])=>s+(d.totalDeliveries||d.deliveries||0),0);
   const fmtMin=m=>`${Math.floor(m/60)}س ${m%60}د`;
   const calcMin=rep=>{if(!rep||!rep.shifts)return 0;return rep.shifts.reduce((s,sh)=>s+(sh.durationMin||(sh.end?Math.round((sh.end-sh.start)/60000):sh.start?Math.round((Date.now()-sh.start)/60000):0)),0);};
   list.innerHTML=`
@@ -1573,27 +1678,29 @@ const renderSupReports=async()=>{
     <div class="report-stat"><span class="report-stat-label">إجمالي السائقين</span><span class="report-stat-val">${all.length}</span></div>
     <div class="report-stat"><span class="report-stat-label">متاح الآن</span><span class="report-stat-val" style="color:var(--green)">${all.filter(([,d])=>d.taxiColor==='green'||d.status==='online').length}</span></div>
     <div class="report-stat"><span class="report-stat-label">مشغول الآن</span><span class="report-stat-val" style="color:var(--red)">${all.filter(([,d])=>d.taxiColor==='red'||d.status==='busy').length}</span></div>
-    <div class="report-stat"><span class="report-stat-label">إجمالي التوصيلات اليوم</span><span class="report-stat-val">${totalDel} 📦</span></div>
+    <div class="report-stat"><span class="report-stat-label">توصيلات اليوم</span><span class="report-stat-val">${totalDel} 📦</span></div>
+    <div class="report-stat"><span class="report-stat-label">إجمالي التوصيلات الكلي</span><span class="report-stat-val" style="color:var(--primary)">${totalAllDel} 📦</span></div>
   </div>
   <div class="report-card">
     <div class="report-title"><i class="fas fa-list"></i> تفصيل كل سائق</div>
     ${all.map(([id,d],i)=>{
       const rep=reps[i]&&reps[i].exists()?reps[i].val():{deliveries:0,shifts:[]};
-      const cs=getTCS(d);const sm=calcMin(rep);
+      const cst=getTCS(d);const sm=calcMin(rep);
       return`<div class="report-drv-card">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
-          <div class="dav" style="width:40px;height:40px;border:2px solid ${cs.border};flex-shrink:0">${d.avatar?`<img src="${d.avatar}">`:'🚕'}</div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="width:44px;height:44px;border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:18px;background:var(--bg3);border:2px solid ${cst.border};flex-shrink:0">${d.avatar?`<img src="${d.avatar}" style="width:100%;height:100%;object-fit:cover">`:'🚕'}</div>
           <div style="flex:1;min-width:0">
             <div style="font-weight:800;font-size:13px;color:var(--text)">${esc(d.name)}</div>
-            <div style="font-size:11px;color:${cs.dot}">${cs.label}</div>
+            <div style="font-size:11px;color:${cst.dot}">${cst.label}</div>
             ${d.phone?`<div style="font-size:11px;color:var(--text3)">${d.phone}</div>`:''}
-            ${d.carNumber?`<div style="font-size:10px;color:var(--text4)">🚗 ${esc(d.carNumber)}</div>`:''}
             ${d.shiftStart&&d.status!=='offline'?`<div style="font-size:11px;color:var(--green)">⏱ ${fmtElapsed(Date.now()-d.shiftStart)}</div>`:''}
           </div>
           <div style="text-align:center;flex-shrink:0">
-            <div style="font-size:18px;font-weight:900;color:var(--green)">${rep.deliveries||0}</div>
-            <div style="font-size:9px;color:var(--text4)">توصيلة</div>
-            <div style="font-size:13px;font-weight:800;color:var(--primary);margin-top:3px">${fmtMin(sm)}</div>
+            <div style="font-size:16px;font-weight:900;color:var(--green)">${rep.deliveries||0}</div>
+            <div style="font-size:9px;color:var(--text4)">اليوم</div>
+            <div style="font-size:14px;font-weight:900;color:var(--primary);margin-top:3px">${d.totalDeliveries||d.deliveries||0}</div>
+            <div style="font-size:9px;color:var(--text4)">الكلي</div>
+            <div style="font-size:12px;font-weight:800;color:var(--amber);margin-top:3px">${fmtMin(sm)}</div>
             <div style="font-size:9px;color:var(--text4)">عمل</div>
           </div>
         </div>
@@ -1602,7 +1709,7 @@ const renderSupReports=async()=>{
   </div>`;
 };
 
-/* ═══ ACCOUNTS ═══ */
+/* ACCOUNTS */
 const renderAccs=()=>{
   $('dbody').innerHTML=`<div class="panel"><div class="atitle"><i class="fas fa-users"></i> إدارة السائقين</div><div class="acc-grid" id="ALIST"><div style="text-align:center;padding:32px;color:var(--text4);grid-column:1/-1"><div class="spin"></div></div></div></div>`;
   requestAnimationFrame(loadAccs);
@@ -1615,7 +1722,7 @@ const loadAccs=async()=>{
     let all=[];snaps.forEach((s,si)=>{if(s.exists())Object.entries(s.val()).forEach(([id,d])=>all.push([id,{...d,_shard:si}]));});
     if(!all.length){list.innerHTML=`<div style="color:var(--text3);text-align:center;padding:32px;grid-column:1/-1">لا يوجد سائقون</div>`;return;}
     list.innerHTML=all.map(([id,d])=>{
-      const cs=getTCS(d);
+      const cst=getTCS(d);
       return`<div class="acccard">
       <div class="acctop">
         <div class="accav">${d.avatar?`<img src="${d.avatar}">`:'🚕'}</div>
@@ -1624,7 +1731,8 @@ const loadAccs=async()=>{
           <div class="accph"><i class="fas fa-phone"></i> ${esc(d.phone||id)}</div>
           <div class="accph"><i class="fas fa-car"></i> ${esc(d.carNumber||'-')}</div>
           <div class="accpw-wrap"><div class="accpw" id="pw-${id}">••••••••</div><button class="acc-reveal" onclick="togglePw('${id}','${eAt(d.password||'')}')"><i class="fas fa-eye"></i></button></div>
-          <div style="margin-top:5px;display:flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:${cs.dot}"><div style="width:7px;height:7px;border-radius:50%;background:${cs.dot};flex-shrink:0"></div>${cs.label}</div>
+          <div style="margin-top:4px;display:flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:${cst.dot}"><div style="width:7px;height:7px;border-radius:50%;background:${cst.dot}"></div>${cst.label}</div>
+          <div style="margin-top:4px"><span class="deliv-badge" style="font-size:10px;padding:2px 7px"><i class="fas fa-box"></i> ${d.totalDeliveries||d.deliveries||0} توصيلة</span></div>
           <span class="shard-badge ${shardClass(d._shard||0)}" style="margin-top:4px"><i class="fas fa-server"></i> ${shardLabel(d._shard||0)}</span>
         </div>
       </div>
@@ -1651,14 +1759,15 @@ window.delAcc=async(id,sIdx)=>{
   try{await remove(ref(dbs[sIdx],`drivers/${id}`));toast('ok','تم الحذف','');loadAccs();}catch(err){toast('err','خطأ',err.message||'');}
 };
 
-/* ═══ PROFILES ═══ */
+/* PROFILES */
 const renderDProfile=()=>{
   $('dbody').innerHTML=`<div class="ptab">
     <div class="cbox" style="text-align:center">
       <div class="pav" style="width:84px;height:84px;margin:0 auto 12px;font-size:32px">${CU.avatar?`<img src="${CU.avatar}">`:'🚕'}</div>
       <div style="font-size:17px;font-weight:900;margin-bottom:6px">${esc(CU.name)}</div>
       <span class="sbadge sb-blue">🚕 سائق تكسي</span>
-      <div style="margin-top:8px;font-size:12px;color:var(--text3)">${CU.phone||''} | 🚗 ${CU.carNumber||'-'}</div>
+      <div style="margin-top:6px"><span class="deliv-badge"><i class="fas fa-box"></i> ${CU.totalDeliveries||CU.deliveries||0} توصيلة إجمالية</span></div>
+      <div style="margin-top:6px;font-size:12px;color:var(--text3)">${CU.phone||''} | 🚗 ${CU.carNumber||'-'}</div>
     </div>
     <div class="cbox">
       <div class="fg"><label class="fl"><i class="fas fa-user"></i> الاسم</label><input class="fi" id="ep-nm" value="${esc(CU.name)}"></div>
@@ -1683,7 +1792,7 @@ window.delMyAcc=async()=>{
 const renderSProfile=()=>{
   $('dbody').innerHTML=`<div class="ptab">
     <div class="cbox" style="text-align:center">
-      <div class="pav gold" style="width:84px;height:84px;margin:0 auto 12px;font-size:32px">👨‍💼</div>
+      <div class="pav goldav" style="width:84px;height:84px;margin:0 auto 12px;font-size:32px">👨‍💼</div>
       <div style="font-size:17px;font-weight:900;margin-bottom:6px">${esc(CU.name)}</div>
       <span class="sbadge sb-amber">👨‍💼 مشرف المكتب</span>
     </div>
@@ -1701,19 +1810,29 @@ window.saveSProf=async()=>{
   await update(ref(dbs[0],`supervisors/${CU.id}`),u);CU={...CU,...u};toast('ok','تم الحفظ ✅','');
 };
 
-/* ═══ LOGOUT ═══ */
+/* RECEIVER DASHBOARD = SUPERVISOR DASHBOARD */
+const initRecvDash=()=>{
+  // Receiver uses supervisor login flow — handled by chkRecvSec redirecting to Msup
+};
+window.logoutRecv=()=>{
+  clrListeners(false);CU=null;CR=null;
+  $('PR').style.display='none';$('PL').style.display='block';
+};
+
+/* LOGOUT */
 window.logout=async()=>{
   if(locWatcher)clearInterval(locWatcher);locWatcher=null;
-  clearInterval(reqCountdownTimer);clearInterval(shiftTimerInterval);
+  clearInterval(reqCountdownTimer);
   $('ReqNotif').classList.remove('on');
+  $('SosBroadcastNotif').classList.remove('on');
   if(CR==='driver'&&CU){
     await update(ref(dbs[CU._shard||0],`drivers/${CU.id}`),{status:'offline',lastSeen:Date.now()}).catch(()=>{});
   }
   clrListeners(false);CU=null;CR=null;avData='';shiftStartTime=null;allDrvs={};
   $('PD').style.display='none';$('PL').style.display='block';
   $('ntabs').innerHTML='';$('navav').textContent='👤';$('navav').classList.remove('sup-av');
+  if(window._inlineMap){try{window._inlineMap.remove();}catch(e){}window._inlineMap=null;window._inlineMarkers={};}
 };
 </script>
 </body>
 </html>
-
