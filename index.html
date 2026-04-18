@@ -367,69 +367,78 @@ button,textarea,input,select{font-family:'Cairo',sans-serif}
 .sos-sup-modal.on{opacity:1;visibility:visible}
 .sos-sup-box{background:var(--bg);border:2px solid var(--red-m);border-radius:var(--rll);padding:28px 24px;width:100%;max-width:420px;box-shadow:var(--shadow-xl)}
 
+/* MOBILE BOTTOM NAV */
+.mob-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:300;background:var(--bg);border-top:1.5px solid var(--border);box-shadow:0 -3px 14px rgba(0,0,0,.09);padding:4px 0 max(env(safe-area-inset-bottom),6px)}
+.mob-nav-inner{display:flex;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding:0 4px}
+.mob-nav-inner::-webkit-scrollbar{display:none}
+.mob-btn{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 12px;border:none;background:transparent;color:var(--text4);font-family:'Cairo',sans-serif;font-size:9px;font-weight:700;cursor:pointer;border-radius:10px;transition:var(--tr);flex-shrink:0;position:relative;min-width:56px}
+.mob-btn i{font-size:20px}
+.mob-btn.on{color:var(--primary);background:var(--primary-l)}
+.mob-btn.sup-on{color:var(--amber);background:var(--amber-l)}
+.mob-btn.red-btn{color:var(--red)}
+.mob-btn.red-btn.on{background:var(--red-l);color:var(--red)}
+.mob-badge{position:absolute;top:4px;right:8px;background:var(--red);color:#fff;font-size:8px;font-weight:800;padding:1px 4px;border-radius:7px;min-width:14px;text-align:center;display:none}
+
+/* MONITORING SCREEN */
+.mon-screen{position:fixed;inset:0;background:#080f1c;z-index:900;display:flex;flex-direction:column;opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+.mon-screen.on{opacity:1;visibility:visible}
+.mon-hd{padding:13px 18px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:10px;background:rgba(255,255,255,.02)}
+.mon-title{font-family:'Tajawal',sans-serif;font-size:17px;font-weight:900;color:#fff;display:flex;align-items:center;gap:9px}
+.mon-close{padding:8px 15px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:9px;color:#fff;font-family:'Cairo',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:var(--tr)}
+.mon-close:hover{background:rgba(220,38,38,.3);border-color:rgba(220,38,38,.4)}
+.mon-stats{display:flex;gap:8px;padding:10px 16px;border-bottom:1px solid rgba(255,255,255,.06);overflow-x:auto;scrollbar-width:none;flex-shrink:0}
+.mon-stats::-webkit-scrollbar{display:none}
+.mon-st{display:flex;align-items:center;gap:7px;padding:7px 12px;border-radius:var(--r);white-space:nowrap;flex-shrink:0;font-size:12px;font-weight:800}
+.ms-green{background:rgba(5,150,105,.14);border:1px solid rgba(5,150,105,.35);color:#34D399}
+.ms-red{background:rgba(220,38,38,.14);border:1px solid rgba(220,38,38,.35);color:#F87171}
+.ms-orange{background:rgba(234,88,12,.14);border:1px solid rgba(234,88,12,.35);color:#FB923C}
+.ms-gray{background:rgba(71,85,105,.14);border:1px solid rgba(71,85,105,.3);color:#94A3B8}
+.ms-blue{background:rgba(29,78,216,.14);border:1px solid rgba(29,78,216,.3);color:#93C5FD}
+.mon-sdot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.msd-g{background:#34D399;animation:msdp 1.5s infinite;box-shadow:0 0 5px rgba(52,211,153,.5)}
+.msd-r{background:#F87171}
+.msd-o{background:#FB923C}
+.msd-gr{background:#64748B}
+@keyframes msdp{0%,100%{opacity:1}50%{opacity:.35}}
+.mon-grid{flex:1;overflow-y:auto;padding:14px 16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;align-content:start;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.08) transparent}
+.mon-card{border-radius:var(--rl);padding:14px;display:flex;align-items:center;gap:11px;transition:var(--tr);cursor:pointer}
+.mon-card:hover{filter:brightness(1.1)}
+.mc-online{background:rgba(5,150,105,.13);border:1.5px solid rgba(5,150,105,.38)}
+.mc-busy{background:rgba(220,38,38,.13);border:1.5px solid rgba(220,38,38,.38)}
+.mc-break{background:rgba(234,88,12,.13);border:1.5px solid rgba(234,88,12,.38)}
+.mc-offline{background:rgba(71,85,105,.1);border:1.5px solid rgba(71,85,105,.25);opacity:.65}
+.mon-av{width:43px;height:43px;border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;border:1.5px solid rgba(255,255,255,.12)}
+.mon-av img{width:100%;height:100%;object-fit:cover}
+.mon-nm{font-size:13px;font-weight:800;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px}
+.mon-lbl{font-size:11px;font-weight:700;display:flex;align-items:center;gap:4px;margin-bottom:3px}
+.mon-dot-el{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.mon-meta{font-size:10px;color:rgba(255,255,255,.38)}
+.mon-tag{font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;display:inline-flex;align-items:center;gap:3px;margin-top:3px}
+.mt-g{background:rgba(52,211,153,.14);color:#34D399;border:1px solid rgba(52,211,153,.3)}
+.mt-r{background:rgba(248,113,113,.14);color:#F87171;border:1px solid rgba(248,113,113,.3)}
+.mt-o{background:rgba(251,146,60,.14);color:#FB923C;border:1px solid rgba(251,146,60,.3)}
+.mt-gr{background:rgba(100,116,139,.14);color:#94A3B8;border:1px solid rgba(100,116,139,.3)}
+
 @media(max-width:640px){
   .dlayout,.sup-req-layout{flex-direction:column}
-  .dside{width:100%;flex:0 0 auto;max-height:45vh;border-left:none;border-bottom:1px solid var(--border)}
+  .dside{width:100%;flex:0 0 auto;max-height:42vh;border-left:none;border-bottom:1px solid var(--border)}
   .sup-req-col{width:100%;max-height:40vh;border-left:none;border-bottom:1px solid var(--border)}
-  /* hide desktop ntabs on mobile */
+  /* On mobile: hide desktop top tabs, show bottom nav */
   .ntabs{display:none!important}
-  /* show mobile bottom bar */
-  .mobile-bottom-nav{display:flex!important}
-  /* adjust body padding for bottom nav */
-  .dbody{padding-bottom:64px}
-  .panel{height:calc(100vh - 60px - 64px)}
-  .dreq-wrap{height:calc(100vh - 60px - 64px)}
+  .mob-nav{display:block!important}
+  /* adjust body for bottom nav */
+  .dbody{padding-bottom:68px}
+  .panel{height:calc(100vh - 60px - 68px);padding:14px}
+  .dreq-wrap{height:calc(100vh - 60px - 68px)}
   .acc-grid,.support-grid{grid-template-columns:1fr}
   .hero-cards{flex-direction:column;align-items:center}
-  .monitor-grid{grid-template-columns:1fr 1fr!important}
+  .mon-grid{grid-template-columns:1fr 1fr}
+  .bout{font-size:10px;padding:6px 9px}
 }
 @media(min-width:641px) and (max-width:900px){
   .dside{width:210px}.sup-req-col{width:290px}
+  .mon-grid{grid-template-columns:repeat(3,1fr)}
 }
-/* MOBILE BOTTOM NAV */
-.mobile-bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:150;background:var(--bg);border-top:1px solid var(--border);box-shadow:0 -2px 12px rgba(0,0,0,.08);padding:4px 0 env(safe-area-inset-bottom,4px);flex-direction:row;overflow-x:auto;scrollbar-width:none}
-.mobile-bottom-nav::-webkit-scrollbar{display:none}
-.mob-tab{display:flex;flex-direction:column;align-items:center;gap:1px;padding:6px 10px;border:none;background:transparent;color:var(--text4);font-family:'Cairo',sans-serif;font-size:9px;font-weight:700;cursor:pointer;border-radius:10px;transition:var(--tr);flex:1;min-width:52px;position:relative}
-.mob-tab.on{color:var(--primary);background:var(--primary-l)}
-.mob-tab.sup-on{color:var(--amber);background:var(--amber-l)}
-.mob-tab.mon-tab{color:var(--text3)}
-.mob-tab i{font-size:20px;margin-bottom:1px}
-.mob-badge{position:absolute;top:3px;right:6px;background:var(--red);color:#fff;font-size:8px;font-weight:800;padding:1px 4px;border-radius:8px;min-width:14px;text-align:center}
-/* MONITORING SCREEN */
-.monitor-screen{position:fixed;inset:0;background:#0F172A;z-index:900;display:flex;flex-direction:column;opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
-.monitor-screen.on{opacity:1;visibility:visible}
-.monitor-hd{padding:14px 20px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:10px}
-.monitor-title{font-family:'Tajawal',sans-serif;font-size:17px;font-weight:900;color:#fff;display:flex;align-items:center;gap:9px}
-.monitor-close-btn{padding:8px 16px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:9px;color:#fff;font-family:'Cairo',sans-serif;font-size:12px;font-weight:700;cursor:pointer;flex-shrink:0}
-.monitor-close-btn:hover{background:rgba(220,38,38,.3)}
-.monitor-stats-bar{display:flex;gap:8px;padding:10px 16px;border-bottom:1px solid rgba(255,255,255,.06);overflow-x:auto;scrollbar-width:none;flex-shrink:0;-webkit-overflow-scrolling:touch}
-.monitor-stats-bar::-webkit-scrollbar{display:none}
-.mon-stat{display:flex;align-items:center;gap:7px;padding:8px 13px;border-radius:var(--r);white-space:nowrap;flex-shrink:0;font-size:12px;font-weight:700}
-.mon-stat-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
-.mon-grid{flex:1;overflow-y:auto;padding:14px 16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;align-content:start;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.1) transparent}
-.mon-card{border-radius:var(--rl);padding:14px;display:flex;align-items:center;gap:11px;position:relative;cursor:pointer;transition:var(--tr)}
-.mon-card:hover{filter:brightness(1.08)}
-.mon-card.mc-green{background:rgba(5,150,105,.15);border:1.5px solid rgba(5,150,105,.4)}
-.mon-card.mc-red{background:rgba(220,38,38,.15);border:1.5px solid rgba(220,38,38,.4)}
-.mon-card.mc-orange{background:rgba(234,88,12,.15);border:1.5px solid rgba(234,88,12,.4)}
-.mon-card.mc-gray{background:rgba(71,85,105,.15);border:1.5px solid rgba(71,85,105,.3);opacity:.7}
-.mon-av{width:44px;height:44px;border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;border:2px solid rgba(255,255,255,.15)}
-.mon-av img{width:100%;height:100%;object-fit:cover}
-.mon-info{flex:1;min-width:0}
-.mon-name{font-size:13px;font-weight:800;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px}
-.mon-status{font-size:11px;font-weight:700;display:flex;align-items:center;gap:5px;margin-bottom:3px}
-.mon-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.mon-dot-green{background:#34D399;box-shadow:0 0 5px rgba(52,211,153,.6);animation:monPulse 1.5s infinite}
-.mon-dot-red{background:#F87171}
-.mon-dot-orange{background:#FB923C}
-.mon-dot-gray{background:#64748B}
-@keyframes monPulse{0%,100%{opacity:1}50%{opacity:.4}}
-.mon-meta{font-size:10px;color:rgba(255,255,255,.4);display:flex;flex-wrap:wrap;gap:5px}
-.mon-badge{font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;display:inline-flex;align-items:center;gap:3px}
-.mb-green{background:rgba(52,211,153,.15);color:#34D399;border:1px solid rgba(52,211,153,.3)}
-.mb-red{background:rgba(248,113,113,.15);color:#F87171;border:1px solid rgba(248,113,113,.3)}
-.mb-orange{background:rgba(251,146,60,.15);color:#FB923C;border:1px solid rgba(251,146,60,.3)}
-.mb-gray{background:rgba(100,116,139,.15);color:#94A3B8;border:1px solid rgba(100,116,139,.3)}
 </style>
 </head>
 <body>
@@ -710,37 +719,30 @@ button,textarea,input,select{font-family:'Cairo',sans-serif}
 
 <div class="toasts" id="toasts"></div>
 
-<!-- MOBILE BOTTOM NAV (shown on mobile only) -->
-<nav class="mobile-bottom-nav" id="mobileBottomNav"></nav>
+<!-- MOBILE BOTTOM NAV -->
+<div class="mob-nav" id="mobNav" style="display:none">
+  <div class="mob-nav-inner" id="mobNavInner"></div>
+</div>
 
 <!-- MONITORING SCREEN -->
-<div class="monitor-screen" id="MonitorScreen">
-  <div class="monitor-hd">
-    <div class="monitor-title"><span style="font-size:22px">🚕</span> شاشة المراقبة المباشرة</div>
-    <button class="monitor-close-btn" onclick="closeMonitor()"><i class="fas fa-times"></i> إغلاق</button>
+<div class="mon-screen" id="MonScreen">
+  <div class="mon-hd">
+    <div class="mon-title"><span style="font-size:22px">🚕</span> شاشة المراقبة المباشرة</div>
+    <button class="mon-close" onclick="closeMonitor()"><i class="fas fa-times"></i> إغلاق</button>
   </div>
-  <div class="monitor-stats-bar">
-    <div class="mon-stat" style="background:rgba(5,150,105,.12);border:1px solid rgba(5,150,105,.3)">
-      <div class="mon-dot mon-dot-green"></div><span style="color:#34D399" id="mon-n-online">0</span><span style="color:rgba(255,255,255,.4);margin-right:3px">متاح</span>
-    </div>
-    <div class="mon-stat" style="background:rgba(220,38,38,.12);border:1px solid rgba(220,38,38,.3)">
-      <div class="mon-dot mon-dot-red"></div><span style="color:#F87171" id="mon-n-busy">0</span><span style="color:rgba(255,255,255,.4);margin-right:3px">مشغول</span>
-    </div>
-    <div class="mon-stat" style="background:rgba(234,88,12,.12);border:1px solid rgba(234,88,12,.3)">
-      <div class="mon-dot mon-dot-orange"></div><span style="color:#FB923C" id="mon-n-break">0</span><span style="color:rgba(255,255,255,.4);margin-right:3px">استراحة/صلاة</span>
-    </div>
-    <div class="mon-stat" style="background:rgba(71,85,105,.12);border:1px solid rgba(71,85,105,.25)">
-      <div class="mon-dot mon-dot-gray"></div><span style="color:#94A3B8" id="mon-n-offline">0</span><span style="color:rgba(255,255,255,.4);margin-right:3px">غير متصل</span>
-    </div>
-    <div class="mon-stat" style="background:rgba(29,78,216,.12);border:1px solid rgba(29,78,216,.3)">
-      <i class="fas fa-box" style="color:#93C5FD;font-size:12px"></i><span style="color:#93C5FD" id="mon-n-del">0</span><span style="color:rgba(255,255,255,.4);margin-right:3px">توصيلة كلية</span>
-    </div>
-    <div class="mon-stat" style="background:rgba(29,78,216,.12);border:1px solid rgba(29,78,216,.3)">
-      <i class="fas fa-users" style="color:#93C5FD;font-size:12px"></i><span style="color:#93C5FD" id="mon-n-total">0</span><span style="color:rgba(255,255,255,.4);margin-right:3px">إجمالي</span>
-    </div>
+  <div class="mon-stats">
+    <div class="mon-st ms-green"><div class="mon-sdot msd-g"></div><span id="mn-on">0</span><span style="color:rgba(255,255,255,.45);font-weight:400;margin-right:3px"> متاح</span></div>
+    <div class="mon-st ms-red"><div class="mon-sdot msd-r"></div><span id="mn-busy">0</span><span style="color:rgba(255,255,255,.45);font-weight:400;margin-right:3px"> مشغول</span></div>
+    <div class="mon-st ms-orange"><div class="mon-sdot msd-o"></div><span id="mn-brk">0</span><span style="color:rgba(255,255,255,.45);font-weight:400;margin-right:3px"> استراحة</span></div>
+    <div class="mon-st ms-gray"><div class="mon-sdot msd-gr"></div><span id="mn-off">0</span><span style="color:rgba(255,255,255,.45);font-weight:400;margin-right:3px"> غير متصل</span></div>
+    <div class="mon-st ms-blue"><i class="fas fa-users" style="font-size:11px"></i><span id="mn-tot">0</span><span style="color:rgba(255,255,255,.45);font-weight:400;margin-right:3px"> إجمالي</span></div>
+    <div class="mon-st ms-blue"><i class="fas fa-box" style="font-size:11px"></i><span id="mn-del">0</span><span style="color:rgba(255,255,255,.45);font-weight:400;margin-right:3px"> توصيلة كلية</span></div>
   </div>
   <div class="mon-grid" id="monGrid">
-    <div style="grid-column:1/-1;text-align:center;padding:40px;color:rgba(255,255,255,.3)"><div class="spin wh" style="width:28px;height:28px;margin:0 auto 10px"></div><div style="font-size:12px">جار التحميل...</div></div>
+    <div style="grid-column:1/-1;text-align:center;padding:40px;color:rgba(255,255,255,.3)">
+      <div class="spin wh" style="width:26px;height:26px;margin:0 auto 10px"></div>
+      <div style="font-size:12px;font-family:'Cairo',sans-serif">جار التحميل...</div>
+    </div>
   </div>
 </div>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -899,6 +901,8 @@ const showSosBroadcast=(bid,bdata)=>{
   $('SosBroadcastNotif').classList.add('on');
   vibrate([500,100,500,100,500,100,500]);
   playSound('sos');
+  // Push notification for SOS broadcast
+  showPushNotif('🆘 تنبيه طوارئ! — منصة الطلبات',bdata.msg||'رسالة طوارئ من المشرف','',`sos-${bid}`);
 };
 
 window.ackSosBroadcast=async()=>{
@@ -930,7 +934,6 @@ const showDriverReq=(rid,rd)=>{
   $('reqTime').textContent=fmt(rd.ts||Date.now());
   $('reqRejectArea').classList.remove('on');
   $('reqRejectReason').value='';
-  // Show message from supervisor if present
   const msgBox=$('reqMsgBox');
   if(rd.message){msgBox.style.display='block';$('reqMsgText').textContent=rd.message;}
   else{msgBox.style.display='none';}
@@ -939,9 +942,12 @@ const showDriverReq=(rid,rd)=>{
     modNotice.style.display='block';
     $('reqModText').textContent=`تم تعديل الطلب • الهاتف: ${rd.prevPhone} ← ${rd.phone} • الموقع: ${rd.prevDetails||'-'} ← ${rd.details}`;
     playSound('edit');vibrate([200,100,200]);
+    showPushNotif('✏️ تم تعديل طلبك — منصة الطلبات',`📞 ${rd.phone}\n📍 ${rd.details}`,'',`mod-${rid}`);
   } else {
     modNotice.style.display='none';
     playSound('request');vibrate([300,100,300,100,300]);
+    const notifBody=rd.message?`📞 ${rd.phone} | 📍 ${rd.details} | 💬 ${rd.message}`:`📞 ${rd.phone} | 📍 ${rd.details}`;
+    showPushNotif('📦 طلب جديد! — منصة الطلبات',notifBody,'',`req-${rid}`);
   }
   $('ReqNotif').classList.add('on');
   let count=60;
@@ -955,7 +961,9 @@ const showDriverReq=(rid,rd)=>{
       if($('ReqNotif').classList.contains('on')){
         await update(ref(dbs[0],`driverRequests/${CU.id}/${rid}`),{status:'no_response'});
         await push(ref(dbs[0],'notifications'),{type:'timeout',driverId:CU.id,driverName:CU.name,reqId:rid,msg:`⏰ السائق ${CU.name} لم يرد خلال دقيقة`,ts:Date.now(),read:false});
-        $('ReqNotif').classList.remove('on');toast('warn','انتهى الوقت','تم إرسال إشعار للمشرف');
+        $('ReqNotif').classList.remove('on');
+        showPushNotif('⏰ انتهى الوقت','لم يتم الرد على الطلب');
+        toast('warn','انتهى الوقت','تم إرسال إشعار للمشرف');
       }
     }
   },1000);
@@ -1050,10 +1058,20 @@ const listenSupNotifs=()=>{
   const r=ref(dbs[0],'notifications');
   onValue(r,snap=>{
     if(!snap.exists())return;
-    const unread=Object.values(snap.val()).filter(n=>!n.read).length;
+    const vals=Object.values(snap.val());
+    const unread=vals.filter(n=>!n.read).length;
+    // Update desktop badge
     const b=$('notif-badge');if(b){b.textContent=unread;b.style.display=unread>0?'inline':'none';}
-    const urgent=Object.values(snap.val()).filter(n=>!n.read&&(n.type==='reject'||n.type==='timeout'||n.type==='sos'));
-    if(urgent.length>0){vibrate([200,100,200]);playSound('notif');}
+    // Update mobile badge
+    const mb=$('mob-notif-badge');if(mb){mb.textContent=unread;mb.style.display=unread>0?'block':'none';}
+    // Push notification for new unread urgent items
+    const urgent=vals.filter(n=>!n.read&&(n.type==='reject'||n.type==='timeout'||n.type==='sos'||n.type==='accept'||n.type==='done'||n.type==='waiting'||n.type==='near'));
+    if(urgent.length>0){
+      vibrate([200,100,200]);playSound('notif');
+      // Show push notification for most recent unread
+      const latest=urgent.sort((a,b)=>(b.ts||0)-(a.ts||0))[0];
+      showPushNotif('منصة الطلبات 🚕',latest.msg||'إشعار جديد');
+    }
   });
   LSNRS.push({r});
 };
@@ -1066,12 +1084,15 @@ const initDash=()=>{
   else nav.textContent=CR==='driver'?'🚕':'👨‍💼';
   if(CR==='supervisor')nav.classList.add('sup-av');
   const tabs=$('ntabs');
+  // Request push notification permission
+  requestNotifPerm();
   if(CR==='driver'){
     tabs.innerHTML=`
       <button class="ntab on" id="nt-reqs" onclick="nTab('reqs')"><i class="fas fa-inbox"></i><span> الطلبات</span></button>
       <button class="ntab" id="nt-reports" onclick="nTab('reports')"><i class="fas fa-chart-bar"></i><span> تقاريري</span></button>
       <button class="ntab" id="nt-support" onclick="nTab('support')"><i class="fas fa-headset"></i><span> دعم فني</span></button>
       <button class="ntab" id="nt-profile" onclick="nTab('profile')"><i class="fas fa-user-cog"></i><span> حسابي</span></button>`;
+    buildMobNav('driver');
     renderDriverReqs();
   } else {
     tabs.innerHTML=`
@@ -1081,8 +1102,9 @@ const initDash=()=>{
       <button class="ntab" id="nt-reports" onclick="nTab('reports')"><i class="fas fa-chart-bar"></i><span> التقارير</span></button>
       <button class="ntab" id="nt-accounts" onclick="nTab('accounts')"><i class="fas fa-users"></i><span> السائقون</span></button>
       <button class="ntab" id="nt-support" onclick="nTab('support')"><i class="fas fa-headset"></i><span> دعم فني</span></button>
-      <button class="ntab" id="nt-monitor" onclick="openMonitor()"><i class="fas fa-tv"></i><span> شاشة المراقبة</span></button>
+      <button class="ntab" id="nt-monitor" onclick="openMonitor()" style="background:rgba(220,38,38,.08);color:var(--red)"><i class="fas fa-tv"></i><span> 📺 شاشة المراقبة</span></button>
       <button class="ntab" id="nt-profile" onclick="nTab('profile')"><i class="fas fa-user-cog"></i><span> حسابي</span></button>`;
+    buildMobNav('supervisor');
     renderSupReqs();
     loadSupDrivers();
   }
@@ -1093,10 +1115,10 @@ window.nTab=t=>{
   if(_tabBusy)return;_tabBusy=true;
   document.querySelectorAll('#ntabs .ntab').forEach(b=>b.classList.remove('on','sup-on'));
   const el=$('nt-'+t);if(el)el.classList.add(CR==='supervisor'?'sup-on':'on');
+  syncMobNav(t);
   clrListeners(true);
   if(CR==='driver'){
     if(t==='reqs')renderDriverReqs();
-    else if(t==='map')renderDriverMap();
     else if(t==='reports')renderDriverReports();
     else if(t==='support')renderSupport('driver');
     else renderDProfile();
@@ -1120,14 +1142,13 @@ const clrListeners=(keepDrvs=false)=>{
 const addL=(r,keep=false)=>LSNRS.push({r,keep});
 
 const getTCS=d=>{
-  if(d.taxiColor==='red'||d.status==='busy')return{border:'#DC2626',dot:'#DC2626',label:'مشغول 🔴',cls:'sb-red'};
+  if(d.taxiColor==='red'||d.status==='busy')return{border:'#DC2626',dot:'#DC2626',label:'مشغول 🔴',cls:'sb-red',mcls:'mc-busy',mtag:'mt-r'};
   if(d.taxiColor==='orange'||d.status==='break'||d.status==='pray'||d.status==='waiting'||d.status==='near'){
     const lbl={near:'قريب ⚠️',waiting:'بالانتظار 🟠',pray:'صلاة 🕌',break:'استراحة 🟠'}[d.status]||'بالانتظار 🟠';
-    return{border:'#EA580C',dot:'#EA580C',label:lbl,cls:'sb-orange'};
+    return{border:'#EA580C',dot:'#EA580C',label:lbl,cls:'sb-orange',mcls:'mc-break',mtag:'mt-o'};
   }
-  if(d.status==='offline')return{border:'#475569',dot:'#475569',label:'غير متصل ⚫',cls:'sb-gray'};
-  // Any driver in system who is not explicitly offline = green (متاح)
-  return{border:'#059669',dot:'#059669',label:'متاح 🟢',cls:'sb-green'};
+  if(d.status==='offline')return{border:'#475569',dot:'#475569',label:'غير متصل ⚫',cls:'sb-gray',mcls:'mc-offline',mtag:'mt-gr'};
+  return{border:'#059669',dot:'#059669',label:'متاح 🟢',cls:'sb-green',mcls:'mc-online',mtag:'mt-g'};
 };
 
 const loadSupDrivers=()=>{
@@ -1165,7 +1186,6 @@ const renderDriverReqs=()=>{
           <button class="qbtn" onclick="drvAct('pray')"><i class="fas fa-mosque" style="color:#7C3AED"></i>صلاة</button>
           <button class="qbtn" style="background:var(--orange-l);border-color:var(--orange-m);color:var(--orange)" onclick="drvStatusBtn('waiting')"><i class="fas fa-hourglass-half"></i>بالانتظار</button>
           <button class="qbtn" style="background:var(--amber-l);border-color:var(--amber-m);color:var(--amber)" onclick="drvStatusBtn('near')"><i class="fas fa-map-pin"></i>قريب</button>
-          <button class="qbtn" style="background:var(--green-l);border-color:var(--green-m);color:var(--green)" onclick="quickDoneDelivery()"><i class="fas fa-flag-checkered"></i>تم التوصيل</button>
           <button class="qbtn sos" onclick="doDriverSOS()"><i class="fas fa-triangle-exclamation"></i> 🆘 طوارئ SOS</button>
         </div>
         <div class="fg" style="margin-top:10px">
@@ -1212,7 +1232,7 @@ const mkDriverReqCard=(id,req)=>{
   const confirmBtn=req.status==='modified'&&!req.driverConfirmed?`<div class="mod-notice"><i class="fas fa-bell"></i>يرجى تأكيد استلام التعديل</div><button class="rca rca-green" onclick="confirmMod('${id}')"><i class="fas fa-check"></i> تأكيد استلام التعديل</button>`:'';
   const cancelledMsg=req.status==='cancelled'?`<div class="cancel-msg"><i class="fas fa-ban"></i>تم إلغاء الطلب من قبل الزبون</div>`:'';
   const msgShow=req.message?`<div class="req-msg-box" style="margin-bottom:9px"><div class="req-msg-from"><i class="fas fa-user-tie" style="margin-left:4px"></i>رسالة المشرف</div><div class="req-msg-text">${esc(req.message)}</div></div>`:'';
-  const waitingBtn=(req.status==='accepted'||req.status==='waiting'||req.status==='near')&&!req.doneDelivery?`
+  const waitingBtn=(req.status==='accepted')&&!req.doneDelivery?`
     <button class="rca rca-orange" onclick="setDrvWaiting('${id}')"><i class="fas fa-hourglass-half"></i> بالانتظار</button>
     <button class="rca rca-amber" onclick="setDrvNear('${id}')"><i class="fas fa-map-pin"></i> قريب</button>
     <button class="rca rca-green" onclick="doneDelivery('${id}')"><i class="fas fa-flag-checkered"></i> تم التوصيل</button>`:'';
@@ -1446,14 +1466,13 @@ const loadSupNotifList=()=>{
     list.innerHTML=items.map(([nid,n])=>{
       const ic={accept:'ni-green',reject:'ni-red',timeout:'ni-red',done:'ni-green',waiting:'ni-amber',near:'ni-amber',sos:'ni-red',info:'ni-blue',cancel:'ni-red',edit:'ni-amber'}[n.type]||'ni-blue';
       const icon={accept:'check',reject:'times',timeout:'clock',done:'flag-checkered',waiting:'hourglass-half',near:'map-pin',sos:'triangle-exclamation',info:'info',cancel:'ban',edit:'pen'}[n.type]||'bell';
-      return`<div class="notif-item ${n.read?'':'unread'}" style="position:relative;padding-left:36px">
+      return`<div class="notif-item ${n.read?'':'unread'}">
         <div class="notif-ic ${ic}"><i class="fas fa-${icon}"></i></div>
         <div class="notif-body">
           <div class="notif-title">${esc(n.msg||'')}</div>
           ${n.reason?`<div class="notif-sub">السبب: ${esc(n.reason)}</div>`:''}
           <div class="notif-time">${fmt(n.ts||Date.now())}</div>
         </div>
-        <button onclick="delNotifItem('${nid}')" style="position:absolute;top:50%;left:6px;transform:translateY(-50%);width:25px;height:25px;background:var(--red-l);border:1px solid var(--red-m);border-radius:6px;color:var(--red);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:10px"><i class="fas fa-times"></i></button>
       </div>`;
     }).join('');
     items.filter(([,n])=>!n.read).forEach(([nid])=>update(ref(dbs[0],`notifications/${nid}`),{read:true}));
@@ -1644,13 +1663,7 @@ const updateMarker=(id,d,sIdx)=>{
 
 /* NOTIFICATIONS */
 const renderNotifs=()=>{
-  $('dbody').innerHTML=`<div class="panel">
-    <div class="atitle" style="display:flex;align-items:center;justify-content:space-between">
-      <span style="display:flex;align-items:center;gap:10px"><i class="fas fa-bell"></i> التنبيهات</span>
-      <button onclick="clearAllNotifs()" style="padding:7px 14px;background:var(--red-l);border:1px solid var(--red-m);border-radius:9px;color:var(--red);font-size:11px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:5px"><i class="fas fa-trash"></i> حذف الكل</button>
-    </div>
-    <div id="NLIST"><div style="text-align:center;padding:32px;color:var(--text4)"><div class="spin"></div></div></div>
-  </div>`;
+  $('dbody').innerHTML=`<div class="panel"><div class="atitle"><i class="fas fa-bell"></i> التنبيهات</div><div id="NLIST"><div style="text-align:center;padding:32px;color:var(--text4)"><div class="spin"></div></div></div></div>`;
   const r=ref(dbs[0],'notifications');
   onValue(r,snap=>{
     const list=$('NLIST');if(!list)return;
@@ -1659,14 +1672,13 @@ const renderNotifs=()=>{
     list.innerHTML=items.map(([nid,n])=>{
       const ic={accept:'ni-green',reject:'ni-red',timeout:'ni-red',done:'ni-green',waiting:'ni-amber',near:'ni-amber',sos:'ni-red',cancel:'ni-red',edit:'ni-amber',info:'ni-blue'}[n.type]||'ni-blue';
       const icon={accept:'check',reject:'times',timeout:'clock',done:'flag-checkered',waiting:'hourglass-half',near:'map-pin',sos:'triangle-exclamation',cancel:'ban',edit:'pen',info:'info'}[n.type]||'bell';
-      return`<div class="notif-item ${n.read?'':'unread'}" style="position:relative;padding-left:40px">
+      return`<div class="notif-item ${n.read?'':'unread'}">
         <div class="notif-ic ${ic}"><i class="fas fa-${icon}"></i></div>
         <div class="notif-body">
           <div class="notif-title">${esc(n.msg||'')}</div>
           ${n.reason?`<div class="notif-sub">السبب: ${esc(n.reason)}</div>`:''}
           <div class="notif-time">${fmt(n.ts||Date.now())}</div>
         </div>
-        <button onclick="delNotifItem('${nid}')" style="position:absolute;top:50%;left:8px;transform:translateY(-50%);width:28px;height:28px;background:var(--red-l);border:1px solid var(--red-m);border-radius:7px;color:var(--red);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0"><i class="fas fa-times"></i></button>
       </div>`;
     }).join('');
     items.filter(([,n])=>!n.read).forEach(([nid])=>update(ref(dbs[0],`notifications/${nid}`),{read:true}));
@@ -1674,8 +1686,6 @@ const renderNotifs=()=>{
   });
   addL(r);
 };
-window.delNotifItem=async nid=>{await remove(ref(dbs[0],`notifications/${nid}`)).catch(()=>{});};
-window.clearAllNotifs=async()=>{if(!confirm('حذف جميع التنبيهات؟'))return;await remove(ref(dbs[0],'notifications')).catch(()=>{});toast('ok','تم حذف جميع التنبيهات','');};
 
 /* SUPPORT (دعم فني) */
 const renderSupport=async(role)=>{
@@ -1920,18 +1930,123 @@ window.logoutRecv=()=>{
   $('PR').style.display='none';$('PL').style.display='block';
 };
 
-/* LOGOUT */
+/* ═══ PUSH NOTIFICATIONS ═══ */
+let _notifGranted=false;
+const requestNotifPerm=async()=>{
+  if(!('Notification' in window))return;
+  if(Notification.permission==='granted'){_notifGranted=true;return;}
+  if(Notification.permission!=='denied'){
+    const p=await Notification.requestPermission();
+    _notifGranted=(p==='granted');
+  }
+};
+const showPushNotif=(title,body,icon='🚕',tag='taxi')=>{
+  if(!_notifGranted||!('Notification' in window))return;
+  try{
+    const n=new Notification(title,{body,icon:icon==='🚕'?undefined:icon,tag,requireInteraction:true,dir:'rtl',lang:'ar'});
+    n.onclick=()=>{window.focus();n.close();};
+    setTimeout(()=>n.close(),12000);
+  }catch(e){}
+};
+
+/* ═══ MONITORING SCREEN ═══ */
+let _monLsnrs=[];
+window.openMonitor=()=>{
+  $('MonScreen').classList.add('on');
+  _monLsnrs.forEach(r=>{try{off(r);}catch(e){}});_monLsnrs=[];
+  // mark monitor tab active
+  document.querySelectorAll('.mob-btn').forEach(b=>b.classList.remove('on','sup-on'));
+  const mb=$('mbn-monitor');if(mb)mb.classList.add('sup-on');
+  const renderMon=()=>{
+    const grid=$('monGrid');if(!grid)return;
+    const all=Object.entries(allDrvs);
+    const on=all.filter(([,d])=>getTCS(d).mcls==='mc-online').length;
+    const bu=all.filter(([,d])=>getTCS(d).mcls==='mc-busy').length;
+    const br=all.filter(([,d])=>getTCS(d).mcls==='mc-break').length;
+    const of=all.filter(([,d])=>getTCS(d).mcls==='mc-offline').length;
+    const td=all.reduce((s,[,d])=>s+(d.totalDeliveries||d.deliveries||0),0);
+    const upd=(id,v)=>{const e=$(id);if(e)e.textContent=v;};
+    upd('mn-on',on);upd('mn-busy',bu);upd('mn-brk',br);upd('mn-off',of);upd('mn-tot',all.length);upd('mn-del',td);
+    if(!all.length){grid.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:40px;color:rgba(255,255,255,.3);font-size:13px;font-family:'Cairo',sans-serif">لا يوجد سائقون مسجلون</div>`;return;}
+    const sorted=[...all].sort((a,b)=>{const o={mc-online:0,'mc-busy':1,'mc-break':2,'mc-offline':3};return(o[getTCS(a[1]).mcls]??3)-(o[getTCS(b[1]).mcls]??3)||(a[1].name||'').localeCompare(b[1].name||'');});
+    grid.innerHTML=sorted.map(([id,d])=>{
+      const cs=getTCS(d);
+      const av=d.avatar?`<img src="${d.avatar}" style="width:100%;height:100%;object-fit:cover">`:'🚕';
+      const del=d.totalDeliveries||d.deliveries||0;
+      const sh=d.shiftStart&&cs.mcls!=='mc-offline'?`<div class="mon-meta">⏱ ${fmtElapsed(Date.now()-d.shiftStart)}</div>`:'';
+      return`<div class="mon-card ${cs.mcls}">
+        <div class="mon-av">${av}</div>
+        <div style="flex:1;min-width:0">
+          <div class="mon-nm">${esc(d.name||'-')}</div>
+          <div class="mon-lbl" style="color:${cs.dot}"><div class="mon-dot-el" style="background:${cs.dot}${cs.mcls==='mc-online'?';box-shadow:0 0 5px '+cs.dot+'88':''}"></div>${cs.label}</div>
+          <div style="display:flex;flex-wrap:wrap;gap:4px;align-items:center">
+            <span class="mon-tag ${cs.mtag}"><i class="fas fa-box" style="font-size:8px"></i>${del}</span>
+            ${d.carNumber?`<span class="mon-meta">🚗 ${esc(d.carNumber)}</span>`:''}
+          </div>
+          ${sh}
+          ${d.phone?`<div class="mon-meta">${d.phone}</div>`:''}
+        </div>
+      </div>`;
+    }).join('');
+  };
+  dbs.forEach((sdb,sIdx)=>{
+    const r=ref(sdb,'drivers');
+    onValue(r,snap=>{
+      Object.keys(allDrvs).forEach(id=>{if(allDrvs[id]._shard===sIdx)delete allDrvs[id];});
+      if(snap.exists())Object.entries(snap.val()).forEach(([id,d])=>{allDrvs[id]={...d,_shard:sIdx};});
+      renderMon();
+    });
+    _monLsnrs.push(r);
+  });
+};
+window.closeMonitor=()=>{
+  $('MonScreen').classList.remove('on');
+  _monLsnrs.forEach(r=>{try{off(r);}catch(e){}});_monLsnrs=[];
+};
+
+/* ═══ MOBILE BOTTOM NAV ═══ */
+const buildMobNav=(role)=>{
+  const nav=$('mobNav'),inner=$('mobNavInner');
+  if(!nav||!inner)return;
+  nav.style.display='block';
+  if(role==='driver'){
+    inner.innerHTML=`
+      <button class="mob-btn on" id="mbn-reqs" onclick="nTab('reqs')"><i class="fas fa-inbox"></i>الطلبات</button>
+      <button class="mob-btn" id="mbn-reports" onclick="nTab('reports')"><i class="fas fa-chart-bar"></i>تقاريري</button>
+      <button class="mob-btn" id="mbn-support" onclick="nTab('support')"><i class="fas fa-headset"></i>دعم فني</button>
+      <button class="mob-btn" id="mbn-profile" onclick="nTab('profile')"><i class="fas fa-user-cog"></i>حسابي</button>`;
+  } else {
+    inner.innerHTML=`
+      <button class="mob-btn sup-on" id="mbn-reqs" onclick="nTab('reqs')"><i class="fas fa-inbox"></i>الطلبات</button>
+      <button class="mob-btn" id="mbn-map" onclick="nTab('map')"><i class="fas fa-map-location-dot"></i>الخريطة</button>
+      <button class="mob-btn" id="mbn-notifs" onclick="nTab('notifs')"><span class="mob-badge" id="mob-notif-badge">0</span><i class="fas fa-bell"></i>التنبيهات</button>
+      <button class="mob-btn" id="mbn-reports" onclick="nTab('reports')"><i class="fas fa-chart-bar"></i>التقارير</button>
+      <button class="mob-btn" id="mbn-accounts" onclick="nTab('accounts')"><i class="fas fa-users"></i>السائقون</button>
+      <button class="mob-btn" id="mbn-support" onclick="nTab('support')"><i class="fas fa-headset"></i>دعم فني</button>
+      <button class="mob-btn red-btn" id="mbn-monitor" onclick="openMonitor()"><i class="fas fa-tv"></i>مراقبة</button>
+      <button class="mob-btn" id="mbn-profile" onclick="nTab('profile')"><i class="fas fa-user-cog"></i>حسابي</button>`;
+  }
+};
+const syncMobNav=(t)=>{
+  document.querySelectorAll('.mob-btn').forEach(b=>b.classList.remove('on','sup-on'));
+  const mb=$('mbn-'+t);if(mb)mb.classList.add(CR==='supervisor'?'sup-on':'on');
+};
+
+/* ═══ LOGOUT ═══ */
 window.logout=async()=>{
   if(locWatcher)clearInterval(locWatcher);locWatcher=null;
   clearInterval(reqCountdownTimer);
   $('ReqNotif').classList.remove('on');
   $('SosBroadcastNotif').classList.remove('on');
+  if($('MonScreen'))$('MonScreen').classList.remove('on');
+  _monLsnrs.forEach(r=>{try{off(r);}catch(e){}});_monLsnrs=[];
   if(CR==='driver'&&CU){
     await update(ref(dbs[CU._shard||0],`drivers/${CU.id}`),{status:'offline',lastSeen:Date.now()}).catch(()=>{});
   }
   clrListeners(false);CU=null;CR=null;avData='';shiftStartTime=null;allDrvs={};
   $('PD').style.display='none';$('PL').style.display='block';
   $('ntabs').innerHTML='';$('navav').textContent='👤';$('navav').classList.remove('sup-av');
+  const mn=$('mobNav');if(mn)mn.style.display='none';
   if(window._inlineMap){try{window._inlineMap.remove();}catch(e){}window._inlineMap=null;window._inlineMarkers={};}
 };
 </script>
