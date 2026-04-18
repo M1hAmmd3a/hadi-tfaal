@@ -4,54 +4,49 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <title>منصة الطلبات — هادي التفال</title>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@700;800;900&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@400;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <style>
-:root{
-  --bg:#FFFFFF;--bg2:#F8FAFC;--bg3:#F1F5F9;--bg4:#E2E8F0;
-  --border:#E2E8F0;--border2:#CBD5E1;
-  --text:#0F172A;--text2:#334155;--text3:#64748B;--text4:#94A3B8;
-  --primary:#1D4ED8;--primary-d:#1E40AF;--primary-l:#EFF6FF;--primary-m:#BFDBFE;
-  --amber:#D97706;--amber-l:#FFFBEB;--amber-m:#FDE68A;
-  --green:#059669;--green-l:#ECFDF5;--green-m:#A7F3D0;
-  --red:#DC2626;--red-l:#FEF2F2;--red-m:#FECACA;
-  --orange:#EA580C;--orange-l:#FFF7ED;--orange-m:#FED7AA;
-  --cyan:#0891B2;--cyan-l:#ECFEFF;--cyan-m:#A5F3FC;
-  --warn:#F59E0B;--warn-l:#FFFBEB;
-  --shadow:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.04);
-  --shadow-md:0 4px 8px rgba(0,0,0,.07),0 2px 4px rgba(0,0,0,.04);
-  --shadow-lg:0 10px 24px rgba(0,0,0,.09),0 4px 8px rgba(0,0,0,.05);
-  --shadow-xl:0 20px 48px rgba(0,0,0,.12),0 8px 16px rgba(0,0,0,.06);
-  --r:10px;--rl:16px;--rll:22px;--tr:all .18s ease;
-}
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;font-size:14px}
-img{max-width:100%;display:block}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;font-family:'Cairo',sans-serif;direction:rtl}
 .h{display:none!important}
-button,textarea,input,select{font-family:'Cairo',sans-serif}
-.spin{width:18px;height:18px;border:2.5px solid rgba(29,78,216,.15);border-top-color:var(--primary);border-radius:50%;animation:sp .7s linear infinite;display:inline-block;vertical-align:middle}
-.spin.wh{border-color:rgba(255,255,255,.3);border-top-color:#fff}
-@keyframes sp{to{transform:rotate(360deg)}}
-
-.sbadge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px}
+.spin{width:18px;height:18px;border:2.5px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:inline-block}
+.spin.dark{border-color:rgba(0,0,0,.15);border-top-color:#1D4ED8}
+@keyframes spin{to{transform:rotate(360deg)}}
+.sbadge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px}
 .sb-green{background:var(--green-l);color:var(--green);border:1px solid var(--green-m)}
 .sb-red{background:var(--red-l);color:var(--red);border:1px solid var(--red-m)}
-.sb-orange{background:var(--orange-l);color:var(--orange);border:1px solid var(--orange-m)}
 .sb-amber{background:var(--amber-l);color:var(--amber);border:1px solid var(--amber-m)}
-.sb-gray{background:var(--bg3);color:var(--text3);border:1px solid var(--border2)}
+.sb-orange{background:var(--orange-l);color:var(--orange);border:1px solid var(--orange-m)}
 .sb-blue{background:var(--primary-l);color:var(--primary);border:1px solid var(--primary-m)}
-.sb-cyan{background:var(--cyan-l);color:var(--cyan);border:1px solid var(--cyan-m)}
-.pdot{width:7px;height:7px;border-radius:50%;display:inline-block;flex-shrink:0}
-.pd-green{background:var(--green);animation:blink 1.5s infinite}
-.pd-red{background:var(--red)}
-.pd-orange{background:var(--orange)}
-.pd-amber{background:var(--warn);animation:blink 1s infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
+.sb-gray{background:var(--bg3);color:var(--text3);border:1px solid var(--border2)}
+.pdot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.pd-green{background:var(--green)}.pd-red{background:var(--red)}.pd-orange{background:var(--orange)}.pd-gray{background:#94A3B8}
 
-/* LANDING */
-#PL{min-height:100vh;background:#fff;display:flex;flex-direction:column;position:relative;overflow:hidden}
-.land-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 50% at 10% 20%,#EFF6FF 0%,transparent 60%),radial-gradient(ellipse 60% 40% at 90% 80%,#FFFBEB 0%,transparent 55%);pointer-events:none}
+:root{
+  --primary:#1D4ED8;--primary-d:#1E40AF;--primary-l:#EFF6FF;--primary-m:#BFDBFE;
+  --green:#059669;--green-l:#ECFDF5;--green-m:#A7F3D0;
+  --red:#DC2626;--red-l:#FEF2F2;--red-m:#FECACA;
+  --amber:#D97706;--amber-l:#FFFBEB;--amber-m:#FDE68A;
+  --orange:#EA580C;--orange-l:#FFF7ED;--orange-m:#FED7AA;
+  --cyan:#0891B2;--cyan-l:#ECFEFF;--cyan-m:#A5F3FC;
+  --warn:#F59E0B;
+  --text:#0F172A;--text2:#334155;--text3:#64748B;--text4:#94A3B8;
+  --bg:#FFFFFF;--bg2:#F8FAFC;--bg3:#F1F5F9;
+  --border:#E2E8F0;--border2:#CBD5E1;
+  --r:10px;--rl:14px;--rll:20px;
+  --shadow:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);
+  --shadow-md:0 4px 6px rgba(0,0,0,.07),0 2px 4px rgba(0,0,0,.04);
+  --shadow-lg:0 10px 15px rgba(0,0,0,.1),0 4px 6px rgba(0,0,0,.05);
+  --shadow-xl:0 20px 25px rgba(0,0,0,.1),0 10px 10px rgba(0,0,0,.04);
+  --tr:all .18s ease;
+}
+
+/* ── LANDING ── */
+#PL{min-height:100vh;background:var(--bg);display:flex;flex-direction:column;position:relative;overflow:hidden}
+.land-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% -10%,rgba(29,78,216,.08),transparent);pointer-events:none}
 .land-grid{position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:44px 44px;opacity:.4;pointer-events:none}
 .lnav{position:fixed;top:0;right:0;left:0;z-index:200;padding:13px 24px;display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);box-shadow:var(--shadow)}
 .logo{display:flex;align-items:center;gap:12px;text-decoration:none;cursor:pointer}
@@ -84,7 +79,7 @@ button,textarea,input,select{font-family:'Cairo',sans-serif}
 .hfeat{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text3);background:var(--bg2);border:1px solid var(--border);padding:6px 14px;border-radius:50px}
 .hfeat i{color:var(--green);font-size:10px}
 
-/* MODALS */
+/* ── MODALS ── */
 .ov{position:fixed;inset:0;background:rgba(15,23,42,.55);backdrop-filter:blur(6px);z-index:500;display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;visibility:hidden;transition:opacity .22s,visibility .22s}
 .ov.on{opacity:1;visibility:visible}
 .mdl{background:var(--bg);border:1px solid var(--border);border-radius:var(--rll);padding:28px 24px;width:100%;max-width:400px;max-height:92vh;overflow-y:auto;box-shadow:var(--shadow-xl);transform:scale(.93) translateY(14px);transition:transform .26s cubic-bezier(.34,1.3,.64,1);position:relative;scrollbar-width:thin;scrollbar-color:var(--border2) transparent}
@@ -101,7 +96,7 @@ button,textarea,input,select{font-family:'Cairo',sans-serif}
 .tab.gld.on{background:linear-gradient(135deg,#D97706,#B45309);color:#fff}
 .fg{margin-bottom:14px}
 .fl{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:var(--text3);margin-bottom:6px}
-.fi{width:100%;padding:10px 13px;background:var(--bg2);border:1.5px solid var(--border);border-radius:var(--r);color:var(--text);font-size:13px;transition:var(--tr);outline:none}
+.fi{width:100%;padding:10px 13px;background:var(--bg2);border:1.5px solid var(--border);border-radius:var(--r);color:var(--text);font-size:13px;transition:var(--tr);outline:none;font-family:'Cairo',sans-serif}
 .fi:focus{border-color:var(--primary);background:var(--primary-l);box-shadow:0 0 0 3px rgba(29,78,216,.08)}
 .fi::placeholder{color:var(--text4)}.fi:disabled{opacity:.5;cursor:not-allowed;background:var(--bg3)}
 .al{display:none;padding:10px 13px;border-radius:var(--r);font-size:12px;font-weight:600;margin-bottom:14px;align-items:center;gap:8px}
@@ -111,36 +106,45 @@ button,textarea,input,select{font-family:'Cairo',sans-serif}
 .avup:hover{border-color:var(--primary);background:var(--primary-l)}
 .avcircle{width:68px;height:68px;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:24px;color:var(--text4);overflow:hidden;border:2px solid var(--border)}
 .avup span{font-size:11px;color:var(--text3)}
-.bp{width:100%;padding:12px;background:var(--primary);border:none;border-radius:var(--r);color:#fff;font-size:14px;font-weight:700;cursor:pointer;transition:var(--tr);margin-top:6px;display:flex;align-items:center;justify-content:center;gap:8px}
+.bp{width:100%;padding:12px;background:var(--primary);border:none;border-radius:var(--r);color:#fff;font-size:14px;font-weight:700;cursor:pointer;transition:var(--tr);margin-top:6px;display:flex;align-items:center;justify-content:center;gap:8px;font-family:'Cairo',sans-serif}
 .bp:hover{background:var(--primary-d);transform:translateY(-1px)}
-.ba{width:100%;padding:12px;background:linear-gradient(135deg,#D97706,#B45309);border:none;border-radius:var(--r);color:#fff;font-size:14px;font-weight:700;cursor:pointer;transition:var(--tr);margin-top:6px;display:flex;align-items:center;justify-content:center;gap:8px}
+.ba{width:100%;padding:12px;background:linear-gradient(135deg,#D97706,#B45309);border:none;border-radius:var(--r);color:#fff;font-size:14px;font-weight:700;cursor:pointer;transition:var(--tr);margin-top:6px;display:flex;align-items:center;justify-content:center;gap:8px;font-family:'Cairo',sans-serif}
 .ba:hover{opacity:.92;transform:translateY(-1px)}
-.bdng{width:100%;padding:10px;background:var(--red-l);border:1px solid var(--red-m);border-radius:var(--r);color:var(--red);font-size:13px;font-weight:700;cursor:pointer;transition:var(--tr);margin-top:9px}
+.bdng{width:100%;padding:10px;background:var(--red-l);border:1px solid var(--red-m);border-radius:var(--r);color:var(--red);font-size:13px;font-weight:700;cursor:pointer;transition:var(--tr);margin-top:9px;font-family:'Cairo',sans-serif}
 .bdng:hover{background:var(--red-m)}
 .mediainp{display:none}
 
-/* DASHBOARD */
+/* ── DASHBOARD ── */
 #PD{display:none;min-height:100vh;background:var(--bg2)}
 #PR{display:none;min-height:100vh;background:var(--bg2)}
 .dnav{position:fixed;top:0;right:0;left:0;z-index:100;height:60px;background:var(--bg);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 18px;gap:10px;box-shadow:var(--shadow)}
 .dnav .logo{flex:0 0 auto}
-.ntabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;flex:1;margin:0 8px}
+.ntabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;flex:1;margin:0 6px;-webkit-overflow-scrolling:touch}
 .ntabs::-webkit-scrollbar{display:none}
-.ntab{padding:7px 14px;border:none;border-radius:9px;background:transparent;color:var(--text3);font-size:12px;font-weight:700;cursor:pointer;transition:var(--tr);white-space:nowrap;display:flex;align-items:center;gap:6px;flex-shrink:0}
+.ntab{padding:7px 12px;border:none;border-radius:9px;background:transparent;color:var(--text3);font-size:12px;font-weight:700;cursor:pointer;transition:var(--tr);white-space:nowrap;display:flex;align-items:center;gap:5px;flex-shrink:0;min-width:0;font-family:'Cairo',sans-serif}
 .ntab:hover{background:var(--bg2);color:var(--text2)}
 .ntab.on{background:var(--primary-l);color:var(--primary);font-weight:800}
 .ntab.sup-on{background:var(--amber-l);color:var(--amber);font-weight:800}
-.navr{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.navr{display:flex;align-items:center;gap:6px;flex-shrink:0}
 .navav{width:34px;height:34px;border-radius:10px;border:2px solid var(--border2);overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:15px;cursor:pointer;background:var(--bg2)}
 .navav img{width:100%;height:100%;object-fit:cover}
 .navav.sup-av{border-color:var(--amber)}
-.bout{padding:7px 13px;background:var(--red-l);border:1px solid var(--red-m);border-radius:9px;color:var(--red);font-size:11px;font-weight:700;cursor:pointer;transition:var(--tr)}
+.bout{padding:7px 11px;background:var(--red-l);border:1px solid var(--red-m);border-radius:9px;color:var(--red);font-size:11px;font-weight:700;cursor:pointer;transition:var(--tr);font-family:'Cairo',sans-serif}
 .bout:hover{background:var(--red-m)}
 .dbody{padding-top:60px;height:100vh;overflow:hidden}
 .ntab-badge{background:var(--red);color:#fff;font-size:9px;font-weight:800;padding:1px 5px;border-radius:8px;min-width:16px;text-align:center}
 .panel{padding:20px;overflow-y:auto;height:calc(100vh - 60px)}
 
-/* DRIVER LAYOUT */
+/* mobile bottom nav */
+.mobile-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:200;background:var(--bg);border-top:1px solid var(--border);box-shadow:0 -2px 10px rgba(0,0,0,.06);padding:6px 4px calc(8px + env(safe-area-inset-bottom))}
+.mobile-nav .mob-tabs{display:flex;justify-content:space-around;align-items:flex-end;gap:2px}
+.mob-tab{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 8px;border:none;background:transparent;color:var(--text4);font-family:'Cairo',sans-serif;font-size:10px;font-weight:700;cursor:pointer;border-radius:10px;transition:var(--tr);flex:1;position:relative;min-width:0}
+.mob-tab.on{color:var(--primary);background:var(--primary-l)}
+.mob-tab.sup-on{color:var(--amber);background:var(--amber-l)}
+.mob-tab i{font-size:18px}
+.mob-tab-badge{position:absolute;top:3px;right:10px;background:var(--red);color:#fff;font-size:8px;font-weight:800;padding:1px 4px;border-radius:6px;min-width:14px;text-align:center}
+
+/* ── DRIVER LAYOUT ── */
 .dlayout{display:flex;height:calc(100vh - 60px)}
 .dside{width:260px;flex-shrink:0;background:var(--bg);border-left:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
 .dmain{flex:1;overflow:hidden;display:flex;flex-direction:column;background:var(--bg2)}
@@ -153,14 +157,16 @@ button,textarea,input,select{font-family:'Cairo',sans-serif}
 .ssec{padding:10px 12px;border-top:1px solid var(--border)}
 .slbl{font-size:10px;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px;display:flex;align-items:center;gap:5px}
 .qbtns{display:grid;grid-template-columns:1fr 1fr;gap:7px}
-.qbtn{padding:11px 7px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);color:var(--text2);font-size:11px;cursor:pointer;transition:var(--tr);text-align:center;display:flex;flex-direction:column;align-items:center;gap:5px}
+.qbtn{padding:11px 7px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);color:var(--text2);font-size:11px;cursor:pointer;transition:var(--tr);text-align:center;display:flex;flex-direction:column;align-items:center;gap:5px;font-family:'Cairo',sans-serif}
 .qbtn i{font-size:16px}
 .qbtn:hover{background:var(--primary-l);border-color:var(--primary-m);color:var(--primary);transform:translateY(-2px)}
 .qbtn.sos{grid-column:span 2;background:var(--red-l);border-color:var(--red-m);color:var(--red);flex-direction:row;justify-content:center;font-size:12px;font-weight:800;padding:10px;animation:sosGlow 2s infinite}
+.qbtn.done-all{grid-column:span 2;background:var(--green-l);border-color:var(--green-m);color:var(--green);flex-direction:row;justify-content:center;font-size:12px;font-weight:800;padding:10px}
+.qbtn.done-all:hover{background:var(--green-m)}
 @keyframes sosGlow{0%,100%{box-shadow:none}50%{box-shadow:0 0 0 4px rgba(220,38,38,.15)}}
 .qbtn.sos:hover{background:var(--red-m)}
 
-/* REQ AREA */
+/* ── REQ AREA ── */
 .dreq-wrap{flex:1;display:flex;flex-direction:column;overflow:hidden}
 .dreq-hd{padding:13px 16px;background:var(--bg);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
 .dreq-hd-title{font-family:'Tajawal',sans-serif;font-size:15px;font-weight:900;color:var(--text);display:flex;align-items:center;gap:8px}
@@ -169,14 +175,14 @@ button,textarea,input,select{font-family:'Cairo',sans-serif}
 .dreq-empty i{font-size:44px;opacity:.2}
 .dreq-empty p{font-size:13px;line-height:1.7}
 
-/* REQUEST CARD */
+/* ── REQUEST CARD ── */
 .reqcard{background:var(--bg);border:1.5px solid var(--border);border-radius:var(--rl);padding:16px;transition:var(--tr);position:relative}
 .reqcard:hover{box-shadow:var(--shadow-md)}
 .rc-pending{border-color:var(--amber-m);background:linear-gradient(135deg,#FFFBEB,#fff)}
 .rc-accepted{border-color:var(--green-m);background:linear-gradient(135deg,#ECFDF5,#fff)}
 .rc-rejected{border-color:var(--red-m);background:var(--red-l);opacity:.7}
 .rc-waiting{border-color:var(--orange-m);background:var(--orange-l)}
-.rc-near{border-color:var(--warn);animation:nearPulse 1.8s infinite}
+.rc-near{border-color:var(--warn);background:linear-gradient(135deg,#FFFBEB,#fff)}
 .rc-cancelled{border-color:var(--border2);background:var(--bg3);opacity:.65}
 .rc-modified{border-color:var(--cyan);background:var(--cyan-l);animation:modPulse .9s ease 4}
 .rc-done{border-color:var(--green-m);background:var(--green-l);opacity:.8}
@@ -193,7 +199,7 @@ button,textarea,input,select{font-family:'Cairo',sans-serif}
 .reqdetails{font-size:12px;color:var(--text2);line-height:1.7;margin-bottom:10px;display:flex;align-items:flex-start;gap:6px}
 .reqdetails i{color:var(--amber);flex-shrink:0;margin-top:3px}
 .reqacts{display:flex;gap:7px;flex-wrap:wrap;align-items:center}
-.rca{padding:8px 14px;border-radius:9px;font-size:12px;font-weight:700;cursor:pointer;border:none;transition:var(--tr);display:flex;align-items:center;gap:5px}
+.rca{padding:8px 14px;border-radius:9px;font-size:12px;font-weight:700;cursor:pointer;border:none;transition:var(--tr);display:flex;align-items:center;gap:5px;font-family:'Cairo',sans-serif}
 .rca-primary{background:var(--primary);color:#fff}.rca-primary:hover{background:var(--primary-d)}
 .rca-green{background:var(--green-l);color:var(--green);border:1px solid var(--green-m)}.rca-green:hover{background:var(--green-m)}
 .rca-red{background:var(--red-l);color:var(--red);border:1px solid var(--red-m)}.rca-red:hover{background:var(--red-m)}
@@ -207,7 +213,7 @@ button,textarea,input,select{font-family:'Cairo',sans-serif}
 .mod-notice{background:var(--cyan-l);border:1px solid var(--cyan-m);border-radius:var(--r);padding:8px 12px;font-size:12px;color:var(--cyan);font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px}
 .cancel-msg{padding:8px 10px;background:var(--red-l);border:1px solid var(--red-m);border-radius:var(--r);font-size:12px;color:var(--red);font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px}
 
-/* SUPERVISOR LAYOUT */
+/* ── SUPERVISOR LAYOUT ── */
 .sup-req-layout{display:flex;height:calc(100vh - 60px);overflow:hidden}
 .sup-req-col{width:360px;flex-shrink:0;border-left:1px solid var(--border);background:var(--bg);display:flex;flex-direction:column}
 .sup-req-main{flex:1;overflow:hidden;display:flex;flex-direction:column;background:var(--bg2)}
@@ -215,7 +221,7 @@ button,textarea,input,select{font-family:'Cairo',sans-serif}
 .col-hd-title{font-family:'Tajawal',sans-serif;font-size:14px;font-weight:900;color:var(--text);display:flex;align-items:center;gap:7px}
 .col-scroll{flex:1;overflow-y:auto;padding:8px;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
 
-/* STATS */
+/* ── STATS ── */
 .ststrip{display:flex;gap:8px;padding:10px 14px;border-bottom:1px solid var(--border);background:var(--bg);flex-shrink:0;overflow-x:auto;scrollbar-width:none}
 .ststrip::-webkit-scrollbar{display:none}
 .st{display:flex;align-items:center;gap:8px;padding:9px 13px;background:var(--bg2);border-radius:var(--r);border:1px solid var(--border);white-space:nowrap;flex-shrink:0}
@@ -223,7 +229,7 @@ button,textarea,input,select{font-family:'Cairo',sans-serif}
 .stv{font-size:17px;font-weight:900;line-height:1;color:var(--text)}
 .stl{font-size:9px;color:var(--text4);margin-top:1px}
 
-/* MAP */
+/* ── MAP ── */
 .map-legend{position:absolute;bottom:14px;right:14px;z-index:400;background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:10px 14px;font-size:11px;box-shadow:var(--shadow-md)}
 .map-legend-item{display:flex;align-items:center;gap:7px;margin-bottom:5px;color:var(--text2)}
 .map-legend-item:last-child{margin-bottom:0}
@@ -238,7 +244,7 @@ button,textarea,input,select{font-family:'Cairo',sans-serif}
 .leaflet-popup-content{font-family:'Cairo',sans-serif!important;font-size:12px!important}
 .leaflet-control-zoom a{background:var(--bg)!important;color:var(--text2)!important;border-color:var(--border)!important}
 
-/* DRIVER REQUEST NOTIFICATION (full screen with message) */
+/* ── DRIVER REQUEST NOTIFICATION ── */
 .req-notif{position:fixed;inset:0;background:rgba(15,23,42,.7);backdrop-filter:blur(10px);z-index:9998;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;visibility:hidden;transition:opacity .28s,visibility .28s}
 .req-notif.on{opacity:1;visibility:visible}
 .req-card{background:var(--bg);border:2px solid var(--amber-m);border-radius:var(--rll);padding:28px 24px;width:100%;max-width:400px;text-align:center;box-shadow:var(--shadow-xl);animation:reqPulse 2s ease infinite;max-height:90vh;overflow-y:auto}
@@ -253,20 +259,19 @@ button,textarea,input,select{font-family:'Cairo',sans-serif}
 .req-detail-row{display:flex;align-items:flex-start;gap:8px;margin-bottom:6px;font-size:12px;color:var(--text2)}
 .req-detail-row:last-child{margin-bottom:0}
 .req-detail-row i{color:var(--amber);margin-top:2px;flex-shrink:0}
-/* message box in request notification */
 .req-msg-box{background:var(--primary-l);border:1px solid var(--primary-m);border-radius:var(--r);padding:11px 13px;margin-bottom:12px;text-align:right}
 .req-msg-from{font-size:10px;color:var(--primary);font-weight:700;margin-bottom:4px}
 .req-msg-text{font-size:13px;color:var(--text);font-weight:700;line-height:1.6}
 .req-mod-notice{background:var(--cyan-l);border:1px solid var(--cyan-m);border-radius:var(--r);padding:9px 12px;margin-bottom:12px;font-size:12px;color:var(--cyan);font-weight:700;text-align:right}
 .req-btns{display:flex;gap:10px}
-.req-accept{flex:1;padding:13px;background:var(--green);border:none;border-radius:var(--r);color:#fff;font-size:14px;font-weight:800;cursor:pointer;transition:var(--tr)}
+.req-accept{flex:1;padding:13px;background:var(--green);border:none;border-radius:var(--r);color:#fff;font-size:14px;font-weight:800;cursor:pointer;transition:var(--tr);font-family:'Cairo',sans-serif}
 .req-accept:hover{opacity:.9}
-.req-reject-btn{flex:1;padding:13px;background:var(--red-l);border:1px solid var(--red-m);border-radius:var(--r);color:var(--red);font-size:14px;font-weight:800;cursor:pointer;transition:var(--tr)}
+.req-reject-btn{flex:1;padding:13px;background:var(--red-l);border:1px solid var(--red-m);border-radius:var(--r);color:var(--red);font-size:14px;font-weight:800;cursor:pointer;transition:var(--tr);font-family:'Cairo',sans-serif}
 .req-reject-btn:hover{background:var(--red-m)}
 .req-reject-area{display:none;margin-top:12px}
 .req-reject-area.on{display:block}
 
-/* SELECT TAXI */
+/* ── SELECT TAXI ── */
 .sel-taxi-modal{position:fixed;inset:0;background:rgba(15,23,42,.55);backdrop-filter:blur(6px);z-index:700;display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;visibility:hidden;transition:opacity .22s,visibility .22s}
 .sel-taxi-modal.on{opacity:1;visibility:visible}
 .sel-taxi-box{background:var(--bg);border:1px solid var(--border);border-radius:var(--rll);padding:24px;width:100%;max-width:420px;max-height:85vh;overflow-y:auto;box-shadow:var(--shadow-xl)}
@@ -277,20 +282,20 @@ button,textarea,input,select{font-family:'Cairo',sans-serif}
 .sel-taxi-av{width:40px;height:40px;border-radius:11px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:17px;background:var(--bg3);flex-shrink:0;border:2px solid transparent}
 .sel-taxi-av img{width:100%;height:100%;object-fit:cover}
 
-/* SOS BROADCAST (supervisor sends to all drivers) */
+/* ── SOS BROADCAST ── */
 .sos-broadcast-notif{position:fixed;inset:0;background:rgba(220,38,38,.85);backdrop-filter:blur(8px);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
 .sos-broadcast-notif.on{opacity:1;visibility:visible}
-.sos-broadcast-card{background:#fff;border:3px solid var(--red);border-radius:var(--rll);padding:32px 28px;width:100%;max-width:420px;text-align:center;box-shadow:0 0 0 0 rgba(220,38,38,.4);animation:sosBroadcast 1s infinite}
+.sos-broadcast-card{background:#fff;border:3px solid var(--red);border-radius:var(--rll);padding:32px 28px;width:100%;max-width:420px;text-align:center;animation:sosBroadcast 1s infinite}
 @keyframes sosBroadcast{0%,100%{box-shadow:0 0 0 0 rgba(220,38,38,.4)}50%{box-shadow:0 0 0 16px rgba(220,38,38,0)}}
 .sos-bc-icon{font-size:48px;margin-bottom:12px;animation:rBounce .5s ease infinite alternate}
 .sos-bc-title{font-family:'Tajawal',sans-serif;font-size:22px;font-weight:900;color:var(--red);margin-bottom:8px}
 .sos-bc-from{font-size:12px;color:var(--text3);margin-bottom:12px}
 .sos-bc-msg{background:var(--red-l);border:1px solid var(--red-m);border-radius:var(--r);padding:14px;font-size:14px;font-weight:700;color:var(--text);line-height:1.7;margin-bottom:16px;text-align:right}
-.sos-bc-ack{padding:13px 24px;background:var(--red);border:none;border-radius:var(--r);color:#fff;font-size:15px;font-weight:800;cursor:pointer;transition:var(--tr)}
+.sos-bc-ack{padding:13px 24px;background:var(--red);border:none;border-radius:var(--r);color:#fff;font-size:15px;font-weight:800;cursor:pointer;transition:var(--tr);font-family:'Cairo',sans-serif}
 .sos-bc-ack:hover{opacity:.9}
 
-/* NOTIFICATIONS */
-.notif-item{background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:12px;margin-bottom:8px;display:flex;gap:11px;align-items:flex-start;transition:var(--tr)}
+/* ── NOTIFICATIONS ── */
+.notif-item{background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:12px;margin-bottom:8px;display:flex;gap:11px;align-items:flex-start;transition:var(--tr);position:relative}
 .notif-item:hover{box-shadow:var(--shadow)}
 .notif-item.unread{border-color:var(--amber-m);background:var(--amber-l)}
 .notif-ic{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
@@ -299,12 +304,14 @@ button,textarea,input,select{font-family:'Cairo',sans-serif}
 .ni-amber{background:var(--amber-l);color:var(--amber)}
 .ni-blue{background:var(--primary-l);color:var(--primary)}
 .ni-cyan{background:var(--cyan-l);color:var(--cyan)}
-.notif-body{flex:1}
+.notif-body{flex:1;min-width:0}
 .notif-title{font-size:12px;font-weight:800;margin-bottom:2px;color:var(--text)}
 .notif-sub{font-size:11px;color:var(--text3);line-height:1.5}
 .notif-time{font-size:10px;color:var(--text4);margin-top:4px}
+.notif-del-btn{width:28px;height:28px;background:var(--red-l);border:1px solid var(--red-m);border-radius:7px;color:var(--red);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;transition:var(--tr)}
+.notif-del-btn:hover{background:var(--red-m)}
 
-/* REPORTS */
+/* ── REPORTS ── */
 .report-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--rl);padding:18px;margin-bottom:14px;box-shadow:var(--shadow)}
 .report-title{font-family:'Tajawal',sans-serif;font-size:15px;font-weight:900;margin-bottom:12px;display:flex;align-items:center;gap:8px;color:var(--text)}
 .report-title i{color:var(--amber)}
@@ -314,7 +321,7 @@ button,textarea,input,select{font-family:'Cairo',sans-serif}
 .report-stat-val{font-size:14px;font-weight:900;color:var(--green)}
 .report-drv-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:13px;margin-bottom:8px}
 
-/* ACCOUNTS */
+/* ── ACCOUNTS ── */
 .acc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
 .acccard{background:var(--bg);border:1px solid var(--border);border-radius:var(--rl);padding:17px;transition:var(--tr);box-shadow:var(--shadow)}
 .acccard:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
@@ -328,7 +335,7 @@ button,textarea,input,select{font-family:'Cairo',sans-serif}
 .acc-reveal{background:none;border:none;color:var(--text4);cursor:pointer;font-size:11px;padding:2px 4px;transition:var(--tr)}
 .acc-reveal:hover{color:var(--amber)}
 .accbts{display:flex;gap:7px;flex-wrap:wrap}
-.accbtn{padding:6px 12px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;border:none;transition:var(--tr);display:flex;align-items:center;gap:5px}
+.accbtn{padding:6px 12px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;border:none;transition:var(--tr);display:flex;align-items:center;gap:5px;font-family:'Cairo',sans-serif}
 .aedit{background:var(--amber-l);border:1px solid var(--amber-m);color:var(--amber)}.aedit:hover{background:var(--amber-m)}
 .adel{background:var(--red-l);border:1px solid var(--red-m);color:var(--red)}.adel:hover{background:var(--red-m)}
 .ptab{padding:20px;overflow-y:auto;height:calc(100vh - 60px);max-width:500px;margin:0 auto}
@@ -340,7 +347,7 @@ button,textarea,input,select{font-family:'Cairo',sans-serif}
 .sh2{background:#F5F3FF;color:#7C3AED;border:1px solid #DDD6FE}
 .sh3{background:var(--amber-l);color:var(--amber);border:1px solid var(--amber-m)}
 
-/* SUPPORT (دعم فني) */
+/* ── SUPPORT ── */
 .support-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-bottom:20px}
 .support-drv-card{background:var(--bg);border:1.5px solid var(--border);border-radius:var(--rl);padding:16px;display:flex;align-items:center;gap:13px;transition:var(--tr);box-shadow:var(--shadow)}
 .support-drv-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
@@ -350,99 +357,94 @@ button,textarea,input,select{font-family:'Cairo',sans-serif}
 .support-drv-name{font-size:14px;font-weight:800;color:var(--text);margin-bottom:3px}
 .support-drv-phone{font-size:12px;color:var(--text3);display:flex;align-items:center;gap:4px;margin-bottom:5px}
 .support-drv-car{font-size:11px;color:var(--text4)}
-.support-wa-btn{padding:9px 16px;background:linear-gradient(135deg,#25D366,#128C7E);border:none;border-radius:9px;color:#fff;font-size:12px;font-weight:700;cursor:pointer;transition:var(--tr);display:flex;align-items:center;gap:6px;flex-shrink:0;text-decoration:none}
+.support-wa-btn{padding:9px 16px;background:linear-gradient(135deg,#25D366,#128C7E);border:none;border-radius:9px;color:#fff;font-size:12px;font-weight:700;cursor:pointer;transition:var(--tr);display:flex;align-items:center;gap:6px;flex-shrink:0;text-decoration:none;font-family:'Cairo',sans-serif}
 .support-wa-btn:hover{opacity:.9;transform:translateY(-1px)}
 
-/* DELIVERIES COUNT BADGE */
+/* ── DELIVERIES COUNT BADGE ── */
 .deliv-badge{background:linear-gradient(135deg,var(--primary),var(--primary-d));color:#fff;font-size:11px;font-weight:800;padding:3px 9px;border-radius:20px;display:inline-flex;align-items:center;gap:4px}
 
-/* TOASTS */
-.toasts{position:fixed;bottom:20px;left:16px;z-index:9999;display:flex;flex-direction:column;gap:7px;pointer-events:none}
+/* ── TOASTS ── */
+.toasts{position:fixed;bottom:80px;left:16px;z-index:9999;display:flex;flex-direction:column;gap:7px;pointer-events:none}
 .toast{background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:11px 14px;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow-lg);animation:toastIn .24s cubic-bezier(.34,1.56,.64,1);min-width:220px;max-width:300px;pointer-events:all}
 @keyframes toastIn{from{transform:translateX(-110%) scale(.9);opacity:0}to{transform:none;opacity:1}}
 .tst{font-size:17px;flex-shrink:0}.ttt{font-size:12px;font-weight:800;color:var(--text)}.tts{font-size:10px;color:var(--text3);margin-top:1px}
 
-/* SOS supervisor modal */
+/* ── SOS SUPERVISOR MODAL ── */
 .sos-sup-modal{position:fixed;inset:0;background:rgba(15,23,42,.6);backdrop-filter:blur(6px);z-index:800;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;visibility:hidden;transition:opacity .22s,visibility .22s}
 .sos-sup-modal.on{opacity:1;visibility:visible}
 .sos-sup-box{background:var(--bg);border:2px solid var(--red-m);border-radius:var(--rll);padding:28px 24px;width:100%;max-width:420px;box-shadow:var(--shadow-xl)}
 
-/* MOBILE BOTTOM NAV */
-.mob-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:300;background:var(--bg);border-top:1.5px solid var(--border);box-shadow:0 -3px 14px rgba(0,0,0,.09);padding:4px 0 max(env(safe-area-inset-bottom),6px)}
-.mob-nav-inner{display:flex;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding:0 4px}
-.mob-nav-inner::-webkit-scrollbar{display:none}
-.mob-btn{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 12px;border:none;background:transparent;color:var(--text4);font-family:'Cairo',sans-serif;font-size:9px;font-weight:700;cursor:pointer;border-radius:10px;transition:var(--tr);flex-shrink:0;position:relative;min-width:56px}
-.mob-btn i{font-size:20px}
-.mob-btn.on{color:var(--primary);background:var(--primary-l)}
-.mob-btn.sup-on{color:var(--amber);background:var(--amber-l)}
-.mob-btn.red-btn{color:var(--red)}
-.mob-btn.red-btn.on{background:var(--red-l);color:var(--red)}
-.mob-badge{position:absolute;top:4px;right:8px;background:var(--red);color:#fff;font-size:8px;font-weight:800;padding:1px 4px;border-radius:7px;min-width:14px;text-align:center;display:none}
+/* ── MONITORING SCREEN ── */
+.monitor-screen{position:fixed;inset:0;background:#0F172A;z-index:900;display:flex;flex-direction:column;opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+.monitor-screen.on{opacity:1;visibility:visible}
+.monitor-hd{padding:14px 20px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.monitor-title{font-family:'Tajawal',sans-serif;font-size:18px;font-weight:900;color:#fff;display:flex;align-items:center;gap:10px}
+.monitor-close{padding:8px 16px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:9px;color:#fff;font-family:'Cairo',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:var(--tr)}
+.monitor-close:hover{background:rgba(220,38,38,.3);border-color:rgba(220,38,38,.4)}
+.monitor-stats{display:flex;gap:10px;padding:12px 20px;border-bottom:1px solid rgba(255,255,255,.06);overflow-x:auto;scrollbar-width:none;flex-shrink:0}
+.monitor-stats::-webkit-scrollbar{display:none}
+.monitor-stat{display:flex;align-items:center;gap:8px;padding:9px 14px;border-radius:var(--r);white-space:nowrap;flex-shrink:0}
+.ms-green{background:rgba(5,150,105,.15);border:1px solid rgba(5,150,105,.3)}
+.ms-red{background:rgba(220,38,38,.15);border:1px solid rgba(220,38,38,.3)}
+.ms-orange{background:rgba(234,88,12,.15);border:1px solid rgba(234,88,12,.3)}
+.ms-gray{background:rgba(148,163,184,.1);border:1px solid rgba(148,163,184,.2)}
+.monitor-grid{flex:1;overflow-y:auto;padding:16px 20px;display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;align-content:start;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.1) transparent}
+.monitor-taxi-card{border-radius:var(--rl);padding:16px;display:flex;align-items:center;gap:12px;transition:var(--tr)}
+.monitor-taxi-card.st-online{background:rgba(5,150,105,.12);border:1.5px solid rgba(5,150,105,.35)}
+.monitor-taxi-card.st-busy{background:rgba(220,38,38,.12);border:1.5px solid rgba(220,38,38,.35)}
+.monitor-taxi-card.st-break{background:rgba(234,88,12,.12);border:1.5px solid rgba(234,88,12,.35)}
+.monitor-taxi-card.st-offline{background:rgba(148,163,184,.08);border:1.5px solid rgba(148,163,184,.2)}
+.monitor-taxi-av{width:46px;height:46px;border-radius:13px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;border:2px solid transparent}
+.monitor-taxi-av img{width:100%;height:100%;object-fit:cover}
+.monitor-taxi-info{flex:1;min-width:0}
+.monitor-taxi-name{font-size:13px;font-weight:800;color:#fff;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.monitor-taxi-status{font-size:11px;font-weight:700;display:flex;align-items:center;gap:5px;margin-bottom:3px}
+.monitor-taxi-phone{font-size:11px;color:rgba(255,255,255,.45)}
+.monitor-status-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.msd-green{background:#34D399;box-shadow:0 0 6px rgba(52,211,153,.5);animation:msdPulse 1.5s infinite}
+.msd-red{background:#F87171}
+.msd-orange{background:#FB923C}
+.msd-gray{background:#64748B}
+@keyframes msdPulse{0%,100%{opacity:1}50%{opacity:.5}}
+.monitor-taxi-badge{font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;display:inline-flex;align-items:center;gap:3px}
+.mtb-green{background:rgba(52,211,153,.15);color:#34D399;border:1px solid rgba(52,211,153,.3)}
+.mtb-red{background:rgba(248,113,113,.15);color:#F87171;border:1px solid rgba(248,113,113,.3)}
+.mtb-orange{background:rgba(251,146,60,.15);color:#FB923C;border:1px solid rgba(251,146,60,.3)}
+.mtb-gray{background:rgba(100,116,139,.15);color:#94A3B8;border:1px solid rgba(100,116,139,.3)}
 
-/* MONITORING SCREEN */
-.mon-screen{position:fixed;inset:0;background:#080f1c;z-index:900;display:flex;flex-direction:column;opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
-.mon-screen.on{opacity:1;visibility:visible}
-.mon-hd{padding:13px 18px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;gap:10px;background:rgba(255,255,255,.02)}
-.mon-title{font-family:'Tajawal',sans-serif;font-size:17px;font-weight:900;color:#fff;display:flex;align-items:center;gap:9px}
-.mon-close{padding:8px 15px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:9px;color:#fff;font-family:'Cairo',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:var(--tr)}
-.mon-close:hover{background:rgba(220,38,38,.3);border-color:rgba(220,38,38,.4)}
-.mon-stats{display:flex;gap:8px;padding:10px 16px;border-bottom:1px solid rgba(255,255,255,.06);overflow-x:auto;scrollbar-width:none;flex-shrink:0}
-.mon-stats::-webkit-scrollbar{display:none}
-.mon-st{display:flex;align-items:center;gap:7px;padding:7px 12px;border-radius:var(--r);white-space:nowrap;flex-shrink:0;font-size:12px;font-weight:800}
-.ms-green{background:rgba(5,150,105,.14);border:1px solid rgba(5,150,105,.35);color:#34D399}
-.ms-red{background:rgba(220,38,38,.14);border:1px solid rgba(220,38,38,.35);color:#F87171}
-.ms-orange{background:rgba(234,88,12,.14);border:1px solid rgba(234,88,12,.35);color:#FB923C}
-.ms-gray{background:rgba(71,85,105,.14);border:1px solid rgba(71,85,105,.3);color:#94A3B8}
-.ms-blue{background:rgba(29,78,216,.14);border:1px solid rgba(29,78,216,.3);color:#93C5FD}
-.mon-sdot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.msd-g{background:#34D399;animation:msdp 1.5s infinite;box-shadow:0 0 5px rgba(52,211,153,.5)}
-.msd-r{background:#F87171}
-.msd-o{background:#FB923C}
-.msd-gr{background:#64748B}
-@keyframes msdp{0%,100%{opacity:1}50%{opacity:.35}}
-.mon-grid{flex:1;overflow-y:auto;padding:14px 16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;align-content:start;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.08) transparent}
-.mon-card{border-radius:var(--rl);padding:14px;display:flex;align-items:center;gap:11px;transition:var(--tr);cursor:pointer}
-.mon-card:hover{filter:brightness(1.1)}
-.mc-online{background:rgba(5,150,105,.13);border:1.5px solid rgba(5,150,105,.38)}
-.mc-busy{background:rgba(220,38,38,.13);border:1.5px solid rgba(220,38,38,.38)}
-.mc-break{background:rgba(234,88,12,.13);border:1.5px solid rgba(234,88,12,.38)}
-.mc-offline{background:rgba(71,85,105,.1);border:1.5px solid rgba(71,85,105,.25);opacity:.65}
-.mon-av{width:43px;height:43px;border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;border:1.5px solid rgba(255,255,255,.12)}
-.mon-av img{width:100%;height:100%;object-fit:cover}
-.mon-nm{font-size:13px;font-weight:800;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px}
-.mon-lbl{font-size:11px;font-weight:700;display:flex;align-items:center;gap:4px;margin-bottom:3px}
-.mon-dot-el{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.mon-meta{font-size:10px;color:rgba(255,255,255,.38)}
-.mon-tag{font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;display:inline-flex;align-items:center;gap:3px;margin-top:3px}
-.mt-g{background:rgba(52,211,153,.14);color:#34D399;border:1px solid rgba(52,211,153,.3)}
-.mt-r{background:rgba(248,113,113,.14);color:#F87171;border:1px solid rgba(248,113,113,.3)}
-.mt-o{background:rgba(251,146,60,.14);color:#FB923C;border:1px solid rgba(251,146,60,.3)}
-.mt-gr{background:rgba(100,116,139,.14);color:#94A3B8;border:1px solid rgba(100,116,139,.3)}
+/* ── RECEIVER PANEL ── */
+.recv-panel{padding:20px;overflow-y:auto;height:calc(100vh - 60px - 70px);max-width:600px;margin:0 auto}
+.recv-req-card{background:var(--bg);border:1.5px solid var(--border);border-radius:var(--rl);padding:16px;margin-bottom:12px;box-shadow:var(--shadow);transition:var(--tr)}
+.recv-req-card:hover{box-shadow:var(--shadow-md)}
+.recv-req-card.new-anim{animation:newCard .5s ease}
+@keyframes newCard{from{transform:translateY(-10px);opacity:0}to{transform:none;opacity:1}}
 
 @media(max-width:640px){
   .dlayout,.sup-req-layout{flex-direction:column}
-  .dside{width:100%;flex:0 0 auto;max-height:42vh;border-left:none;border-bottom:1px solid var(--border)}
+  .dside{width:100%;flex:0 0 auto;max-height:45vh;border-left:none;border-bottom:1px solid var(--border)}
   .sup-req-col{width:100%;max-height:40vh;border-left:none;border-bottom:1px solid var(--border)}
-  /* On mobile: hide desktop top tabs, show bottom nav */
-  .ntabs{display:none!important}
-  .mob-nav{display:block!important}
-  /* adjust body for bottom nav */
-  .dbody{padding-bottom:68px}
-  .panel{height:calc(100vh - 60px - 68px);padding:14px}
-  .dreq-wrap{height:calc(100vh - 60px - 68px)}
+  .ntabs{display:none}
+  .bout{display:none}
+  .mobile-nav{display:block}
+  .dbody{padding-top:60px;padding-bottom:70px}
+  .panel{height:calc(100vh - 60px - 70px)}
+  .ptab{height:calc(100vh - 60px - 70px)}
+  .dreq-wrap{height:calc(100vh - 60px - 70px)}
   .acc-grid,.support-grid{grid-template-columns:1fr}
   .hero-cards{flex-direction:column;align-items:center}
-  .mon-grid{grid-template-columns:1fr 1fr}
-  .bout{font-size:10px;padding:6px 9px}
+  .monitor-grid{grid-template-columns:1fr 1fr}
+  .recv-panel{height:calc(100vh - 60px - 70px)}
+  #monitorBtn .ntab-span{display:none}
 }
 @media(min-width:641px) and (max-width:900px){
   .dside{width:210px}.sup-req-col{width:290px}
-  .mon-grid{grid-template-columns:repeat(3,1fr)}
+  .monitor-grid{grid-template-columns:repeat(3,1fr)}
 }
 </style>
 </head>
 <body>
-<!-- LANDING -->
+
+<!-- ════════════════════════════════ LANDING ════════════════════════════════ -->
 <div id="PL">
   <div class="land-bg"></div><div class="land-grid"></div>
   <nav class="lnav">
@@ -494,13 +496,13 @@ button,textarea,input,select{font-family:'Cairo',sans-serif}
   </div>
 </div>
 
-<!-- MODAL: RECEIVER SECRET — same as supervisor -->
+<!-- MODAL: RECEIVER SECRET -->
 <div class="ov" id="Mrecvsecret">
   <div class="mdl">
     <button class="mclose" onclick="CM('Mrecvsecret')"><i class="fas fa-times"></i></button>
     <div class="mhd">
       <div class="mic" style="background:var(--amber-l);border:1px solid var(--amber-m)"><i class="fas fa-inbox" style="color:var(--amber)"></i></div>
-      <div><div class="mtitle">منصة الطلبات</div><div class="msub">أدخل كلمة المرور للوصول</div></div>
+      <div><div class="mtitle">منصة المستقبل</div><div class="msub">أدخل كلمة المرور للوصول</div></div>
     </div>
     <div class="al" id="al-recsec"></div>
     <div class="fg"><label class="fl"><i class="fas fa-key"></i> كلمة المرور السرية</label><input type="password" class="fi" id="irecvsec" placeholder="••••••••" onkeydown="if(event.key==='Enter')chkRecvSec()"></div>
@@ -549,7 +551,7 @@ button,textarea,input,select{font-family:'Cairo',sans-serif}
     <button class="mclose" onclick="CM('Msup')"><i class="fas fa-times"></i></button>
     <div class="mhd">
       <div class="mic" style="background:var(--amber-l);border:1px solid var(--amber-m)"><i class="fas fa-user-tie" style="color:var(--amber)"></i></div>
-      <div><div class="mtitle">بوابة المشرف</div><div class="msub">منصة الطلبات — هادي التفال</div></div>
+      <div><div class="mtitle" id="supModalTitle">بوابة المشرف</div><div class="msub">منصة الطلبات — هادي التفال</div></div>
     </div>
     <div class="tabs">
       <button class="tab on gld" id="st1" onclick="stab('li')">تسجيل الدخول</button>
@@ -630,7 +632,7 @@ button,textarea,input,select{font-family:'Cairo',sans-serif}
     <div id="sel-taxi-list" class="sel-taxi-list"></div>
     <div style="display:flex;gap:8px;margin-top:10px">
       <button class="bp" id="confirmSelBtn" onclick="confirmTaxiSel()" disabled style="opacity:.5"><i class="fas fa-paper-plane"></i> إرسال</button>
-      <button style="flex:1;padding:12px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);font-size:13px;font-weight:700;cursor:pointer;color:var(--text2)" onclick="closeTaxiSel()">إلغاء</button>
+      <button style="flex:1;padding:12px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);font-size:13px;font-weight:700;cursor:pointer;color:var(--text2);font-family:'Cairo',sans-serif" onclick="closeTaxiSel()">إلغاء</button>
     </div>
   </div>
 </div>
@@ -643,8 +645,8 @@ button,textarea,input,select{font-family:'Cairo',sans-serif}
       <div><div class="mtitle" style="color:var(--red)">إرسال SOS لجميع السائقين</div><div class="msub">ستصل الرسالة فوراً لجميع السائقين المتصلين</div></div>
     </div>
     <div class="fg"><label class="fl"><i class="fas fa-comment"></i> رسالة الطوارئ</label><textarea class="fi" id="sos-sup-msg" rows="3" placeholder="مثال: انتبهوا، حادثة عند دوار المنارة..."></textarea></div>
-    <button style="width:100%;padding:13px;background:var(--red);border:none;border-radius:var(--r);color:#fff;font-size:14px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px" onclick="sendSosBroadcast()"><i class="fas fa-triangle-exclamation"></i> إرسال SOS لجميع السائقين</button>
-    <button style="width:100%;margin-top:8px;padding:10px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);color:var(--text2);font-size:13px;font-weight:700;cursor:pointer" onclick="document.getElementById('SosSupModal').classList.remove('on')">إلغاء</button>
+    <button style="width:100%;padding:13px;background:var(--red);border:none;border-radius:var(--r);color:#fff;font-size:14px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:'Cairo',sans-serif" onclick="sendSosBroadcast()"><i class="fas fa-triangle-exclamation"></i> إرسال SOS لجميع السائقين</button>
+    <button style="width:100%;margin-top:8px;padding:10px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);color:var(--text2);font-size:13px;font-weight:700;cursor:pointer;font-family:'Cairo',sans-serif" onclick="document.getElementById('SosSupModal').classList.remove('on')">إلغاء</button>
   </div>
 </div>
 
@@ -660,7 +662,6 @@ button,textarea,input,select{font-family:'Cairo',sans-serif}
       <div class="req-detail-row"><i class="fas fa-map-marker-alt"></i><span id="reqLocation">-</span></div>
       <div class="req-detail-row"><i class="fas fa-clock"></i><span id="reqTime">-</span></div>
     </div>
-    <!-- message from supervisor displayed here -->
     <div id="reqMsgBox" class="req-msg-box" style="display:none">
       <div class="req-msg-from"><i class="fas fa-user-tie" style="margin-left:4px"></i> رسالة من المشرف</div>
       <div class="req-msg-text" id="reqMsgText"></div>
@@ -680,7 +681,7 @@ button,textarea,input,select{font-family:'Cairo',sans-serif}
   </div>
 </div>
 
-<!-- SOS BROADCAST NOTIFICATION (for drivers) -->
+<!-- SOS BROADCAST NOTIFICATION (drivers) -->
 <div class="sos-broadcast-notif" id="SosBroadcastNotif">
   <div class="sos-broadcast-card">
     <div class="sos-bc-icon">🆘</div>
@@ -691,12 +692,12 @@ button,textarea,input,select{font-family:'Cairo',sans-serif}
   </div>
 </div>
 
-<!-- DASHBOARD -->
+<!-- ════════════════════════════════ DRIVER DASHBOARD ════════════════════════════════ -->
 <div id="PD">
   <nav class="dnav">
     <div class="logo"><div class="lgic">🚕</div><div><div class="lgn1">منصة الطلبات</div><div class="lgn2">هادي التفال</div></div></div>
     <div class="ntabs" id="ntabs"></div>
-    <div class="navr">
+    <div class="navr" id="navr">
       <div id="navav" class="navav">👤</div>
       <button class="bout" onclick="logout()"><i class="fas fa-right-from-bracket"></i> خروج</button>
     </div>
@@ -704,12 +705,12 @@ button,textarea,input,select{font-family:'Cairo',sans-serif}
   <div class="dbody" id="dbody"></div>
 </div>
 
-<!-- RECEIVER = same as supervisor dashboard -->
+<!-- ════════════════════════════════ RECEIVER DASHBOARD ════════════════════════════════ -->
 <div id="PR">
   <nav class="dnav">
     <div class="logo"><div class="lgic">🚕</div><div><div class="lgn1">منصة الطلبات</div><div class="lgn2">هادي التفال</div></div></div>
     <div class="ntabs" id="recv-ntabs"></div>
-    <div class="navr">
+    <div class="navr" id="recv-navr">
       <div id="recv-navav" class="navav sup-av">👨‍💼</div>
       <button class="bout" onclick="logoutRecv()"><i class="fas fa-right-from-bracket"></i> خروج</button>
     </div>
@@ -720,37 +721,38 @@ button,textarea,input,select{font-family:'Cairo',sans-serif}
 <div class="toasts" id="toasts"></div>
 
 <!-- MOBILE BOTTOM NAV -->
-<div class="mob-nav" id="mobNav" style="display:none">
-  <div class="mob-nav-inner" id="mobNavInner"></div>
+<div class="mobile-nav" id="mobileNav" style="display:none">
+  <div class="mob-tabs" id="mobTabs"></div>
 </div>
 
 <!-- MONITORING SCREEN -->
-<div class="mon-screen" id="MonScreen">
-  <div class="mon-hd">
-    <div class="mon-title"><span style="font-size:22px">🚕</span> شاشة المراقبة المباشرة</div>
-    <button class="mon-close" onclick="closeMonitor()"><i class="fas fa-times"></i> إغلاق</button>
+<div class="monitor-screen" id="MonitorScreen">
+  <div class="monitor-hd">
+    <div class="monitor-title"><span style="font-size:22px">🚕</span> شاشة المراقبة المباشرة</div>
+    <button class="monitor-close" onclick="closeMonitor()"><i class="fas fa-times"></i> إغلاق</button>
   </div>
-  <div class="mon-stats">
-    <div class="mon-st ms-green"><div class="mon-sdot msd-g"></div><span id="mn-on">0</span><span style="color:rgba(255,255,255,.45);font-weight:400;margin-right:3px"> متاح</span></div>
-    <div class="mon-st ms-red"><div class="mon-sdot msd-r"></div><span id="mn-busy">0</span><span style="color:rgba(255,255,255,.45);font-weight:400;margin-right:3px"> مشغول</span></div>
-    <div class="mon-st ms-orange"><div class="mon-sdot msd-o"></div><span id="mn-brk">0</span><span style="color:rgba(255,255,255,.45);font-weight:400;margin-right:3px"> استراحة</span></div>
-    <div class="mon-st ms-gray"><div class="mon-sdot msd-gr"></div><span id="mn-off">0</span><span style="color:rgba(255,255,255,.45);font-weight:400;margin-right:3px"> غير متصل</span></div>
-    <div class="mon-st ms-blue"><i class="fas fa-users" style="font-size:11px"></i><span id="mn-tot">0</span><span style="color:rgba(255,255,255,.45);font-weight:400;margin-right:3px"> إجمالي</span></div>
-    <div class="mon-st ms-blue"><i class="fas fa-box" style="font-size:11px"></i><span id="mn-del">0</span><span style="color:rgba(255,255,255,.45);font-weight:400;margin-right:3px"> توصيلة كلية</span></div>
+  <div class="monitor-stats" id="monStats">
+    <div class="monitor-stat ms-green"><span class="monitor-status-dot msd-green"></span><span style="color:#34D399;font-weight:700;font-size:13px" id="mon-online">0</span><span style="color:rgba(255,255,255,.5);font-size:11px;margin-right:4px"> متاح 🟢</span></div>
+    <div class="monitor-stat ms-red"><span class="monitor-status-dot msd-red"></span><span style="color:#F87171;font-weight:700;font-size:13px" id="mon-busy">0</span><span style="color:rgba(255,255,255,.5);font-size:11px;margin-right:4px"> مشغول 🔴</span></div>
+    <div class="monitor-stat ms-orange"><span class="monitor-status-dot msd-orange"></span><span style="color:#FB923C;font-weight:700;font-size:13px" id="mon-break">0</span><span style="color:rgba(255,255,255,.5);font-size:11px;margin-right:4px"> استراحة/صلاة 🟠</span></div>
+    <div class="monitor-stat ms-gray"><span class="monitor-status-dot msd-gray"></span><span style="color:#94A3B8;font-weight:700;font-size:13px" id="mon-offline">0</span><span style="color:rgba(255,255,255,.5);font-size:11px;margin-right:4px"> غير متصل ⚫</span></div>
+    <div class="monitor-stat" style="background:rgba(29,78,216,.15);border:1px solid rgba(29,78,216,.3)"><i class="fas fa-box" style="color:#93C5FD;font-size:12px"></i><span style="color:#93C5FD;font-weight:700;font-size:13px" id="mon-total-del">0</span><span style="color:rgba(255,255,255,.5);font-size:11px;margin-right:4px"> توصيلة كلية</span></div>
   </div>
-  <div class="mon-grid" id="monGrid">
-    <div style="grid-column:1/-1;text-align:center;padding:40px;color:rgba(255,255,255,.3)">
-      <div class="spin wh" style="width:26px;height:26px;margin:0 auto 10px"></div>
-      <div style="font-size:12px;font-family:'Cairo',sans-serif">جار التحميل...</div>
-    </div>
+  <div class="monitor-grid" id="monGrid">
+    <div style="text-align:center;padding:40px;color:rgba(255,255,255,.3);grid-column:1/-1"><div class="spin" style="border-top-color:#fff;width:28px;height:28px;margin:0 auto"></div></div>
   </div>
 </div>
+
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
 import{getDatabase,ref,set,get,push,onValue,update,remove,off}from"https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
 
-const DB_URLS=["https://hadialtfal-default-rtdb.firebaseio.com/","https://hamode-a2ac1-default-rtdb.firebaseio.com/","https://namenam-1a7ab-default-rtdb.firebaseio.com/"];
+const DB_URLS=[
+  "https://hadialtfal-default-rtdb.firebaseio.com/",
+  "https://hamode-a2ac1-default-rtdb.firebaseio.com/",
+  "https://namenam-1a7ab-default-rtdb.firebaseio.com/"
+];
 const apps=DB_URLS.map((u,i)=>initializeApp({databaseURL:u},`a${i}`));
 const dbs=apps.map(a=>getDatabase(a));
 const shardIdx=id=>{let h=0;for(let i=0;i<id.length;i++)h=(h*31+id.charCodeAt(i))>>>0;return h%3;};
@@ -765,14 +767,15 @@ let reqCountdownTimer=null;
 let selTaxiId=null,selReqData=null;
 let shiftStartTime=null;
 let pendingFlash={};
-let recvCU=null; // receiver user (same as supervisor)
+let monitorInterval=null;
+// recv mode flag
+let IS_RECV=false;
 
-/* AUDIO */
+/* ──────── AUDIO ──────── */
 const AC=window.AudioContext||window.webkitAudioContext;
 let aCtx=null;
 const getAC=()=>{if(!aCtx&&AC)aCtx=new AC();return aCtx;};
-document.addEventListener('click',()=>{try{const c=getAC();if(c&&c.state==='suspended')c.resume();}catch(e){}},{once:true});
-document.addEventListener('touchstart',()=>{try{const c=getAC();if(c&&c.state==='suspended')c.resume();}catch(e){}},{once:true});
+['click','touchstart'].forEach(ev=>document.addEventListener(ev,()=>{try{const c=getAC();if(c&&c.state==='suspended')c.resume();}catch(e){}},{once:true}));
 
 const playSound=t=>{
   try{
@@ -801,8 +804,142 @@ const playSound=t=>{
   }catch(e){}
 };
 
+/* ══════════════════════════════════════════════════════
+   نظام الإشعارات الكاملة — يعمل حتى لو الشاشة مغلقة
+   ══════════════════════════════════════════════════════ */
+
+let swReg = null; // Service Worker registration
+
+// أيقونة SVG مضمّنة بصيغة data URL للإشعارات
+const NOTIF_ICON = `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#D97706"/><text y=".9em" font-size="70" x="15">🚕</text></svg>`)}`;
+
+// ── تسجيل Service Worker ──
+const registerSW = async () => {
+  if (!('serviceWorker' in navigator)) return null;
+  try {
+    // نكتب السيرفس وركر مباشرة كـ Blob بدون ملف خارجي
+    const swCode = `
+self.addEventListener('push', e => {
+  const d = e.data ? e.data.json() : {};
+  const opts = {
+    body: d.body || 'لديك إشعار جديد',
+    icon: d.icon || '${NOTIF_ICON}',
+    badge: d.icon || '${NOTIF_ICON}',
+    dir: 'rtl',
+    lang: 'ar',
+    vibrate: d.vibrate || [300,100,300],
+    requireInteraction: true,
+    tag: d.tag || 'taxi',
+    data: d.data || {},
+    actions: d.actions || []
+  };
+  e.waitUntil(self.registration.showNotification(d.title || 'منصة الطلبات 🚕', opts));
+});
+self.addEventListener('notificationclick', e => {
+  e.notification.close();
+  e.waitUntil(
+    clients.matchAll({type:'window',includeUncontrolled:true}).then(cls => {
+      for(const c of cls){ if(c.url && 'focus' in c){ c.focus(); return; } }
+      return clients.openWindow('/');
+    })
+  );
+});
+self.addEventListener('message', e => {
+  if(e.data && e.data.type === 'SHOW_NOTIF'){
+    const d = e.data;
+    const opts = {
+      body: d.body,
+      icon: d.icon || '${NOTIF_ICON}',
+      badge: d.icon || '${NOTIF_ICON}',
+      dir: 'rtl',
+      lang: 'ar',
+      vibrate: d.vibrate || [300,100,300],
+      requireInteraction: d.requireInteraction !== false,
+      tag: d.tag || 'taxi',
+      data: d.data || {},
+      actions: d.actions || []
+    };
+    self.registration.showNotification(d.title || 'منصة الطلبات 🚕', opts);
+  }
+});
+`;
+    const blob = new Blob([swCode], {type:'application/javascript'});
+    const swUrl = URL.createObjectURL(blob);
+    swReg = await navigator.serviceWorker.register(swUrl, {scope:'/'});
+    console.log('✅ Service Worker registered');
+    return swReg;
+  } catch(err) {
+    console.warn('SW register failed:', err);
+    return null;
+  }
+};
+
+// ── طلب إذن الإشعارات ──
+const reqPushPermission = async () => {
+  if (!('Notification' in window)) return false;
+  if (Notification.permission === 'granted') return true;
+  if (Notification.permission === 'denied') return false;
+  const perm = await Notification.requestPermission();
+  return perm === 'granted';
+};
+
+// ── إرسال إشعار (يعمل من الخلفية عبر SW) ──
+const showPushNotif = async (title, body, type = 'info', extra = {}) => {
+  if (!('Notification' in window)) return;
+  if (Notification.permission !== 'granted') return;
+
+  // تحديد الأيقونة والإعدادات حسب النوع
+  const typeConfig = {
+    new_request: { icon:'📦', vibrate:[400,100,400,100,400], requireInteraction:true,  actions:[{action:'view',title:'👀 عرض الطلب'}] },
+    edit_request: { icon:'✏️', vibrate:[200,100,200],          requireInteraction:true,  actions:[{action:'view',title:'👀 عرض التعديل'}] },
+    cancel:       { icon:'🚫', vibrate:[300,100,100],          requireInteraction:false, actions:[] },
+    sos:          { icon:'🆘', vibrate:[500,100,500,100,500,100,500], requireInteraction:true, actions:[] },
+    done:         { icon:'✅', vibrate:[200],                   requireInteraction:false, actions:[] },
+    info:         { icon:'ℹ️', vibrate:[100],                   requireInteraction:false, actions:[] },
+  };
+  const cfg = typeConfig[type] || typeConfig.info;
+
+  const notifPayload = {
+    type: 'SHOW_NOTIF',
+    title,
+    body,
+    icon: `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#1D4ED8"/><text y=".9em" font-size="65" x="10">${cfg.icon}</text></svg>`)}`,
+    vibrate: cfg.vibrate,
+    requireInteraction: cfg.requireInteraction,
+    tag: type + '_' + Date.now(),
+    actions: cfg.actions,
+    data: extra
+  };
+
+  // إرسال عبر Service Worker (يعمل في الخلفية)
+  if (swReg && navigator.serviceWorker.controller) {
+    navigator.serviceWorker.controller.postMessage(notifPayload);
+  } else {
+    // fallback: إشعار مباشر لو SW غير جاهز
+    try {
+      new Notification(title, {
+        body,
+        icon: notifPayload.icon,
+        tag: notifPayload.tag,
+        requireInteraction: cfg.requireInteraction,
+        dir: 'rtl'
+      });
+    } catch(e) {}
+  }
+};
+
+// ── الاستماع للرسائل من SW ──
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.addEventListener('message', e => {
+    if (e.data && e.data.action === 'view') {
+      window.focus();
+    }
+  });
+}
+
 const vibrate=p=>{if(navigator.vibrate)navigator.vibrate(p);};
 
+/* ──────── HELPERS ──────── */
 const $=id=>document.getElementById(id);
 const H=(id,v)=>{const e=$(id);if(e)e.classList[v?'add':'remove']('h')};
 const fmt=ts=>new Date(ts).toLocaleTimeString('ar',{hour:'2-digit',minute:'2-digit'});
@@ -813,6 +950,7 @@ window.OM=id=>{const e=$(id);if(e)e.classList.add('on')};
 window.CM=id=>{const e=$(id);if(e)e.classList.remove('on');clrAl()};
 const clrAl=()=>document.querySelectorAll('.al').forEach(a=>{a.className='al';a.textContent=''});
 const shAl=(id,t,m)=>{const e=$(id);if(!e)return;e.className=`al ${t}`;e.innerHTML=`<i class="fas fa-${t==='err'?'circle-exclamation':'circle-check'}"></i> ${m}`};
+
 window.toast=(t,ti,s='')=>{
   const ic={ok:'✅',err:'❌',warn:'⚠️',info:'ℹ️'};
   const el=document.createElement('div');el.className='toast';
@@ -820,22 +958,41 @@ window.toast=(t,ti,s='')=>{
   $('toasts').appendChild(el);
   setTimeout(()=>{el.style.cssText='opacity:0;transform:translateX(-110%);transition:.2s';setTimeout(()=>el.remove(),220)},3800);
 };
-window.prevAv=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{const img=new Image();img.onload=()=>{const M=280,c=document.createElement('canvas');let w=img.width,h=img.height;if(w>h){if(w>M){h=Math.round(h*M/w);w=M;}}else{if(h>M){w=Math.round(w*M/h);h=M;}}c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);avData=c.toDataURL('image/jpeg',.78);const wrap=$('avpw');if(wrap)wrap.innerHTML=`<img src="${avData}" style="width:68px;height:68px;object-fit:cover;border-radius:50%">`;};img.src=ev.target.result;};r.readAsDataURL(f);};
+
+window.prevAv=e=>{
+  const f=e.target.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=ev=>{
+    const img=new Image();
+    img.onload=()=>{
+      const M=280,c=document.createElement('canvas');
+      let w=img.width,h=img.height;
+      if(w>h){if(w>M){h=Math.round(h*M/w);w=M;}}else{if(h>M){w=Math.round(w*M/h);h=M;}}
+      c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);
+      avData=c.toDataURL('image/jpeg',.78);
+      const wrap=$('avpw');if(wrap)wrap.innerHTML=`<img src="${avData}" style="width:68px;height:68px;object-fit:cover;border-radius:50%">`;
+    };img.src=ev.target.result;
+  };r.readAsDataURL(f);
+};
+
 window.dtab=t=>{$('dt1').classList.toggle('on',t==='li');$('dt2').classList.toggle('on',t==='rg');H('dli',t!=='li');H('drg',t!=='rg');clrAl();if(t==='rg'){avData='';const w=$('avpw');if(w)w.innerHTML='📷';}};
 window.stab=t=>{$('st1').classList.toggle('on',t==='li');$('st2').classList.toggle('on',t==='rg');H('sli',t!=='li');H('srg',t!=='rg');clrAl();};
-window.chkSec=()=>{if($('isec').value==='12345132'){CM('Msecret');$('isec').value='';OM('Msup');}else{shAl('al-sec','err','كلمة المرور غير صحيحة');$('isec').value='';}};
 
-/* RECEIVER = supervisor with same password */
+window.chkSec=()=>{
+  if($('isec').value==='12345132'){CM('Msecret');$('isec').value='';IS_RECV=false;OM('Msup');}
+  else{shAl('al-sec','err','كلمة المرور غير صحيحة');$('isec').value='';}
+};
 window.chkRecvSec=()=>{
   if($('irecvsec').value==='12345132'){
-    CM('Mrecvsecret');$('irecvsec').value='';
-    OM('Msup'); // open supervisor login
+    CM('Mrecvsecret');$('irecvsec').value='';IS_RECV=true;
+    const t=$('supModalTitle');if(t)t.textContent='بوابة المستقبل';
+    OM('Msup');
   } else {
     shAl('al-recsec','err','كلمة المرور غير صحيحة');$('irecvsec').value='';
   }
 };
 
-/* DRIVER REGISTER */
+/* ──────── DRIVER REGISTER ──────── */
 window.dReg=async()=>{
   const nm=($('dr-nm').value||'').trim(),ph=($('dr-ph').value||'').trim(),car=($('dr-car').value||'').trim(),pw=$('dr-pw').value||'',pw2=$('dr-pw2').value||'';
   if(!nm||!ph||!pw||!car)return shAl('al-drv','err','يرجى ملء جميع الحقول');
@@ -843,7 +1000,7 @@ window.dReg=async()=>{
   if(ph.length<7)return shAl('al-drv','err','رقم الهاتف قصير جداً');
   const phKey=ph.replace(/[.#$\[\]\/]/g,'_'),sIdx=shardIdx(phKey);
   const btn=$('dr-nm').closest('.mdl').querySelector('.bp');
-  const orig=btn.innerHTML;btn.innerHTML='<span class="spin wh"></span> جار الإنشاء...';btn.disabled=true;
+  const orig=btn.innerHTML;btn.innerHTML='<span class="spin"></span> جار الإنشاء...';btn.disabled=true;
   try{
     const checks=await Promise.all(dbs.map(d=>get(ref(d,`drivers/${phKey}`))));
     if(checks.some(s=>s.exists())){shAl('al-drv','err','رقم الهاتف مسجل مسبقاً');btn.innerHTML=orig;btn.disabled=false;return;}
@@ -855,13 +1012,13 @@ window.dReg=async()=>{
   btn.innerHTML=orig;btn.disabled=false;
 };
 
-/* DRIVER LOGIN */
+/* ──────── DRIVER LOGIN ──────── */
 window.dLogin=async()=>{
   const ph=($('dl-ph').value||'').trim(),pw=$('dl-pw').value||'',car=($('dl-car').value||'').trim();
   if(!ph||!pw||!car)return shAl('al-drv','err','يرجى ملء جميع الحقول');
   const phKey=ph.replace(/[.#$\[\]\/]/g,'_');
   const btn=$('dl-pw').closest('.mdl').querySelector('.bp');
-  const orig=btn.innerHTML;btn.innerHTML='<span class="spin wh"></span> جار الدخول...';btn.disabled=true;
+  const orig=btn.innerHTML;btn.innerHTML='<span class="spin"></span> جار الدخول...';btn.disabled=true;
   try{
     let found=null,foundSIdx=-1;
     for(let i=0;i<3;i++){const snap=await get(ref(dbs[i],`drivers/${phKey}`));if(snap.exists()){found=snap.val();foundSIdx=i;break;}}
@@ -869,23 +1026,32 @@ window.dLogin=async()=>{
     if(found.password!==pw){shAl('al-drv','err','كلمة المرور خاطئة');btn.innerHTML=orig;btn.disabled=false;return;}
     if((found.carNumber||'').toLowerCase()!==car.toLowerCase()){shAl('al-drv','err','رقم السيارة غير صحيح');btn.innerHTML=orig;btn.disabled=false;return;}
     await update(ref(dbs[foundSIdx],`drivers/${phKey}`),{status:'online',lastSeen:Date.now(),taxiColor:'green'});
-    CU={...found,id:phKey,_shard:foundSIdx};CR='driver';
+    CU={...found,id:phKey,_shard:foundSIdx};CR='driver';IS_RECV=false;
     if(found.shiftStart&&!found.shiftEnd)shiftStartTime=found.shiftStart;
     CM('Mdriver');
+    // تسجيل Service Worker + طلب إذن الإشعارات
+    await registerSW();
+    const granted = await reqPushPermission();
+    if(granted){
+      toast('ok','🔔 الإشعارات مفعّلة','ستصلك إشعارات حتى لو الشاشة مغلقة');
+    } else {
+      toast('warn','🔕 الإشعارات معطّلة','اضغط على قفل المتصفح لتفعيلها');
+    }
     reqGPS(phKey,foundSIdx);
     initDash();
     toast('ok','أهلاً '+found.name,'🚕 جاهز لاستقبال الطلبات');
     listenDriverRequests(phKey);
     listenSosBroadcast();
+    listenDriverPushNotifs(phKey); // مستمع الإشعارات الخارجية
   }catch(err){shAl('al-drv','err','خطأ: '+(err.message||''));btn.innerHTML=orig;btn.disabled=false;}
 };
 
-/* Listen for SOS broadcasts (for drivers) */
+/* ──────── SOS BROADCAST LISTENER (drivers) ──────── */
 const listenSosBroadcast=()=>{
   const r=ref(dbs[0],'sosBroadcast');
   onValue(r,snap=>{
     if(!snap.exists())return;
-    const entries=Object.entries(snap.val()).filter(([,d])=>!d.acked||(d.acked&&!d.acked[CU.id]));
+    const entries=Object.entries(snap.val());
     if(!entries.length)return;
     const [bid,bdata]=entries[entries.length-1];
     if(bdata.acked&&bdata.acked[CU.id])return;
@@ -894,6 +1060,39 @@ const listenSosBroadcast=()=>{
   LSNRS.push({r});
 };
 
+/* ──────── DRIVER PUSH NOTIFS LISTENER ──────── */
+// هذا المستمع يستقبل الإشعارات من Firebase ويعرضها حتى لو الشاشة مغلقة
+const listenDriverPushNotifs=drvId=>{
+  const r=ref(dbs[0],`driverPushNotifs/${drvId}`);
+  let initialized=false;
+  let knownKeys={};
+  onValue(r,async snap=>{
+    if(!snap.exists()){initialized=true;return;}
+    const all=snap.val();
+    const entries=Object.entries(all);
+    // أول مرة: حفظ المفاتيح الموجودة فقط بدون إشعار
+    if(!initialized){
+      entries.forEach(([k])=>{knownKeys[k]=true;});
+      initialized=true;
+      return;
+    }
+    // الإشعارات الجديدة فقط
+    for(const [k,n] of entries){
+      if(knownKeys[k])continue;
+      knownKeys[k]=true;
+      if(n.read)continue;
+      // تشغيل صوت
+      const soundMap={new_request:'request',edit_request:'edit',cancel:'cancel',sos:'sos'};
+      playSound(soundMap[n.type]||'notif');
+      vibrate(n.type==='new_request'?[300,100,300,100,300]:n.type==='sos'?[500,100,500,100,500]:[200,100,200]);
+      // إشعار نظام الهاتف
+      await showPushNotif(n.title||'منصة الطلبات',n.body||'',n.type||'info',{reqId:n.reqId});
+      // تعليم كمقروء
+      update(ref(dbs[0],`driverPushNotifs/${drvId}/${k}`),{read:true}).catch(()=>{});
+    }
+  });
+  LSNRS.push({r});
+};
 const showSosBroadcast=(bid,bdata)=>{
   $('sosBcMsg').textContent=bdata.msg||'-';
   $('sosBcFrom').textContent=`من: ${bdata.senderName||'المشرف'} • ${fmt(bdata.ts||Date.now())}`;
@@ -901,28 +1100,30 @@ const showSosBroadcast=(bid,bdata)=>{
   $('SosBroadcastNotif').classList.add('on');
   vibrate([500,100,500,100,500,100,500]);
   playSound('sos');
-  // Push notification for SOS broadcast
-  showPushNotif('🆘 تنبيه طوارئ! — منصة الطلبات',bdata.msg||'رسالة طوارئ من المشرف','',`sos-${bid}`);
+  showPushNotif('🆘 تنبيه طوارئ من المشرف!', bdata.msg||'رسالة طوارئ', 'sos', {bid});
 };
-
 window.ackSosBroadcast=async()=>{
   const bid=$('SosBroadcastNotif')._bid;
-  if(bid&&CU){
-    await update(ref(dbs[0],`sosBroadcast/${bid}/acked`),{[CU.id]:true}).catch(()=>{});
-  }
+  if(bid&&CU)await update(ref(dbs[0],`sosBroadcast/${bid}/acked`),{[CU.id]:true}).catch(()=>{});
   $('SosBroadcastNotif').classList.remove('on');
 };
 
-/* Listen driver requests */
+/* ──────── DRIVER REQUESTS LISTENER ──────── */
 const listenDriverRequests=drvId=>{
   const r=ref(dbs[0],`driverRequests/${drvId}`);
+  let lastSeenKeys={};
   onValue(r,snap=>{
     if(!snap.exists())return;
-    const pending=Object.entries(snap.val()).filter(([,d])=>d.status==='pending'||d.status==='modified');
-    if(!pending.length)return;
-    const [rid,rd]=pending[pending.length-1];
-    if(rid===$('currentReqId').value)return;
-    showDriverReq(rid,rd);
+    const all=snap.val();
+    Object.entries(all).forEach(([rid,rd])=>{
+      if(lastSeenKeys[rid])return;
+      lastSeenKeys[rid]=true;
+      if(rd.status==='pending'||rd.status==='modified'){
+        if(rid!==$('currentReqId').value){
+          showDriverReq(rid,rd);
+        }
+      }
+    });
   });
   LSNRS.push({r});
 };
@@ -942,12 +1143,23 @@ const showDriverReq=(rid,rd)=>{
     modNotice.style.display='block';
     $('reqModText').textContent=`تم تعديل الطلب • الهاتف: ${rd.prevPhone} ← ${rd.phone} • الموقع: ${rd.prevDetails||'-'} ← ${rd.details}`;
     playSound('edit');vibrate([200,100,200]);
-    showPushNotif('✏️ تم تعديل طلبك — منصة الطلبات',`📞 ${rd.phone}\n📍 ${rd.details}`,'',`mod-${rid}`);
+    // إشعار خارجي — تعديل طلب
+    showPushNotif(
+      '✏️ تم تعديل طلبك',
+      `الهاتف: ${rd.phone}\n📍 ${rd.details}${rd.message?'\n💬 '+rd.message:''}`,
+      'edit_request',
+      {reqId:rid}
+    );
   } else {
     modNotice.style.display='none';
     playSound('request');vibrate([300,100,300,100,300]);
-    const notifBody=rd.message?`📞 ${rd.phone} | 📍 ${rd.details} | 💬 ${rd.message}`:`📞 ${rd.phone} | 📍 ${rd.details}`;
-    showPushNotif('📦 طلب جديد! — منصة الطلبات',notifBody,'',`req-${rid}`);
+    // إشعار خارجي — طلب جديد
+    showPushNotif(
+      '📦 طلب جديد من المشرف',
+      `📞 ${rd.phone}\n📍 ${rd.details}${rd.message?'\n💬 المشرف: '+rd.message:''}`,
+      'new_request',
+      {reqId:rid}
+    );
   }
   $('ReqNotif').classList.add('on');
   let count=60;
@@ -961,9 +1173,7 @@ const showDriverReq=(rid,rd)=>{
       if($('ReqNotif').classList.contains('on')){
         await update(ref(dbs[0],`driverRequests/${CU.id}/${rid}`),{status:'no_response'});
         await push(ref(dbs[0],'notifications'),{type:'timeout',driverId:CU.id,driverName:CU.name,reqId:rid,msg:`⏰ السائق ${CU.name} لم يرد خلال دقيقة`,ts:Date.now(),read:false});
-        $('ReqNotif').classList.remove('on');
-        showPushNotif('⏰ انتهى الوقت','لم يتم الرد على الطلب');
-        toast('warn','انتهى الوقت','تم إرسال إشعار للمشرف');
+        $('ReqNotif').classList.remove('on');toast('warn','انتهى الوقت','تم إرسال إشعار للمشرف');
       }
     }
   },1000);
@@ -991,7 +1201,7 @@ window.submitReject=async()=>{
   vibrate([100,50,100]);playSound('reject');toast('info','تم رفض الطلب','');
 };
 
-/* GPS */
+/* ──────── GPS ──────── */
 const reqGPS=(id,sIdx)=>{
   if(!navigator.geolocation)return;
   navigator.geolocation.getCurrentPosition(async pos=>{
@@ -1021,7 +1231,7 @@ const updStatus=async s=>{
   CU.taxiColor=c;CU.status=s;
 };
 
-/* SUPERVISOR REGISTER / LOGIN */
+/* ──────── SUPERVISOR REGISTER / LOGIN ──────── */
 window.sReg=async()=>{
   const nm=($('sr-nm').value||'').trim(),em=($('sr-em').value||'').trim(),pw=$('sr-pw').value||'',pw2=$('sr-pw2').value||'';
   if(!nm||!em||!pw)return shAl('al-sup','err','يرجى ملء جميع الحقول');
@@ -1047,10 +1257,18 @@ window.sLogin=async()=>{
   try{
     const snap=await get(ref(dbs[0],`supervisors/${key}`));
     if(!snap.exists()||snap.val().password!==pw){shAl('al-sup','err','بيانات غير صحيحة');btn.innerHTML=orig;btn.disabled=false;return;}
-    const d=snap.val();CU={...d,id:key};CR='supervisor';CM('Msup');
-    initDash();
-    toast('ok','مرحباً '+d.name,'👨‍💼 منصة الطلبات');
-    listenSupNotifs();
+    const d=snap.val();CU={...d,id:key};CR='supervisor';
+    CM('Msup');
+    const t=$('supModalTitle');if(t)t.textContent='بوابة المشرف';
+    if(IS_RECV){
+      // login as receiver
+      initRecvDash();
+      toast('ok','مرحباً '+d.name,'📥 منصة المستقبل');
+    } else {
+      initDash();
+      toast('ok','مرحباً '+d.name,'👨‍💼 منصة الطلبات');
+      listenSupNotifs();
+    }
   }catch(err){shAl('al-sup','err','خطأ: '+(err.message||''));btn.innerHTML=orig;btn.disabled=false;}
 };
 
@@ -1058,53 +1276,220 @@ const listenSupNotifs=()=>{
   const r=ref(dbs[0],'notifications');
   onValue(r,snap=>{
     if(!snap.exists())return;
-    const vals=Object.values(snap.val());
-    const unread=vals.filter(n=>!n.read).length;
-    // Update desktop badge
+    const unread=Object.values(snap.val()).filter(n=>!n.read).length;
     const b=$('notif-badge');if(b){b.textContent=unread;b.style.display=unread>0?'inline':'none';}
-    // Update mobile badge
-    const mb=$('mob-notif-badge');if(mb){mb.textContent=unread;mb.style.display=unread>0?'block':'none';}
-    // Push notification for new unread urgent items
-    const urgent=vals.filter(n=>!n.read&&(n.type==='reject'||n.type==='timeout'||n.type==='sos'||n.type==='accept'||n.type==='done'||n.type==='waiting'||n.type==='near'));
-    if(urgent.length>0){
-      vibrate([200,100,200]);playSound('notif');
-      // Show push notification for most recent unread
-      const latest=urgent.sort((a,b)=>(b.ts||0)-(a.ts||0))[0];
-      showPushNotif('منصة الطلبات 🚕',latest.msg||'إشعار جديد');
-    }
+    const mb=$('mob-notif-badge');if(mb){mb.textContent=unread;mb.style.display=unread>0?'inline':'none';}
+    const urgent=Object.values(snap.val()).filter(n=>!n.read&&(n.type==='reject'||n.type==='timeout'||n.type==='sos'));
+    if(urgent.length>0){vibrate([200,100,200]);playSound('notif');}
   });
   LSNRS.push({r});
 };
 
-/* INIT DASHBOARD */
+/* ──────── RECEIVER DASHBOARD ──────── */
+const initRecvDash=()=>{
+  $('PL').style.display='none';
+  $('PR').style.display='block';
+  const nav=$('recv-navav');
+  nav.textContent='👨‍💼';
+  // Build recv tabs
+  const recvTabsCfg=[
+    {id:'requests',icon:'fas fa-inbox',label:'الطلبات الواردة'},
+    {id:'add',icon:'fas fa-plus-circle',label:'إضافة طلب'},
+    {id:'history',icon:'fas fa-history',label:'السجل'}
+  ];
+  const ntabs=$('recv-ntabs');
+  const mobNav=$('mobileNav');const mobTabs=$('mobTabs');
+  ntabs.innerHTML=recvTabsCfg.map((t,i)=>`<button class="ntab${i===0?' sup-on':''}" id="rnt-${t.id}" onclick="recvTab('${t.id}')"><i class="${t.icon}"></i><span> ${t.label}</span></button>`).join('');
+  if(mobNav&&mobTabs){
+    mobNav.style.display='block';
+    mobTabs.innerHTML=recvTabsCfg.map((t,i)=>`<button class="mob-tab${i===0?' sup-on':''}" id="rmnt-${t.id}" onclick="recvTab('${t.id}')"><i class="${t.icon}"></i>${t.label}</button>`).join('');
+  }
+  recvTab('requests');
+  // listen for new requests and notify receiver
+  listenRecvNewRequests();
+};
+
+const listenRecvNewRequests=()=>{
+  let lastCount=null;
+  const r=ref(dbs[0],'recvRequests');
+  onValue(r,snap=>{
+    const count=snap.exists()?Object.keys(snap.val()).length:0;
+    if(lastCount!==null&&count>lastCount){
+      playSound('notif');vibrate([200,100,200]);
+      toast('info','طلب جديد وارد','📥');
+      showPushNotif('📥 طلب جديد وارد!','تم استلام طلب جديد في منصة المستقبل','📥');
+    }
+    lastCount=count;
+    // update badge
+    const badge=$('recv-req-badge');
+    if(badge){badge.textContent=count;badge.style.display=count>0?'inline':'none';}
+  });
+  LSNRS.push({r});
+};
+
+window.recvTab=t=>{
+  document.querySelectorAll('#recv-ntabs .ntab').forEach(b=>b.classList.remove('on','sup-on'));
+  const el=$('rnt-'+t);if(el)el.classList.add('sup-on');
+  document.querySelectorAll('#mobTabs .mob-tab').forEach(b=>b.classList.remove('on','sup-on'));
+  const mel=$('rmnt-'+t);if(mel)mel.classList.add('sup-on');
+  const body=$('recv-dbody');
+  if(t==='requests')renderRecvRequests(body);
+  else if(t==='add')renderRecvAdd(body);
+  else renderRecvHistory(body);
+};
+
+const renderRecvRequests=body=>{
+  body.innerHTML=`
+  <div style="padding:16px;overflow-y:auto;height:calc(100vh - 60px - 70px)">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+      <div style="font-family:'Tajawal',sans-serif;font-size:18px;font-weight:900;color:var(--text);display:flex;align-items:center;gap:8px">
+        <i class="fas fa-inbox" style="color:var(--primary)"></i> الطلبات الواردة
+        <span id="recv-req-badge" class="ntab-badge" style="display:none">0</span>
+      </div>
+      <button onclick="recvTab('add')" style="padding:8px 14px;background:var(--primary);border:none;border-radius:9px;color:#fff;font-size:12px;font-weight:700;cursor:pointer;font-family:'Cairo',sans-serif"><i class="fas fa-plus"></i> إضافة طلب</button>
+    </div>
+    <div id="RECV_LIST"><div style="text-align:center;padding:32px;color:var(--text4)"><div class="spin dark"></div></div></div>
+  </div>`;
+  const r=ref(dbs[0],'recvRequests');
+  onValue(r,snap=>{
+    const list=$('RECV_LIST');if(!list)return;
+    if(!snap.exists()){list.innerHTML=`<div style="text-align:center;padding:40px;color:var(--text4)"><i class="fas fa-inbox" style="font-size:40px;opacity:.2;display:block;margin-bottom:12px"></i><p style="font-size:13px">لا توجد طلبات حالياً</p></div>`;return;}
+    const items=Object.entries(snap.val()).sort((a,b)=>(b[1].ts||0)-(a[1].ts||0));
+    const badge=$('recv-req-badge');if(badge){badge.textContent=items.length;badge.style.display=items.length>0?'inline':'none';}
+    list.innerHTML=items.map(([id,d])=>`
+      <div class="recv-req-card">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px">
+          <div style="font-size:15px;font-weight:900;color:var(--text);display:flex;align-items:center;gap:6px"><i class="fas fa-phone" style="color:var(--primary);font-size:12px"></i>${esc(d.phone||'-')}</div>
+          <span style="font-size:10px;color:var(--text4)">${fmt(d.ts||Date.now())}</span>
+        </div>
+        <div style="font-size:12px;color:var(--text2);margin-bottom:10px;display:flex;align-items:flex-start;gap:6px"><i class="fas fa-map-marker-alt" style="color:var(--amber);margin-top:3px;flex-shrink:0"></i>${esc(d.details||'-')}</div>
+        ${d.addedBy?`<div style="font-size:10px;color:var(--text4);margin-bottom:8px"><i class="fas fa-user" style="margin-left:3px"></i>${esc(d.addedBy)}</div>`:''}
+        <div style="display:flex;gap:7px;flex-wrap:wrap">
+          <button class="rca rca-amber" onclick="recvEditReq('${id}','${eAt(d.phone||'')}','${eAt(d.details||'')}')"><i class="fas fa-pen"></i> تعديل</button>
+          <button class="rca rca-red" onclick="recvDelReq('${id}')"><i class="fas fa-trash"></i> حذف</button>
+        </div>
+      </div>`).join('');
+  });
+  LSNRS.push({r});
+};
+
+const renderRecvAdd=body=>{
+  body.innerHTML=`
+  <div style="padding:16px;overflow-y:auto;height:calc(100vh - 60px - 70px);max-width:500px;margin:0 auto">
+    <div style="font-family:'Tajawal',sans-serif;font-size:18px;font-weight:900;color:var(--text);margin-bottom:16px;display:flex;align-items:center;gap:8px">
+      <i class="fas fa-plus-circle" style="color:var(--primary)"></i> إضافة طلب جديد
+    </div>
+    <div class="cbox">
+      <div class="al" id="al-recv-add"></div>
+      <div class="fg"><label class="fl"><i class="fas fa-phone"></i> رقم هاتف الزبون</label><input type="tel" class="fi" id="recv-phone" placeholder="05xxxxxxxx"></div>
+      <div class="fg"><label class="fl"><i class="fas fa-map-marker-alt"></i> التفاصيل والموقع</label><textarea class="fi" id="recv-details" rows="4" placeholder="من شارع فلسطين إلى مستشفى طولكرم..."></textarea></div>
+      <button class="ba" onclick="addRecvReq()"><i class="fas fa-paper-plane"></i> حفظ الطلب</button>
+    </div>
+  </div>`;
+};
+
+const renderRecvHistory=body=>{
+  body.innerHTML=`
+  <div style="padding:16px;overflow-y:auto;height:calc(100vh - 60px - 70px)">
+    <div style="font-family:'Tajawal',sans-serif;font-size:18px;font-weight:900;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:8px">
+      <i class="fas fa-history" style="color:var(--amber)"></i> سجل التنبيهات
+      <button onclick="clearAllNotifs()" style="margin-right:auto;padding:7px 14px;background:var(--red-l);border:1px solid var(--red-m);border-radius:9px;color:var(--red);font-size:11px;font-weight:700;cursor:pointer;font-family:'Cairo',sans-serif"><i class="fas fa-trash"></i> حذف الكل</button>
+    </div>
+    <div id="RECV_HIST"><div style="text-align:center;padding:32px;color:var(--text4)"><div class="spin dark"></div></div></div>
+  </div>`;
+  const r=ref(dbs[0],'notifications');
+  onValue(r,snap=>{
+    const list=$('RECV_HIST');if(!list)return;
+    if(!snap.exists()){list.innerHTML=`<div style="text-align:center;padding:32px;color:var(--text4)">لا يوجد سجل</div>`;return;}
+    const items=Object.entries(snap.val()).sort((a,b)=>(b[1].ts||0)-(a[1].ts||0)).slice(0,50);
+    list.innerHTML=items.map(([nid,n])=>{
+      const ic={accept:'ni-green',reject:'ni-red',timeout:'ni-red',done:'ni-green',waiting:'ni-amber',near:'ni-amber',sos:'ni-red',info:'ni-blue',cancel:'ni-red',edit:'ni-amber'}[n.type]||'ni-blue';
+      const icon={accept:'check',reject:'times',timeout:'clock',done:'flag-checkered',waiting:'hourglass-half',near:'map-pin',sos:'triangle-exclamation',info:'info',cancel:'ban',edit:'pen'}[n.type]||'bell';
+      return`<div class="notif-item">
+        <div class="notif-ic ${ic}"><i class="fas fa-${icon}"></i></div>
+        <div class="notif-body"><div class="notif-title">${esc(n.msg||'')}</div>${n.reason?`<div class="notif-sub">السبب: ${esc(n.reason)}</div>`:''}<div class="notif-time">${fmt(n.ts||Date.now())}</div></div>
+        <button class="notif-del-btn" onclick="delNotif('${nid}')"><i class="fas fa-times"></i></button>
+      </div>`;
+    }).join('');
+  });
+  LSNRS.push({r});
+};
+
+window.addRecvReq=async()=>{
+  const phone=($('recv-phone').value||'').trim(),details=($('recv-details').value||'').trim();
+  if(!phone||!details)return shAl('al-recv-add','err','يرجى ملء جميع الحقول');
+  await push(ref(dbs[0],'recvRequests'),{phone,details,ts:Date.now(),addedBy:CU?CU.name:'المستقبل'});
+  $('recv-phone').value='';$('recv-details').value='';
+  shAl('al-recv-add','ok','✅ تم إضافة الطلب');
+  toast('ok','تم إضافة الطلب','');playSound('notif');
+  setTimeout(()=>recvTab('requests'),1200);
+};
+window.recvDelReq=async id=>{if(!confirm('حذف هذا الطلب؟'))return;await remove(ref(dbs[0],`recvRequests/${id}`));toast('ok','تم الحذف','');};
+window.recvEditReq=(id,phone,details)=>{
+  const np=prompt('رقم الهاتف الجديد:',phone.replace(/&#39;/g,"'"));if(!np)return;
+  const nd=prompt('التفاصيل الجديدة:',details.replace(/&#39;/g,"'"));if(!nd)return;
+  update(ref(dbs[0],`recvRequests/${id}`),{phone:np,details:nd,editedAt:Date.now(),editedBy:CU?CU.name:'المستقبل'}).then(()=>toast('ok','تم التعديل',''));
+};
+
+window.logoutRecv=()=>{
+  clrListeners(false);CU=null;CR=null;IS_RECV=false;
+  $('PR').style.display='none';$('PL').style.display='block';
+  $('recv-ntabs').innerHTML='';
+  const mn=$('mobileNav');if(mn)mn.style.display='none';
+};
+
+/* ──────── INIT SUPERVISOR/DRIVER DASHBOARD ──────── */
 const initDash=()=>{
   $('PL').style.display='none';$('PD').style.display='block';
   const nav=$('navav');
   if(CU.avatar)nav.innerHTML=`<img src="${CU.avatar}">`;
   else nav.textContent=CR==='driver'?'🚕':'👨‍💼';
   if(CR==='supervisor')nav.classList.add('sup-av');
+
   const tabs=$('ntabs');
-  // Request push notification permission
-  requestNotifPerm();
+  const mobNav=$('mobileNav');const mobTabs=$('mobTabs');
+
   if(CR==='driver'){
-    tabs.innerHTML=`
-      <button class="ntab on" id="nt-reqs" onclick="nTab('reqs')"><i class="fas fa-inbox"></i><span> الطلبات</span></button>
-      <button class="ntab" id="nt-reports" onclick="nTab('reports')"><i class="fas fa-chart-bar"></i><span> تقاريري</span></button>
-      <button class="ntab" id="nt-support" onclick="nTab('support')"><i class="fas fa-headset"></i><span> دعم فني</span></button>
-      <button class="ntab" id="nt-profile" onclick="nTab('profile')"><i class="fas fa-user-cog"></i><span> حسابي</span></button>`;
-    buildMobNav('driver');
+    const driverTabsCfg=[
+      {id:'reqs',icon:'fas fa-inbox',label:'الطلبات'},
+      {id:'reports',icon:'fas fa-chart-bar',label:'تقاريري'},
+      {id:'support',icon:'fas fa-headset',label:'دعم فني'},
+      {id:'profile',icon:'fas fa-user-cog',label:'حسابي'}
+    ];
+    tabs.innerHTML=driverTabsCfg.map((t,i)=>`<button class="ntab${i===0?' on':''}" id="nt-${t.id}" onclick="nTab('${t.id}')"><i class="${t.icon}"></i><span> ${t.label}</span></button>`).join('');
+    if(mobNav&&mobTabs){
+      mobNav.style.display='block';
+      mobTabs.innerHTML=driverTabsCfg.map((t,i)=>`<button class="mob-tab${i===0?' on':''}" id="mnt-${t.id}" onclick="nTab('${t.id}')"><i class="${t.icon}"></i>${t.label}</button>`).join('');
+    }
     renderDriverReqs();
   } else {
-    tabs.innerHTML=`
-      <button class="ntab on" id="nt-reqs" onclick="nTab('reqs')"><i class="fas fa-inbox"></i><span> الطلبات</span></button>
-      <button class="ntab" id="nt-map" onclick="nTab('map')"><i class="fas fa-map-location-dot"></i><span> الخريطة</span></button>
-      <button class="ntab" id="nt-notifs" onclick="nTab('notifs')"><i class="fas fa-bell"></i><span> التنبيهات <span class="ntab-badge" id="notif-badge" style="display:none">0</span></span></button>
-      <button class="ntab" id="nt-reports" onclick="nTab('reports')"><i class="fas fa-chart-bar"></i><span> التقارير</span></button>
-      <button class="ntab" id="nt-accounts" onclick="nTab('accounts')"><i class="fas fa-users"></i><span> السائقون</span></button>
-      <button class="ntab" id="nt-support" onclick="nTab('support')"><i class="fas fa-headset"></i><span> دعم فني</span></button>
-      <button class="ntab" id="nt-monitor" onclick="openMonitor()" style="background:rgba(220,38,38,.08);color:var(--red)"><i class="fas fa-tv"></i><span> 📺 شاشة المراقبة</span></button>
-      <button class="ntab" id="nt-profile" onclick="nTab('profile')"><i class="fas fa-user-cog"></i><span> حسابي</span></button>`;
-    buildMobNav('supervisor');
+    // SUPERVISOR TABS
+    const supTabsCfg=[
+      {id:'reqs',icon:'fas fa-inbox',label:'الطلبات'},
+      {id:'map',icon:'fas fa-map-location-dot',label:'الخريطة'},
+      {id:'notifs',icon:'fas fa-bell',label:'التنبيهات',badge:true},
+      {id:'reports',icon:'fas fa-chart-bar',label:'التقارير'},
+      {id:'accounts',icon:'fas fa-users',label:'السائقون'},
+      {id:'support',icon:'fas fa-headset',label:'دعم فني'},
+      {id:'profile',icon:'fas fa-user-cog',label:'حسابي'}
+    ];
+    tabs.innerHTML=supTabsCfg.map((t,i)=>`<button class="ntab${i===0?' sup-on':''}" id="nt-${t.id}" onclick="nTab('${t.id}')"><i class="${t.icon}"></i><span> ${t.label}${t.badge?` <span class="ntab-badge" id="notif-badge" style="display:none">0</span>`:''}</span></button>`).join('');
+    // Monitor button in nav
+    const existingMonBtn=$('monitorBtn');
+    if(!existingMonBtn){
+      const monBtn=document.createElement('button');
+      monBtn.id='monitorBtn';
+      monBtn.className='btn-primary';
+      monBtn.style.cssText='padding:7px 13px;font-size:11px;flex-shrink:0';
+      monBtn.innerHTML='<i class="fas fa-tv"></i> <span class="ntab-span">شاشة المراقبة</span>';
+      monBtn.onclick=openMonitor;
+      const navr=$('navr');if(navr)navr.insertBefore(monBtn,navr.firstChild);
+    }
+    if(mobNav&&mobTabs){
+      mobNav.style.display='block';
+      mobTabs.innerHTML=supTabsCfg.map((t,i)=>`<button class="mob-tab${i===0?' sup-on':''}" id="mnt-${t.id}" onclick="nTab('${t.id}')">${t.badge?`<span class="mob-tab-badge" id="mob-notif-badge" style="display:none">0</span>`:''}<i class="${t.icon}"></i>${t.label}</button>`).join('');
+      mobTabs.innerHTML+=`<button class="mob-tab" onclick="openMonitor()" style="background:rgba(29,78,216,.1);color:var(--primary)"><i class="fas fa-tv"></i>مراقبة</button>`;
+    }
     renderSupReqs();
     loadSupDrivers();
   }
@@ -1115,7 +1500,8 @@ window.nTab=t=>{
   if(_tabBusy)return;_tabBusy=true;
   document.querySelectorAll('#ntabs .ntab').forEach(b=>b.classList.remove('on','sup-on'));
   const el=$('nt-'+t);if(el)el.classList.add(CR==='supervisor'?'sup-on':'on');
-  syncMobNav(t);
+  document.querySelectorAll('#mobTabs .mob-tab').forEach(b=>b.classList.remove('on','sup-on'));
+  const mel=$('mnt-'+t);if(mel)mel.classList.add(CR==='supervisor'?'sup-on':'on');
   clrListeners(true);
   if(CR==='driver'){
     if(t==='reqs')renderDriverReqs();
@@ -1138,17 +1524,21 @@ const clrListeners=(keepDrvs=false)=>{
   LSNRS.forEach(({r,keep})=>{if(keepDrvs&&keep)return;try{if(r&&typeof r.off==='function')r.off();else if(r)off(r);}catch(e){}});
   if(keepDrvs){const kept=LSNRS.filter(l=>l.keep);LSNRS.length=0;kept.forEach(l=>LSNRS.push(l));}else{LSNRS.length=0;}
   if(leafletMap){try{leafletMap.remove();}catch(e){}leafletMap=null;mapMarkers={};}
+  if(window._inlineMap){try{window._inlineMap.remove();}catch(e){}window._inlineMap=null;window._inlineMarkers={};}
 };
 const addL=(r,keep=false)=>LSNRS.push({r,keep});
 
+/* ──────── TAXI COLOR/STATUS HELPER ──────── */
 const getTCS=d=>{
-  if(d.taxiColor==='red'||d.status==='busy')return{border:'#DC2626',dot:'#DC2626',label:'مشغول 🔴',cls:'sb-red',mcls:'mc-busy',mtag:'mt-r'};
-  if(d.taxiColor==='orange'||d.status==='break'||d.status==='pray'||d.status==='waiting'||d.status==='near'){
-    const lbl={near:'قريب ⚠️',waiting:'بالانتظار 🟠',pray:'صلاة 🕌',break:'استراحة 🟠'}[d.status]||'بالانتظار 🟠';
-    return{border:'#EA580C',dot:'#EA580C',label:lbl,cls:'sb-orange',mcls:'mc-break',mtag:'mt-o'};
+  const s=d.status||'';const c=d.taxiColor||'green';
+  if(c==='red'||s==='busy')return{border:'#DC2626',dot:'#DC2626',label:'مشغول 🔴',cls:'sb-red',monCls:'st-busy',dotCls:'msd-red',badgeCls:'mtb-red',monLabel:'مشغول',emoji:'🔴'};
+  if(c==='orange'||s==='break'||s==='pray'||s==='waiting'||s==='near'){
+    const lbl=s==='near'?'قريب ⚠️':s==='waiting'?'بالانتظار 🟠':s==='pray'?'صلاة 🕌':'استراحة 🟠';
+    return{border:'#EA580C',dot:'#EA580C',label:lbl,cls:'sb-orange',monCls:'st-break',dotCls:'msd-orange',badgeCls:'mtb-orange',monLabel:lbl,emoji:'🟠'};
   }
-  if(d.status==='offline')return{border:'#475569',dot:'#475569',label:'غير متصل ⚫',cls:'sb-gray',mcls:'mc-offline',mtag:'mt-gr'};
-  return{border:'#059669',dot:'#059669',label:'متاح 🟢',cls:'sb-green',mcls:'mc-online',mtag:'mt-g'};
+  if(s==='offline')return{border:'#64748B',dot:'#64748B',label:'غير متصل ⚫',cls:'sb-gray',monCls:'st-offline',dotCls:'msd-gray',badgeCls:'mtb-gray',monLabel:'غير متصل',emoji:'⚫'};
+  // green/online = default available
+  return{border:'#059669',dot:'#059669',label:'متاح 🟢',cls:'sb-green',monCls:'st-online',dotCls:'msd-green',badgeCls:'mtb-green',monLabel:'متاح',emoji:'🟢'};
 };
 
 const loadSupDrivers=()=>{
@@ -1164,7 +1554,7 @@ const loadSupDrivers=()=>{
   });
 };
 
-/* DRIVER REQUESTS VIEW */
+/* ──────── DRIVER REQUESTS VIEW ──────── */
 const renderDriverReqs=()=>{
   $('dbody').innerHTML=`
   <div class="dlayout">
@@ -1172,7 +1562,7 @@ const renderDriverReqs=()=>{
       <div class="pcard">
         <div class="pav">${CU.avatar?`<img src="${CU.avatar}">`:'🚕'}</div>
         <div class="pname">${esc(CU.name)}</div>
-        <div class="prole" style="display:inline-block;font-size:10px;padding:3px 10px;border-radius:20px;background:var(--primary-l);color:var(--primary);border:1px solid var(--primary-m)">🚕 سائق تكسي</div>
+        <div style="display:inline-block;font-size:10px;padding:3px 10px;border-radius:20px;background:var(--primary-l);color:var(--primary);border:1px solid var(--primary-m)">🚕 سائق تكسي</div>
         <div style="margin:5px 0"><span id="drvStatusBadge">${getStatusBadge(CU)}</span></div>
         <div style="font-size:11px;color:var(--text3);margin-top:2px"><i class="fas fa-car" style="margin-left:3px"></i>${esc(CU.carNumber||'-')}</div>
         <div style="margin-top:6px"><span class="deliv-badge"><i class="fas fa-box"></i> ${CU.totalDeliveries||CU.deliveries||0} توصيلة</span></div>
@@ -1186,6 +1576,7 @@ const renderDriverReqs=()=>{
           <button class="qbtn" onclick="drvAct('pray')"><i class="fas fa-mosque" style="color:#7C3AED"></i>صلاة</button>
           <button class="qbtn" style="background:var(--orange-l);border-color:var(--orange-m);color:var(--orange)" onclick="drvStatusBtn('waiting')"><i class="fas fa-hourglass-half"></i>بالانتظار</button>
           <button class="qbtn" style="background:var(--amber-l);border-color:var(--amber-m);color:var(--amber)" onclick="drvStatusBtn('near')"><i class="fas fa-map-pin"></i>قريب</button>
+          <button class="qbtn done-all" onclick="quickDoneDelivery()"><i class="fas fa-flag-checkered" style="font-size:16px"></i>تم التوصيل</button>
           <button class="qbtn sos" onclick="doDriverSOS()"><i class="fas fa-triangle-exclamation"></i> 🆘 طوارئ SOS</button>
         </div>
         <div class="fg" style="margin-top:10px">
@@ -1200,6 +1591,8 @@ const renderDriverReqs=()=>{
           <div class="dreq-hd-title"><i class="fas fa-inbox" style="color:var(--primary)"></i> طلباتي الواردة</div>
           <span class="sbadge sb-gray" id="drvReqCount">--</span>
         </div>
+        <!-- بنر حالة الإشعارات -->
+        <div id="notifStatusBar" style="padding:8px 14px;font-size:11px;font-weight:700;display:flex;align-items:center;gap:7px;border-bottom:1px solid var(--border);flex-shrink:0;background:var(--bg)"></div>
         <div class="dreq-list" id="DREQLIST">
           <div class="dreq-empty"><i class="fas fa-box-open"></i><p>لا توجد طلبات حالياً<br>ستظهر هنا عند وصولها</p></div>
         </div>
@@ -1207,9 +1600,35 @@ const renderDriverReqs=()=>{
     </div>
   </div>`;
   listenDriverReqsList();
+  updateNotifStatusBar();
 };
 
-const getStatusBadge=d=>{const cs=getTCS(d);return`<span class="sbadge ${cs.cls}"><span class="pdot pd-green" style="background:${cs.dot}"></span>${cs.label}</span>`;};
+const updateNotifStatusBar=()=>{
+  const bar=$('notifStatusBar');if(!bar)return;
+  if(!('Notification' in window)){
+    bar.innerHTML=`<i class="fas fa-bell-slash" style="color:var(--text4)"></i><span style="color:var(--text4)">الإشعارات غير مدعومة في هذا المتصفح</span>`;
+    return;
+  }
+  if(Notification.permission==='granted'){
+    bar.innerHTML=`<i class="fas fa-bell" style="color:var(--green)"></i><span style="color:var(--green)">🔔 الإشعارات مفعّلة — ستصلك إشعارات حتى لو الشاشة مغلقة</span>`;
+    bar.style.background='var(--green-l)';
+  } else if(Notification.permission==='denied'){
+    bar.innerHTML=`<i class="fas fa-bell-slash" style="color:var(--red)"></i><span style="color:var(--red)">🔕 الإشعارات محجوبة — اضغط على قفل المتصفح لتفعيلها</span>`;
+    bar.style.background='var(--red-l)';
+  } else {
+    bar.innerHTML=`<i class="fas fa-bell" style="color:var(--amber)"></i><span style="color:var(--amber)">الإشعارات غير مفعّلة</span><button onclick="enableNotifs()" style="margin-right:auto;padding:4px 10px;background:var(--amber);border:none;border-radius:7px;color:#fff;font-size:11px;font-weight:700;cursor:pointer;font-family:'Cairo',sans-serif">🔔 تفعيل الإشعارات</button>`;
+    bar.style.background='var(--amber-l)';
+  }
+};
+window.enableNotifs=async()=>{
+  await registerSW();
+  const granted=await reqPushPermission();
+  updateNotifStatusBar();
+  if(granted)toast('ok','🔔 تم تفعيل الإشعارات!','ستصلك إشعارات حتى لو الشاشة مغلقة');
+  else toast('warn','لم يتم التفعيل','يرجى السماح من إعدادات المتصفح');
+};
+
+const getStatusBadge=d=>{const cs=getTCS(d);return`<span class="sbadge ${cs.cls}"><span class="pdot" style="background:${cs.dot}"></span>${cs.label}</span>`;};
 
 const listenDriverReqsList=()=>{
   const r=ref(dbs[0],`driverRequests/${CU.id}`);
@@ -1232,7 +1651,9 @@ const mkDriverReqCard=(id,req)=>{
   const confirmBtn=req.status==='modified'&&!req.driverConfirmed?`<div class="mod-notice"><i class="fas fa-bell"></i>يرجى تأكيد استلام التعديل</div><button class="rca rca-green" onclick="confirmMod('${id}')"><i class="fas fa-check"></i> تأكيد استلام التعديل</button>`:'';
   const cancelledMsg=req.status==='cancelled'?`<div class="cancel-msg"><i class="fas fa-ban"></i>تم إلغاء الطلب من قبل الزبون</div>`:'';
   const msgShow=req.message?`<div class="req-msg-box" style="margin-bottom:9px"><div class="req-msg-from"><i class="fas fa-user-tie" style="margin-left:4px"></i>رسالة المشرف</div><div class="req-msg-text">${esc(req.message)}</div></div>`:'';
-  const waitingBtn=(req.status==='accepted')&&!req.doneDelivery?`
+  // Show action buttons for accepted/waiting/near — FIX: show done button for waiting AND near
+  const showActions=(req.status==='accepted'||req.status==='waiting'||req.status==='near')&&!req.doneDelivery;
+  const waitingBtn=showActions?`
     <button class="rca rca-orange" onclick="setDrvWaiting('${id}')"><i class="fas fa-hourglass-half"></i> بالانتظار</button>
     <button class="rca rca-amber" onclick="setDrvNear('${id}')"><i class="fas fa-map-pin"></i> قريب</button>
     <button class="rca rca-green" onclick="doneDelivery('${id}')"><i class="fas fa-flag-checkered"></i> تم التوصيل</button>`:'';
@@ -1240,7 +1661,7 @@ const mkDriverReqCard=(id,req)=>{
     <div class="reqtop">
       <div class="reqphone"><i class="fas fa-phone"></i>${esc(req.phone||'-')}</div>
       <div class="reqtimes">
-        <span class="sbadge ${req.status==='accepted'?'sb-green':req.status==='rejected'?'sb-red':req.status==='cancelled'?'sb-gray':req.status==='done'?'sb-green':'sb-amber'}" style="font-size:10px">${statusLabel}</span>
+        <span class="sbadge ${req.status==='accepted'||req.status==='done'?'sb-green':req.status==='rejected'||req.status==='cancelled'?'sb-red':req.status==='waiting'||req.status==='near'?'sb-orange':'sb-amber'}" style="font-size:10px">${statusLabel}</span>
         <span class="reqtime"><i class="fas fa-clock"></i>${fmt(req.ts||Date.now())}</span>
         ${req.acceptedAt?`<span class="reqtime" style="color:var(--green)"><i class="fas fa-check"></i>قبول: ${fmt(req.acceptedAt)}</span>`:''}
       </div>
@@ -1267,6 +1688,7 @@ window.confirmMod=async id=>{
   await update(ref(dbs[0],`driverRequests/${CU.id}/${id}`),{driverConfirmed:true,status:'accepted'});
   toast('ok','تم التأكيد','');
 };
+
 window.doneDelivery=async id=>{
   if(!CU)return;
   const count=(CU.totalDeliveries||CU.deliveries||0)+1;
@@ -1279,9 +1701,18 @@ window.doneDelivery=async id=>{
   await set(lRef,{...prev,deliveries:(prev.deliveries||0)+1,lastUpdate:Date.now()});
   await push(ref(dbs[0],'notifications'),{type:'done',driverId:CU.id,driverName:CU.name,msg:`📦 السائق ${CU.name} أتم توصيل الطلب — إجمالي: ${count}`,ts:Date.now(),read:false});
   toast('ok','تم التوصيل! 🎉',`إجمالي توصيلاتك: ${count}`);playSound('accept');
-  // update badge in sidebar
   const b=$('drvStatusBadge');if(b)b.innerHTML=getStatusBadge(CU);
   const db=document.querySelector('.deliv-badge');if(db)db.innerHTML=`<i class="fas fa-box"></i> ${count} توصيلة`;
+};
+
+// Quick done delivery from sidebar (uses latest accepted request)
+window.quickDoneDelivery=async()=>{
+  if(!CU)return;
+  const snap=await get(ref(dbs[0],`driverRequests/${CU.id}`)).catch(()=>null);
+  if(!snap||!snap.exists())return toast('warn','تنبيه','لا يوجد طلب نشط');
+  const active=Object.entries(snap.val()).find(([,r])=>(r.status==='accepted'||r.status==='waiting'||r.status==='near')&&!r.doneDelivery);
+  if(!active)return toast('warn','تنبيه','لا يوجد طلب نشط للتوصيل');
+  await doneDelivery(active[0]);
 };
 
 window.drvAct=async t=>{
@@ -1293,8 +1724,7 @@ window.drvAct=async t=>{
     const now=Date.now();shiftStartTime=now;CU.shiftStart=now;
     await update(ref(dbs[CU._shard||0],`drivers/${CU.id}`),{shiftStart:now,shiftEnd:null});
     const lRef=ref(dbs[CU._shard||0],`drivers/${CU.id}/dailyReport/${today}`);
-    const snap=await get(lRef).catch(()=>null);
-    const prev=snap&&snap.exists()?snap.val():{deliveries:0,shifts:[]};
+    const snap=await get(lRef).catch(()=>null);const prev=snap&&snap.exists()?snap.val():{deliveries:0,shifts:[]};
     await set(lRef,{...prev,shifts:[...(prev.shifts||[]),{start:now}],lastUpdate:now});
     playSound('shift');toast('ok','بدأ الشيفت 🟢','');
   } else if(t==='end'){
@@ -1306,11 +1736,13 @@ window.drvAct=async t=>{
     await update(ref(dbs[CU._shard||0],`drivers/${CU.id}`),{shiftStart:null,shiftEnd:now});
     shiftStartTime=null;toast('ok','انتهى الشيفت 🏁',`مدة: ${dur} دقيقة`);
   } else {toast('ok','تم الإرسال ✅','');}
+  const b=$('drvStatusBadge');if(b)b.innerHTML=getStatusBadge(CU);
   await push(ref(dbs[0],'notifications'),{type:'info',driverId:CU.id,driverName:CU.name,msg:`${msgs[t]} — ${CU.name}`,ts:Date.now(),read:false});
 };
 window.drvStatusBtn=async s=>{
   await updStatus(s);
   const label=s==='waiting'?'بالانتظار 🟠':'قريب من الموقع ⚠️';
+  const b=$('drvStatusBadge');if(b)b.innerHTML=getStatusBadge(CU);
   await push(ref(dbs[0],'notifications'),{type:s,driverId:CU.id,driverName:CU.name,msg:`${label} — السائق ${CU.name}`,ts:Date.now(),read:false});
   toast('ok','تم التحديث',label);playSound('notif');
 };
@@ -1326,25 +1758,7 @@ window.doDriverSOS=async()=>{
   vibrate([500,100,500,100,500]);playSound('sos');toast('err','🆘 SOS أُرسل','');
 };
 
-/* DRIVER MAP */
-const renderDriverMap=()=>{
-  $('dbody').innerHTML=`<div style="height:calc(100vh - 60px);display:flex;flex-direction:column;position:relative">
-    <div style="padding:12px 16px;background:var(--bg);border-bottom:1px solid var(--border);font-size:13px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px;flex-shrink:0">
-      <i class="fas fa-location-dot" style="color:var(--primary)"></i> موقعي على الخريطة
-      <button style="margin-right:auto;padding:6px 12px;background:var(--primary);border:none;border-radius:8px;color:#fff;font-size:11px;font-weight:700;cursor:pointer" onclick="reqGPS('${CU.id}',${CU._shard||0})"><i class="fas fa-location-crosshairs"></i> تحديث الموقع</button>
-    </div>
-    <div id="driverMap" style="flex:1"></div>
-  </div>`;
-  requestAnimationFrame(()=>requestAnimationFrame(()=>{
-    const el=$('driverMap');if(!el||leafletMap)return;
-    try{leafletMap=L.map('driverMap').setView([32.31,35.03],12);L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:19}).addTo(leafletMap);}catch(e){return;}
-    const r=ref(dbs[CU._shard||0],`drivers/${CU.id}`);
-    onValue(r,snap=>{if(!leafletMap||!snap.exists())return;const d=snap.val();if(d.lat&&d.lng)updateMarker(CU.id,d,CU._shard||0);});
-    addL(r);
-  }));
-};
-
-/* SUPERVISOR REQUESTS — includes map on right side */
+/* ──────── SUPERVISOR REQUESTS VIEW ──────── */
 const renderSupReqs=()=>{
   $('dbody').innerHTML=`<div class="sup-req-layout">
     <div class="sup-req-col">
@@ -1352,48 +1766,47 @@ const renderSupReqs=()=>{
         <div class="col-hd-title"><i class="fas fa-inbox" style="color:var(--primary)"></i> الطلبات الواردة</div>
         <div style="display:flex;gap:6px">
           <button class="btn-primary" style="padding:7px 12px;font-size:11px" onclick="OM('MaddReq')"><i class="fas fa-plus"></i> جديد</button>
-          <button style="padding:7px 12px;background:var(--red-l);border:1px solid var(--red-m);border-radius:var(--r);color:var(--red);font-size:11px;font-weight:700;cursor:pointer" onclick="OM('SosSupModal')"><i class="fas fa-triangle-exclamation"></i> SOS</button>
+          <button style="padding:7px 12px;background:var(--red-l);border:1px solid var(--red-m);border-radius:var(--r);color:var(--red);font-size:11px;font-weight:700;cursor:pointer;font-family:'Cairo',sans-serif" onclick="OM('SosSupModal')"><i class="fas fa-triangle-exclamation"></i> SOS</button>
         </div>
       </div>
       <div class="col-scroll" id="supReqList">
-        <div style="text-align:center;padding:32px;color:var(--text4)"><div class="spin"></div></div>
+        <div style="text-align:center;padding:32px;color:var(--text4)"><div class="spin dark"></div></div>
       </div>
     </div>
-    <div class="sup-req-main" style="display:flex;flex-direction:column;overflow:hidden">
-      <div class="ststrip" style="flex-shrink:0">
+    <div class="sup-req-main">
+      <div class="ststrip">
         <div class="st"><div class="stic" style="background:var(--primary-l)"><i class="fas fa-users" style="color:var(--primary)"></i></div><div><div class="stv" id="sTot">0</div><div class="stl">سائقون</div></div></div>
-        <div class="st"><div class="stic" style="background:var(--green-l)"><i class="fas fa-circle-dot" style="color:var(--green)"></i></div><div><div class="stv" id="sOn">0</div><div class="stl">متاح</div></div></div>
-        <div class="st"><div class="stic" style="background:var(--red-l)"><i class="fas fa-car" style="color:var(--red)"></i></div><div><div class="stv" id="sBusy">0</div><div class="stl">مشغول</div></div></div>
-        <div class="st"><div class="stic" style="background:var(--orange-l)"><i class="fas fa-hourglass-half" style="color:var(--orange)"></i></div><div><div class="stv" id="sBreak">0</div><div class="stl">استراحة</div></div></div>
+        <div class="st"><div class="stic" style="background:var(--green-l)"><i class="fas fa-circle-dot" style="color:var(--green)"></i></div><div><div class="stv" id="sOn">0</div><div class="stl">متاح 🟢</div></div></div>
+        <div class="st"><div class="stic" style="background:var(--red-l)"><i class="fas fa-car" style="color:var(--red)"></i></div><div><div class="stv" id="sBusy">0</div><div class="stl">مشغول 🔴</div></div></div>
+        <div class="st"><div class="stic" style="background:var(--orange-l)"><i class="fas fa-hourglass-half" style="color:var(--orange)"></i></div><div><div class="stv" id="sBreak">0</div><div class="stl">استراحة 🟠</div></div></div>
         <div class="st"><div class="stic" style="background:var(--amber-l)"><i class="fas fa-map-pin" style="color:var(--amber)"></i></div><div><div class="stv" id="sNear">0</div><div class="stl">قريب</div></div></div>
       </div>
-      <!-- MAP EMBEDDED IN REQ PANEL -->
       <div style="position:relative;height:220px;flex-shrink:0;border-bottom:1px solid var(--border)">
         <div id="reqMapInline" style="height:100%;width:100%"></div>
         <div class="map-legend" style="bottom:8px;right:8px;padding:7px 10px;font-size:10px">
-          <div class="map-legend-item"><div class="leg-dot" style="background:#059669"></div>متاح</div>
-          <div class="map-legend-item"><div class="leg-dot" style="background:#EA580C"></div>انتظار</div>
-          <div class="map-legend-item"><div class="leg-dot" style="background:#DC2626"></div>مشغول</div>
+          <div class="map-legend-item"><div class="leg-dot" style="background:#059669"></div>متاح 🟢</div>
+          <div class="map-legend-item"><div class="leg-dot" style="background:#EA580C"></div>انتظار 🟠</div>
+          <div class="map-legend-item"><div class="leg-dot" style="background:#DC2626"></div>مشغول 🔴</div>
         </div>
       </div>
-      <!-- NOTIFS -->
       <div style="flex:1;overflow-y:auto;padding:12px" id="supNotifReqs">
-        <div style="font-family:'Tajawal',sans-serif;font-size:14px;font-weight:900;margin-bottom:10px;display:flex;align-items:center;gap:7px;color:var(--text)"><i class="fas fa-bell" style="color:var(--amber)"></i> تنبيهات الطلبات</div>
+        <div style="font-family:'Tajawal',sans-serif;font-size:14px;font-weight:900;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;color:var(--text)">
+          <span><i class="fas fa-bell" style="color:var(--amber)"></i> تنبيهات الطلبات</span>
+          <button onclick="clearAllNotifs()" style="padding:5px 10px;background:var(--red-l);border:1px solid var(--red-m);border-radius:7px;color:var(--red);font-size:10px;font-weight:700;cursor:pointer;font-family:'Cairo',sans-serif"><i class="fas fa-trash"></i> حذف الكل</button>
+        </div>
         <div id="supNotifList"><div style="text-align:center;padding:20px;color:var(--text4);font-size:12px">لا يوجد تنبيهات</div></div>
       </div>
     </div>
   </div>`;
   loadSupReqList();loadSupNotifList();listenDriverStats();
-  // Init inline map
+  // Inline map
   requestAnimationFrame(()=>requestAnimationFrame(()=>{
     const el=$('reqMapInline');if(!el)return;
     try{
       const inlineMap=L.map('reqMapInline',{zoomControl:false,scrollWheelZoom:false}).setView([32.31,35.03],11);
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'',maxZoom:19}).addTo(inlineMap);
-      // Store inline map to update markers
       window._inlineMap=inlineMap;window._inlineMarkers={};
-      // Listen to all drivers
-      dbs.forEach((sdb,sIdx)=>{
+      dbs.forEach((sdb)=>{
         const r=ref(sdb,'drivers');
         onValue(r,snap=>{
           if(!snap.exists())return;
@@ -1401,14 +1814,14 @@ const renderSupReqs=()=>{
             if(!d.lat||!d.lng)return;
             const cs=getTCS(d);
             const avH=d.avatar?`<img src="${d.avatar}" style="width:30px;height:30px;border-radius:50%;object-fit:cover">`:`<span style="font-size:15px">🚕</span>`;
-            const ic=L.divIcon({html:`<div style="display:flex;flex-direction:column;align-items:center;gap:1px"><div style="width:32px;height:32px;border-radius:50%;overflow:hidden;border:2.5px solid ${cs.border};background:#fff;display:flex;align-items:center;justify-content:center">${avH}</div><div style="background:rgba(15,23,42,.82);color:#fff;font-size:8px;font-weight:700;padding:1px 5px;border-radius:4px;white-space:nowrap;font-family:'Cairo',sans-serif">${d.name}</div></div>`,className:'',iconSize:[40,50],iconAnchor:[20,50]});
+            const ic=L.divIcon({html:`<div style="display:flex;flex-direction:column;align-items:center;gap:1px"><div style="width:32px;height:32px;border-radius:50%;overflow:hidden;border:2.5px solid ${cs.border};background:#fff;display:flex;align-items:center;justify-content:center">${avH}</div><div style="background:rgba(15,23,42,.82);color:#fff;font-size:8px;font-weight:700;padding:1px 5px;border-radius:4px;white-space:nowrap;font-family:'Cairo',sans-serif">${d.name} ${cs.emoji}</div></div>`,className:'',iconSize:[50,50],iconAnchor:[25,50]});
             if(window._inlineMarkers[id]){window._inlineMarkers[id].setLatLng([d.lat,d.lng]);window._inlineMarkers[id].setIcon(ic);}
             else{window._inlineMarkers[id]=L.marker([d.lat,d.lng],{icon:ic}).addTo(inlineMap).bindPopup(`<div style="font-family:'Cairo',sans-serif;font-size:12px;text-align:center"><b>${d.name}</b><br><span style="color:${cs.dot}">${cs.label}</span><br>${d.phone||''}</div>`);}
           });
         });
         addL(r);
       });
-    }catch(e){console.warn('inline map error',e);}
+    }catch(e){console.warn('inline map',e);}
   }));
 };
 
@@ -1421,9 +1834,9 @@ const listenDriverStats=()=>{
       const ent=Object.entries(allDrvs);
       const upd=(id,v)=>{const e=$(id);if(e)e.textContent=v;};
       upd('sTot',ent.length);
-      upd('sOn',ent.filter(([,d])=>d.taxiColor==='green'||d.status==='online').length);
-      upd('sBusy',ent.filter(([,d])=>d.taxiColor==='red'||d.status==='busy').length);
-      upd('sBreak',ent.filter(([,d])=>d.taxiColor==='orange'||d.status==='break'||d.status==='pray').length);
+      upd('sOn',ent.filter(([,d])=>getTCS(d).monCls==='st-online').length);
+      upd('sBusy',ent.filter(([,d])=>getTCS(d).monCls==='st-busy').length);
+      upd('sBreak',ent.filter(([,d])=>getTCS(d).monCls==='st-break').length);
       upd('sNear',ent.filter(([,d])=>d.status==='near').length);
     });
     addL(r);
@@ -1437,7 +1850,6 @@ const loadSupReqList=()=>{
     if(!snap.exists()){list.innerHTML=`<div style="text-align:center;padding:32px;color:var(--text4)"><i class="fas fa-inbox" style="font-size:32px;opacity:.2;display:block;margin-bottom:8px"></i>لا يوجد طلبات</div>`;return;}
     const items=Object.entries(snap.val()).sort((a,b)=>(b[1].ts||0)-(a[1].ts||0));
     list.innerHTML=items.map(([id,d])=>mkSupReqCard(id,d)).join('');
-    Object.keys(pendingFlash).forEach(id=>{const el=$(`sreq-${id}`);if(el)el.classList.add('no-resp-flash');});
   });
   addL(r);
 };
@@ -1466,13 +1878,10 @@ const loadSupNotifList=()=>{
     list.innerHTML=items.map(([nid,n])=>{
       const ic={accept:'ni-green',reject:'ni-red',timeout:'ni-red',done:'ni-green',waiting:'ni-amber',near:'ni-amber',sos:'ni-red',info:'ni-blue',cancel:'ni-red',edit:'ni-amber'}[n.type]||'ni-blue';
       const icon={accept:'check',reject:'times',timeout:'clock',done:'flag-checkered',waiting:'hourglass-half',near:'map-pin',sos:'triangle-exclamation',info:'info',cancel:'ban',edit:'pen'}[n.type]||'bell';
-      return`<div class="notif-item ${n.read?'':'unread'}">
+      return`<div class="notif-item ${n.read?'':'unread'}" style="padding-left:40px">
         <div class="notif-ic ${ic}"><i class="fas fa-${icon}"></i></div>
-        <div class="notif-body">
-          <div class="notif-title">${esc(n.msg||'')}</div>
-          ${n.reason?`<div class="notif-sub">السبب: ${esc(n.reason)}</div>`:''}
-          <div class="notif-time">${fmt(n.ts||Date.now())}</div>
-        </div>
+        <div class="notif-body"><div class="notif-title">${esc(n.msg||'')}</div>${n.reason?`<div class="notif-sub">السبب: ${esc(n.reason)}</div>`:''}<div class="notif-time">${fmt(n.ts||Date.now())}</div></div>
+        <button class="notif-del-btn" onclick="delNotif('${nid}')" style="position:absolute;left:8px;top:50%;transform:translateY(-50%)"><i class="fas fa-times"></i></button>
       </div>`;
     }).join('');
     items.filter(([,n])=>!n.read).forEach(([nid])=>update(ref(dbs[0],`notifications/${nid}`),{read:true}));
@@ -1508,6 +1917,14 @@ window.saveReqEdit=async()=>{
       Object.entries(reqs).forEach(([rid,req])=>{
         if(req.phone===old.phone&&req.status!=='rejected'&&req.status!=='done'&&req.status!=='cancelled'){
           update(ref(dbs[0],`driverRequests/${drvId}/${rid}`),{status:'modified',phone:np,details:nd,prevPhone:old.phone,prevDetails:old.details,modifiedAt:Date.now(),driverConfirmed:false});
+          // كتابة إشعار مخصص للسائق يقرأه السائق ويُظهره كـ push
+          push(ref(dbs[0],`driverPushNotifs/${drvId}`),{
+            title:'✏️ تم تعديل طلبك',
+            body:`📞 ${np}\n📍 ${nd}`,
+            type:'edit_request',
+            ts:Date.now(),
+            read:false
+          });
         }
       });
     });
@@ -1527,6 +1944,14 @@ window.cancelReq=async id=>{
       Object.entries(reqs).forEach(([rid,req])=>{
         if(req.phone===old.phone&&req.status!=='rejected'&&req.status!=='done'){
           update(ref(dbs[0],`driverRequests/${drvId}/${rid}`),{status:'cancelled',cancelledAt:Date.now()});
+          // إشعار إلغاء للسائق
+          push(ref(dbs[0],`driverPushNotifs/${drvId}`),{
+            title:'🚫 تم إلغاء الطلب',
+            body:`تم إلغاء طلب: ${old.phone||''}`,
+            type:'cancel',
+            ts:Date.now(),
+            read:false
+          });
         }
       });
     });
@@ -1536,23 +1961,33 @@ window.cancelReq=async id=>{
   toast('ok','تم الإلغاء','');playSound('cancel');
 };
 
-/* SOS BROADCAST — supervisor sends to all drivers */
+/* ──────── SOS BROADCAST ──────── */
 window.sendSosBroadcast=async()=>{
   const msg=($('sos-sup-msg').value||'').trim();
   if(!msg)return toast('warn','تنبيه','يرجى كتابة رسالة الطوارئ');
   await push(ref(dbs[0],'sosBroadcast'),{msg,senderName:CU.name,ts:Date.now()});
   await push(ref(dbs[0],'notifications'),{type:'sos',msg:`🆘 SOS من المشرف: ${msg}`,ts:Date.now(),read:false});
-  document.getElementById('SosSupModal').classList.remove('on');
+  // إرسال push لكل سائق مسجل
+  Object.keys(allDrvs).forEach(drvId=>{
+    push(ref(dbs[0],`driverPushNotifs/${drvId}`),{
+      title:'🆘 تنبيه طوارئ من المشرف!',
+      body:msg,
+      type:'sos',
+      ts:Date.now(),
+      read:false
+    }).catch(()=>{});
+  });
+  $('SosSupModal').classList.remove('on');
   $('sos-sup-msg').value='';
   toast('err','🆘 SOS أُرسل لجميع السائقين','');playSound('sos');vibrate([400,100,400,100,400]);
 };
 
-/* SELECT TAXI */
+/* ──────── SELECT TAXI ──────── */
 window.openTaxiSel=(reqId,phone,details)=>{
   selTaxiId=null;selReqData={id:reqId,phone:phone.replace(/&#39;/g,"'"),details:details.replace(/&#39;/g,"'")};
   const list=$('sel-taxi-list');
-  const avail=Object.entries(allDrvs).filter(([,d])=>d.status!=='offline'&&d.taxiColor!=='red');
-  if(!avail.length){list.innerHTML=`<div style="text-align:center;padding:20px;color:var(--text3)">لا يوجد سائقون متاحون</div>`;$('SelTaxiModal').classList.add('on');return;}
+  const avail=Object.entries(allDrvs);
+  if(!avail.length){list.innerHTML=`<div style="text-align:center;padding:20px;color:var(--text3)">لا يوجد سائقون مسجلون</div>`;$('SelTaxiModal').classList.add('on');return;}
   list.innerHTML=avail.map(([id,d])=>{
     const cs=getTCS(d);
     return`<div class="sel-taxi-item" id="stitem-${id}" onclick="selectTaxi('${id}')">
@@ -1580,72 +2015,81 @@ window.closeTaxiSel=()=>{$('SelTaxiModal').classList.remove('on');selTaxiId=null
 
 window.confirmTaxiSel=async()=>{
   if(!selTaxiId||!selReqData)return;
-  // Optional message to driver
   const msg=prompt('رسالة للسائق (اختياري، اضغط إلغاء للتخطي):','');
-  const btn=$('confirmSelBtn');btn.innerHTML='<span class="spin wh"></span>';btn.disabled=true;
+  const btn=$('confirmSelBtn');btn.innerHTML='<span class="spin"></span>';btn.disabled=true;
   try{
     const payload={phone:selReqData.phone,details:selReqData.details,status:'pending',ts:Date.now(),sentBy:CU.name,sentAt:Date.now()};
     if(msg)payload.message=msg;
-    const reqId=await push(ref(dbs[0],`driverRequests/${selTaxiId}`),payload);
-    pendingFlash[selReqData.id]={rid:reqId.key,drvId:selTaxiId,ts:Date.now()};
+    const reqRef=await push(ref(dbs[0],`driverRequests/${selTaxiId}`),payload);
+    // كتابة إشعار push مخصص للسائق في Firebase
+    await push(ref(dbs[0],`driverPushNotifs/${selTaxiId}`),{
+      title:'📦 طلب جديد من المشرف',
+      body:`📞 ${selReqData.phone}\n📍 ${selReqData.details}${msg?'\n💬 '+msg:''}`,
+      type:'new_request',
+      reqId:reqRef.key,
+      ts:Date.now(),
+      read:false
+    });
+    pendingFlash[selReqData.id]={rid:reqRef.key,drvId:selTaxiId,ts:Date.now()};
     const el=$(`sreq-${selReqData.id}`);if(el)el.classList.add('no-resp-flash');
     setTimeout(async()=>{
-      const sn=await get(ref(dbs[0],`driverRequests/${selTaxiId}/${reqId.key}`)).catch(()=>null);
+      const sn=await get(ref(dbs[0],`driverRequests/${selTaxiId}/${reqRef.key}`)).catch(()=>null);
       if(sn&&sn.exists()&&sn.val().status==='pending'){
-        await push(ref(dbs[0],'notifications'),{type:'timeout',driverId:selTaxiId,driverName:allDrvs[selTaxiId]?.name||selTaxiId,reqId:reqId.key,msg:`⏰ السائق ${allDrvs[selTaxiId]?.name||selTaxiId} لم يرد خلال دقيقة`,ts:Date.now(),read:false});
-        const e2=$(`sreq-${selReqData.id}`);if(e2)e2.classList.add('no-resp-flash');
-      } else {delete pendingFlash[selReqData.id];const e2=$(`sreq-${selReqData.id}`);if(e2)e2.classList.remove('no-resp-flash');}
+        await push(ref(dbs[0],'notifications'),{type:'timeout',driverId:selTaxiId,driverName:allDrvs[selTaxiId]?.name||selTaxiId,reqId:reqRef.key,msg:`⏰ السائق ${allDrvs[selTaxiId]?.name||selTaxiId} لم يرد خلال دقيقة`,ts:Date.now(),read:false});
+      } else {
+        delete pendingFlash[selReqData.id];
+        const e2=$(`sreq-${selReqData.id}`);if(e2)e2.classList.remove('no-resp-flash');
+      }
     },60000);
     toast('ok','تم إرسال الطلب للسائق 🚕','');playSound('notif');closeTaxiSel();
   }catch(err){toast('err','خطأ',err.message||'');}
   btn.innerHTML='<i class="fas fa-paper-plane"></i> إرسال';btn.disabled=false;
 };
 
-/* MAP SUPERVISOR (full tab) */
+/* ──────── SUPERVISOR FULL MAP ──────── */
 const renderMapSup=()=>{
-  $('dbody').innerHTML=`<div style="height:calc(100vh - 60px);display:flex;flex-direction:column;position:relative">
+  $('dbody').innerHTML=`<div style="height:calc(100vh - 60px - 70px);display:flex;flex-direction:column;position:relative">
     <div class="ststrip" style="flex-shrink:0">
-      <div class="st"><div class="stic" style="background:var(--green-l)"><i class="fas fa-circle" style="color:var(--green)"></i></div><div><div class="stv" id="mG">0</div><div class="stl">متاح</div></div></div>
-      <div class="st"><div class="stic" style="background:var(--orange-l)"><i class="fas fa-hourglass-half" style="color:var(--orange)"></i></div><div><div class="stv" id="mO">0</div><div class="stl">استراحة</div></div></div>
-      <div class="st"><div class="stic" style="background:var(--red-l)"><i class="fas fa-car" style="color:var(--red)"></i></div><div><div class="stv" id="mR">0</div><div class="stl">مشغول</div></div></div>
+      <div class="st"><div class="stic" style="background:var(--green-l)"><i class="fas fa-circle" style="color:var(--green)"></i></div><div><div class="stv" id="mG">0</div><div class="stl">متاح 🟢</div></div></div>
+      <div class="st"><div class="stic" style="background:var(--orange-l)"><i class="fas fa-hourglass-half" style="color:var(--orange)"></i></div><div><div class="stv" id="mO">0</div><div class="stl">استراحة 🟠</div></div></div>
+      <div class="st"><div class="stic" style="background:var(--red-l)"><i class="fas fa-car" style="color:var(--red)"></i></div><div><div class="stv" id="mR">0</div><div class="stl">مشغول 🔴</div></div></div>
       <div class="st"><div class="stic" style="background:var(--amber-l)"><i class="fas fa-map-pin" style="color:var(--amber)"></i></div><div><div class="stv" id="mN">0</div><div class="stl">قريب</div></div></div>
     </div>
     <div id="driverMap" style="flex:1;min-height:0"></div>
     <div class="map-legend">
       <div style="font-size:11px;font-weight:800;color:var(--text);margin-bottom:6px">حالات السائقين</div>
-      <div class="map-legend-item"><div class="leg-dot" style="background:#059669"></div>متاح</div>
-      <div class="map-legend-item"><div class="leg-dot" style="background:#EA580C"></div>استراحة/انتظار</div>
-      <div class="map-legend-item"><div class="leg-dot" style="background:#DC2626"></div>مشغول</div>
-      <div class="map-legend-item"><div class="leg-dot" style="background:#D97706"></div>قريب</div>
-      <div class="map-legend-item"><div class="leg-dot" style="background:#94A3B8"></div>غير متصل</div>
+      <div class="map-legend-item"><div class="leg-dot" style="background:#059669"></div>متاح 🟢</div>
+      <div class="map-legend-item"><div class="leg-dot" style="background:#EA580C"></div>استراحة/انتظار 🟠</div>
+      <div class="map-legend-item"><div class="leg-dot" style="background:#DC2626"></div>مشغول 🔴</div>
+      <div class="map-legend-item"><div class="leg-dot" style="background:#64748B"></div>غير متصل ⚫</div>
     </div>
   </div>`;
   requestAnimationFrame(()=>requestAnimationFrame(()=>{
     const el=$('driverMap');if(!el||leafletMap)return;
     try{leafletMap=L.map('driverMap',{zoomControl:true}).setView([32.31,35.03],12);L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:19}).addTo(leafletMap);}catch(e){return;}
-    dbs.forEach((sdb,sIdx)=>{
+    dbs.forEach((sdb)=>{
       const r=ref(sdb,'drivers');
       onValue(r,snap=>{
         if(!leafletMap||!snap.exists())return;
         const ent=Object.entries(allDrvs);
         const upd=(id,v)=>{const e=$(id);if(e)e.textContent=v;};
-        upd('mG',ent.filter(([,d])=>d.taxiColor==='green'||d.status==='online').length);
-        upd('mO',ent.filter(([,d])=>d.taxiColor==='orange').length);
-        upd('mR',ent.filter(([,d])=>d.taxiColor==='red'||d.status==='busy').length);
+        upd('mG',ent.filter(([,d])=>getTCS(d).monCls==='st-online').length);
+        upd('mO',ent.filter(([,d])=>getTCS(d).monCls==='st-break').length);
+        upd('mR',ent.filter(([,d])=>getTCS(d).monCls==='st-busy').length);
         upd('mN',ent.filter(([,d])=>d.status==='near').length);
-        Object.entries(snap.val()).forEach(([id,d])=>{if(d.lat&&d.lng)updateMarker(id,d,sIdx);});
+        Object.entries(snap.val()).forEach(([id,d])=>{if(d.lat&&d.lng)updateMarker(id,d);});
       });
       addL(r);
     });
   }));
 };
 
-const updateMarker=(id,d,sIdx)=>{
+const updateMarker=(id,d)=>{
   if(!leafletMap)return;
   const cs=getTCS(d);
   const av=d.avatar?`<img src="${d.avatar}" style="width:34px;height:34px;border-radius:50%;object-fit:cover">`:`<span style="font-size:18px">🚕</span>`;
   let shiftLbl='';if(d.shiftStart&&d.status!=='offline')shiftLbl=`<div class="drv-marker-time">⏱ ${fmtElapsed(Date.now()-d.shiftStart)}</div>`;
-  const icon=L.divIcon({html:`<div class="drv-marker-wrap"><div class="drv-marker" style="border-color:${cs.border}">${av}</div><div class="drv-marker-name">${d.name}</div>${shiftLbl}</div>`,className:'',iconSize:[55,72],iconAnchor:[27,72]});
+  const icon=L.divIcon({html:`<div class="drv-marker-wrap"><div class="drv-marker" style="border-color:${cs.border}">${av}</div><div class="drv-marker-name">${d.name} ${cs.emoji}</div>${shiftLbl}</div>`,className:'',iconSize:[60,72],iconAnchor:[30,72]});
   const delivCount=d.totalDeliveries||d.deliveries||0;
   const pop=`<div style="text-align:center;padding:4px;min-width:140px">
     <div style="font-weight:800;font-size:13px;margin-bottom:4px;color:var(--text)">${d.name}</div>
@@ -1661,9 +2105,15 @@ const updateMarker=(id,d,sIdx)=>{
   else{mapMarkers[id]=L.marker([d.lat,d.lng],{icon}).addTo(leafletMap).bindPopup(pop);}
 };
 
-/* NOTIFICATIONS */
+/* ──────── NOTIFICATIONS (supervisor tab) ──────── */
 const renderNotifs=()=>{
-  $('dbody').innerHTML=`<div class="panel"><div class="atitle"><i class="fas fa-bell"></i> التنبيهات</div><div id="NLIST"><div style="text-align:center;padding:32px;color:var(--text4)"><div class="spin"></div></div></div></div>`;
+  $('dbody').innerHTML=`<div class="panel">
+    <div class="atitle" style="justify-content:space-between">
+      <span style="display:flex;align-items:center;gap:10px"><i class="fas fa-bell"></i> التنبيهات</span>
+      <button onclick="clearAllNotifs()" style="padding:7px 14px;background:var(--red-l);border:1px solid var(--red-m);border-radius:9px;color:var(--red);font-size:11px;font-weight:700;cursor:pointer;font-family:'Cairo',sans-serif"><i class="fas fa-trash"></i> حذف الكل</button>
+    </div>
+    <div id="NLIST"><div style="text-align:center;padding:32px;color:var(--text4)"><div class="spin dark"></div></div></div>
+  </div>`;
   const r=ref(dbs[0],'notifications');
   onValue(r,snap=>{
     const list=$('NLIST');if(!list)return;
@@ -1674,59 +2124,101 @@ const renderNotifs=()=>{
       const icon={accept:'check',reject:'times',timeout:'clock',done:'flag-checkered',waiting:'hourglass-half',near:'map-pin',sos:'triangle-exclamation',cancel:'ban',edit:'pen',info:'info'}[n.type]||'bell';
       return`<div class="notif-item ${n.read?'':'unread'}">
         <div class="notif-ic ${ic}"><i class="fas fa-${icon}"></i></div>
-        <div class="notif-body">
-          <div class="notif-title">${esc(n.msg||'')}</div>
-          ${n.reason?`<div class="notif-sub">السبب: ${esc(n.reason)}</div>`:''}
-          <div class="notif-time">${fmt(n.ts||Date.now())}</div>
-        </div>
+        <div class="notif-body"><div class="notif-title">${esc(n.msg||'')}</div>${n.reason?`<div class="notif-sub">السبب: ${esc(n.reason)}</div>`:''}<div class="notif-time">${fmt(n.ts||Date.now())}</div></div>
+        <button class="notif-del-btn" onclick="delNotif('${nid}')"><i class="fas fa-times"></i></button>
       </div>`;
     }).join('');
     items.filter(([,n])=>!n.read).forEach(([nid])=>update(ref(dbs[0],`notifications/${nid}`),{read:true}));
     const b=$('notif-badge');if(b){b.style.display='none';}
+    const mb=$('mob-notif-badge');if(mb){mb.style.display='none';}
   });
   addL(r);
 };
 
-/* SUPPORT (دعم فني) */
+window.delNotif=async nid=>await remove(ref(dbs[0],`notifications/${nid}`)).catch(()=>{});
+window.clearAllNotifs=async()=>{if(!confirm('حذف جميع التنبيهات؟'))return;await remove(ref(dbs[0],'notifications')).catch(()=>{});toast('ok','تم الحذف','');};
+
+/* ──────── MONITORING SCREEN ──────── */
+window.openMonitor=()=>{
+  $('MonitorScreen').classList.add('on');
+  refreshMonitor();
+  if(monitorInterval)clearInterval(monitorInterval);
+  monitorInterval=setInterval(refreshMonitor,5000);
+};
+window.closeMonitor=()=>{
+  $('MonitorScreen').classList.remove('on');
+  if(monitorInterval){clearInterval(monitorInterval);monitorInterval=null;}
+};
+const refreshMonitor=async()=>{
+  const snaps=await Promise.all(dbs.map(d=>get(ref(d,'drivers'))));
+  let all=[];snaps.forEach((s,si)=>{if(s.exists())Object.entries(s.val()).forEach(([id,d])=>all.push([id,{...d,_shard:si}]));});
+  const grid=$('monGrid');if(!grid)return;
+  const cnts={online:0,busy:0,brk:0,offline:0,total:0};
+  all.forEach(([,d])=>{
+    const cs=getTCS(d);
+    if(cs.monCls==='st-online')cnts.online++;
+    else if(cs.monCls==='st-busy')cnts.busy++;
+    else if(cs.monCls==='st-break')cnts.brk++;
+    else cnts.offline++;
+    cnts.total+=(d.totalDeliveries||d.deliveries||0);
+  });
+  const upd=(id,v)=>{const e=$(id);if(e)e.textContent=v;};
+  upd('mon-online',cnts.online);upd('mon-busy',cnts.busy);upd('mon-break',cnts.brk);upd('mon-offline',cnts.offline);upd('mon-total-del',cnts.total);
+  if(!all.length){grid.innerHTML=`<div style="text-align:center;padding:40px;color:rgba(255,255,255,.3);grid-column:1/-1">لا يوجد سائقون مسجلون</div>`;return;}
+  grid.innerHTML=all.map(([id,d])=>{
+    const cs=getTCS(d);
+    const avH=d.avatar?`<img src="${d.avatar}" style="width:46px;height:46px;border-radius:13px;object-fit:cover">`:`<span style="font-size:20px">🚕</span>`;
+    return`<div class="monitor-taxi-card ${cs.monCls}">
+      <div class="monitor-taxi-av" style="border-color:${cs.border}">${avH}</div>
+      <div class="monitor-taxi-info">
+        <div class="monitor-taxi-name">${esc(d.name)}</div>
+        <div class="monitor-taxi-status"><span class="monitor-status-dot ${cs.dotCls}"></span><span style="color:${cs.dot}">${cs.monLabel}</span></div>
+        ${d.phone?`<div class="monitor-taxi-phone">${d.phone}</div>`:''}
+        ${d.carNumber?`<div class="monitor-taxi-phone">🚗 ${esc(d.carNumber)}</div>`:''}
+        <div style="margin-top:5px;display:flex;gap:5px;flex-wrap:wrap">
+          <span class="monitor-taxi-badge ${cs.badgeCls}">${cs.emoji} ${cs.monLabel}</span>
+          <span class="monitor-taxi-badge mtb-green"><i class="fas fa-box" style="font-size:9px"></i> ${d.totalDeliveries||d.deliveries||0}</span>
+        </div>
+        ${d.shiftStart&&cs.monCls!=='st-offline'?`<div style="color:rgba(255,255,255,.5);font-size:10px;margin-top:3px">⏱ ${fmtElapsed(Date.now()-d.shiftStart)}</div>`:''}
+      </div>
+    </div>`;
+  }).join('');
+};
+
+/* ──────── SUPPORT ──────── */
 const renderSupport=async(role)=>{
   $('dbody').innerHTML=`<div class="panel">
     <div class="atitle"><i class="fas fa-headset"></i> الدعم الفني</div>
     ${role==='supervisor'?`<div style="margin-bottom:16px;padding:14px;background:var(--red-l);border:1.5px solid var(--red-m);border-radius:var(--rl);display:flex;align-items:center;gap:12px">
       <div style="width:44px;height:44px;border-radius:12px;background:var(--red);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">🆘</div>
       <div style="flex:1"><div style="font-weight:800;font-size:14px;color:var(--red);margin-bottom:3px">إرسال SOS لجميع السائقين</div><div style="font-size:12px;color:var(--text3)">ستصل رسالة طوارئ فورية لجميع السائقين المتصلين</div></div>
-      <button style="padding:10px 18px;background:var(--red);border:none;border-radius:var(--r);color:#fff;font-size:13px;font-weight:800;cursor:pointer" onclick="OM('SosSupModal')"><i class="fas fa-triangle-exclamation"></i> إرسال SOS</button>
+      <button style="padding:10px 18px;background:var(--red);border:none;border-radius:var(--r);color:#fff;font-size:13px;font-weight:800;cursor:pointer;font-family:'Cairo',sans-serif" onclick="OM('SosSupModal')"><i class="fas fa-triangle-exclamation"></i> إرسال SOS</button>
     </div>`:''}
     <div style="background:var(--primary-l);border:1px solid var(--primary-m);border-radius:var(--rl);padding:14px;margin-bottom:16px;font-size:13px;color:var(--primary-d);font-weight:700;display:flex;align-items:center;gap:8px">
-      <i class="fas fa-info-circle"></i>
-      اضغط على رقم الهاتف للتواصل عبر واتساب مباشرة
+      <i class="fas fa-info-circle"></i> اضغط على زر واتساب للتواصل مباشرة
     </div>
-    <div class="support-grid" id="SLIST">
-      <div style="text-align:center;padding:32px;color:var(--text4);grid-column:1/-1"><div class="spin"></div></div>
-    </div>
+    <div class="support-grid" id="SLIST"><div style="text-align:center;padding:32px;color:var(--text4);grid-column:1/-1"><div class="spin dark"></div></div></div>
   </div>`;
-  const snaps=await Promise.all(dbs.map(d=>get(ref(d,'drivers'))));
-  const list=$('SLIST');if(!list)return;
-  let all=[];snaps.forEach((s,si)=>{if(s.exists())Object.entries(s.val()).forEach(([id,d])=>all.push([id,{...d,_shard:si}]));});
+  let all=[];
   if(role==='driver'){
-    // Driver sees only supervisor + other drivers
-    all=[]; // also add supervisor contact
-    // add fixed supervisor entry
     const supSnap=await get(ref(dbs[0],'supervisors')).catch(()=>null);
     if(supSnap&&supSnap.exists()){
       Object.entries(supSnap.val()).forEach(([id,s])=>{
         all.unshift(['sup_'+id,{...s,isSuper:true,carNumber:'مشرف',phone:s.phone||'0597000000',_shard:0}]);
       });
     }
-    // add drivers from shards
     const drSnaps=await Promise.all(dbs.map(d=>get(ref(d,'drivers'))));
     drSnaps.forEach((s,si)=>{if(s.exists())Object.entries(s.val()).forEach(([id,d])=>{if(id!==CU.id)all.push([id,{...d,_shard:si}]);});});
+  } else {
+    const snaps=await Promise.all(dbs.map(d=>get(ref(d,'drivers'))));
+    snaps.forEach((s,si)=>{if(s.exists())Object.entries(s.val()).forEach(([id,d])=>all.push([id,{...d,_shard:si}]));});
   }
+  const list=$('SLIST');if(!list)return;
   if(!all.length){list.innerHTML=`<div style="text-align:center;padding:32px;color:var(--text4);grid-column:1/-1">لا يوجد جهات اتصال</div>`;return;}
-  const cs=d=>getTCS(d);
   list.innerHTML=all.map(([id,d])=>{
     const phone=(d.phone||'').replace(/[^0-9]/g,'').replace(/^0/,'972');
     const waLink=`https://wa.me/${phone}`;
-    const c=d.isSuper?{dot:'#D97706',label:'👨‍💼 المشرف',cls:'sb-amber'}:cs(d);
+    const c=d.isSuper?{dot:'#D97706',label:'👨‍💼 المشرف',cls:'sb-amber'}:getTCS(d);
     return`<div class="support-drv-card">
       <div class="support-drv-av" style="border-color:${c.dot}">${d.avatar?`<img src="${d.avatar}">`:(d.isSuper?'👨‍💼':'🚕')}</div>
       <div class="support-drv-info">
@@ -1740,9 +2232,9 @@ const renderSupport=async(role)=>{
   }).join('');
 };
 
-/* DRIVER REPORTS */
+/* ──────── DRIVER REPORTS ──────── */
 const renderDriverReports=async()=>{
-  $('dbody').innerHTML=`<div class="panel"><div class="atitle"><i class="fas fa-chart-bar"></i> تقاريري</div><div id="DREP"><div style="text-align:center;padding:32px;color:var(--text4)"><div class="spin"></div></div></div></div>`;
+  $('dbody').innerHTML=`<div class="panel"><div class="atitle"><i class="fas fa-chart-bar"></i> تقاريري</div><div id="DREP"><div style="text-align:center;padding:32px;color:var(--text4)"><div class="spin dark"></div></div></div></div>`;
   const today=new Date().toISOString().split('T')[0];
   const snap=await get(ref(dbs[CU._shard||0],`drivers/${CU.id}/dailyReport/${today}`)).catch(()=>null);
   const td=snap&&snap.exists()?snap.val():{deliveries:0,shifts:[]};
@@ -1767,12 +2259,12 @@ const renderDriverReports=async()=>{
     <div class="report-stat"><span class="report-stat-label">رقم السيارة</span><span class="report-stat-val" style="color:var(--amber)">${esc(CU.carNumber||'-')}</span></div>
   </div>
   ${shifts.length?`<div class="report-card"><div class="report-title"><i class="fas fa-clock"></i> تفصيل الشيفتات</div>${shiftRows}</div>`:''}`;
-  if(shiftStartTime){const li=$('liveTimer');if(li)setInterval(()=>{const e=$('liveTimer');if(e&&shiftStartTime)e.textContent=fmtElapsed(Date.now()-shiftStartTime);},1000);}
+  if(shiftStartTime){setInterval(()=>{const e=$('liveTimer');if(e&&shiftStartTime)e.textContent=fmtElapsed(Date.now()-shiftStartTime);},1000);}
 };
 
-/* SUPERVISOR REPORTS */
+/* ──────── SUPERVISOR REPORTS ──────── */
 const renderSupReports=async()=>{
-  $('dbody').innerHTML=`<div class="panel"><div class="atitle"><i class="fas fa-chart-bar"></i> تقارير السائقين</div><div id="SREP"><div style="text-align:center;padding:32px;color:var(--text4)"><div class="spin"></div></div></div></div>`;
+  $('dbody').innerHTML=`<div class="panel"><div class="atitle"><i class="fas fa-chart-bar"></i> تقارير السائقين</div><div id="SREP"><div style="text-align:center;padding:32px;color:var(--text4)"><div class="spin dark"></div></div></div></div>`;
   const today=new Date().toISOString().split('T')[0];
   const snaps=await Promise.all(dbs.map(d=>get(ref(d,'drivers'))));
   let all=[];snaps.forEach((s,si)=>{if(s.exists())Object.entries(s.val()).forEach(([id,d])=>all.push([id,{...d,_shard:si}]));});
@@ -1783,12 +2275,11 @@ const renderSupReports=async()=>{
   const totalAllDel=all.reduce((s,[,d])=>s+(d.totalDeliveries||d.deliveries||0),0);
   const fmtMin=m=>`${Math.floor(m/60)}س ${m%60}د`;
   const calcMin=rep=>{if(!rep||!rep.shifts)return 0;return rep.shifts.reduce((s,sh)=>s+(sh.durationMin||(sh.end?Math.round((sh.end-sh.start)/60000):sh.start?Math.round((Date.now()-sh.start)/60000):0)),0);};
-  list.innerHTML=`
-  <div class="report-card">
+  list.innerHTML=`<div class="report-card">
     <div class="report-title"><i class="fas fa-globe"></i> ملخص اليوم — ${today}</div>
     <div class="report-stat"><span class="report-stat-label">إجمالي السائقين</span><span class="report-stat-val">${all.length}</span></div>
-    <div class="report-stat"><span class="report-stat-label">متاح الآن</span><span class="report-stat-val" style="color:var(--green)">${all.filter(([,d])=>d.taxiColor==='green'||d.status==='online').length}</span></div>
-    <div class="report-stat"><span class="report-stat-label">مشغول الآن</span><span class="report-stat-val" style="color:var(--red)">${all.filter(([,d])=>d.taxiColor==='red'||d.status==='busy').length}</span></div>
+    <div class="report-stat"><span class="report-stat-label">متاح الآن 🟢</span><span class="report-stat-val" style="color:var(--green)">${all.filter(([,d])=>getTCS(d).monCls==='st-online').length}</span></div>
+    <div class="report-stat"><span class="report-stat-label">مشغول الآن 🔴</span><span class="report-stat-val" style="color:var(--red)">${all.filter(([,d])=>getTCS(d).monCls==='st-busy').length}</span></div>
     <div class="report-stat"><span class="report-stat-label">توصيلات اليوم</span><span class="report-stat-val">${totalDel} 📦</span></div>
     <div class="report-stat"><span class="report-stat-label">إجمالي التوصيلات الكلي</span><span class="report-stat-val" style="color:var(--primary)">${totalAllDel} 📦</span></div>
   </div>
@@ -1807,12 +2298,9 @@ const renderSupReports=async()=>{
             ${d.shiftStart&&d.status!=='offline'?`<div style="font-size:11px;color:var(--green)">⏱ ${fmtElapsed(Date.now()-d.shiftStart)}</div>`:''}
           </div>
           <div style="text-align:center;flex-shrink:0">
-            <div style="font-size:16px;font-weight:900;color:var(--green)">${rep.deliveries||0}</div>
-            <div style="font-size:9px;color:var(--text4)">اليوم</div>
-            <div style="font-size:14px;font-weight:900;color:var(--primary);margin-top:3px">${d.totalDeliveries||d.deliveries||0}</div>
-            <div style="font-size:9px;color:var(--text4)">الكلي</div>
-            <div style="font-size:12px;font-weight:800;color:var(--amber);margin-top:3px">${fmtMin(sm)}</div>
-            <div style="font-size:9px;color:var(--text4)">عمل</div>
+            <div style="font-size:16px;font-weight:900;color:var(--green)">${rep.deliveries||0}</div><div style="font-size:9px;color:var(--text4)">اليوم</div>
+            <div style="font-size:14px;font-weight:900;color:var(--primary);margin-top:3px">${d.totalDeliveries||d.deliveries||0}</div><div style="font-size:9px;color:var(--text4)">الكلي</div>
+            <div style="font-size:12px;font-weight:800;color:var(--amber);margin-top:3px">${fmtMin(sm)}</div><div style="font-size:9px;color:var(--text4)">عمل</div>
           </div>
         </div>
       </div>`;
@@ -1820,9 +2308,9 @@ const renderSupReports=async()=>{
   </div>`;
 };
 
-/* ACCOUNTS */
+/* ──────── ACCOUNTS ──────── */
 const renderAccs=()=>{
-  $('dbody').innerHTML=`<div class="panel"><div class="atitle"><i class="fas fa-users"></i> إدارة السائقين</div><div class="acc-grid" id="ALIST"><div style="text-align:center;padding:32px;color:var(--text4);grid-column:1/-1"><div class="spin"></div></div></div></div>`;
+  $('dbody').innerHTML=`<div class="panel"><div class="atitle"><i class="fas fa-users"></i> إدارة السائقين</div><div class="acc-grid" id="ALIST"><div style="text-align:center;padding:32px;color:var(--text4);grid-column:1/-1"><div class="spin dark"></div></div></div></div>`;
   requestAnimationFrame(loadAccs);
 };
 const loadAccs=async()=>{
@@ -1835,23 +2323,23 @@ const loadAccs=async()=>{
     list.innerHTML=all.map(([id,d])=>{
       const cst=getTCS(d);
       return`<div class="acccard">
-      <div class="acctop">
-        <div class="accav">${d.avatar?`<img src="${d.avatar}">`:'🚕'}</div>
-        <div style="flex:1;min-width:0">
-          <div class="accnm">${esc(d.name)}</div>
-          <div class="accph"><i class="fas fa-phone"></i> ${esc(d.phone||id)}</div>
-          <div class="accph"><i class="fas fa-car"></i> ${esc(d.carNumber||'-')}</div>
-          <div class="accpw-wrap"><div class="accpw" id="pw-${id}">••••••••</div><button class="acc-reveal" onclick="togglePw('${id}','${eAt(d.password||'')}')"><i class="fas fa-eye"></i></button></div>
-          <div style="margin-top:4px;display:flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:${cst.dot}"><div style="width:7px;height:7px;border-radius:50%;background:${cst.dot}"></div>${cst.label}</div>
-          <div style="margin-top:4px"><span class="deliv-badge" style="font-size:10px;padding:2px 7px"><i class="fas fa-box"></i> ${d.totalDeliveries||d.deliveries||0} توصيلة</span></div>
-          <span class="shard-badge ${shardClass(d._shard||0)}" style="margin-top:4px"><i class="fas fa-server"></i> ${shardLabel(d._shard||0)}</span>
+        <div class="acctop">
+          <div class="accav">${d.avatar?`<img src="${d.avatar}">`:'🚕'}</div>
+          <div style="flex:1;min-width:0">
+            <div class="accnm">${esc(d.name)}</div>
+            <div class="accph"><i class="fas fa-phone"></i> ${esc(d.phone||id)}</div>
+            <div class="accph"><i class="fas fa-car"></i> ${esc(d.carNumber||'-')}</div>
+            <div class="accpw-wrap"><div class="accpw" id="pw-${id}">••••••••</div><button class="acc-reveal" onclick="togglePw('${id}','${eAt(d.password||'')}')"><i class="fas fa-eye"></i></button></div>
+            <div style="margin-top:4px;display:flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:${cst.dot}"><div style="width:7px;height:7px;border-radius:50%;background:${cst.dot}"></div>${cst.label}</div>
+            <div style="margin-top:4px"><span class="deliv-badge" style="font-size:10px;padding:2px 7px"><i class="fas fa-box"></i> ${d.totalDeliveries||d.deliveries||0} توصيلة</span></div>
+            <span class="shard-badge ${shardClass(d._shard||0)}" style="margin-top:4px"><i class="fas fa-server"></i> ${shardLabel(d._shard||0)}</span>
+          </div>
         </div>
-      </div>
-      <div class="accbts">
-        <button class="accbtn aedit" onclick="opnEac('${id}','${eAt(d.name)}','${d._shard||0}')"><i class="fas fa-pen"></i> تعديل</button>
-        <button class="accbtn adel" onclick="delAcc('${id}','${d._shard||0}')"><i class="fas fa-trash"></i> حذف</button>
-      </div>
-    </div>`;
+        <div class="accbts">
+          <button class="accbtn aedit" onclick="opnEac('${id}','${eAt(d.name)}','${d._shard||0}')"><i class="fas fa-pen"></i> تعديل</button>
+          <button class="accbtn adel" onclick="delAcc('${id}','${d._shard||0}')"><i class="fas fa-trash"></i> حذف</button>
+        </div>
+      </div>`;
     }).join('');
   }catch(err){if($('ALIST'))$('ALIST').innerHTML=`<div style="color:var(--red);text-align:center;padding:32px;grid-column:1/-1">خطأ: ${err.message||''}</div>`;}
 };
@@ -1870,7 +2358,7 @@ window.delAcc=async(id,sIdx)=>{
   try{await remove(ref(dbs[sIdx],`drivers/${id}`));toast('ok','تم الحذف','');loadAccs();}catch(err){toast('err','خطأ',err.message||'');}
 };
 
-/* PROFILES */
+/* ──────── PROFILES ──────── */
 const renderDProfile=()=>{
   $('dbody').innerHTML=`<div class="ptab">
     <div class="cbox" style="text-align:center">
@@ -1921,142 +2409,23 @@ window.saveSProf=async()=>{
   await update(ref(dbs[0],`supervisors/${CU.id}`),u);CU={...CU,...u};toast('ok','تم الحفظ ✅','');
 };
 
-/* RECEIVER DASHBOARD = SUPERVISOR DASHBOARD */
-const initRecvDash=()=>{
-  // Receiver uses supervisor login flow — handled by chkRecvSec redirecting to Msup
-};
-window.logoutRecv=()=>{
-  clrListeners(false);CU=null;CR=null;
-  $('PR').style.display='none';$('PL').style.display='block';
-};
-
-/* ═══ PUSH NOTIFICATIONS ═══ */
-let _notifGranted=false;
-const requestNotifPerm=async()=>{
-  if(!('Notification' in window))return;
-  if(Notification.permission==='granted'){_notifGranted=true;return;}
-  if(Notification.permission!=='denied'){
-    const p=await Notification.requestPermission();
-    _notifGranted=(p==='granted');
-  }
-};
-const showPushNotif=(title,body,icon='🚕',tag='taxi')=>{
-  if(!_notifGranted||!('Notification' in window))return;
-  try{
-    const n=new Notification(title,{body,icon:icon==='🚕'?undefined:icon,tag,requireInteraction:true,dir:'rtl',lang:'ar'});
-    n.onclick=()=>{window.focus();n.close();};
-    setTimeout(()=>n.close(),12000);
-  }catch(e){}
-};
-
-/* ═══ MONITORING SCREEN ═══ */
-let _monLsnrs=[];
-window.openMonitor=()=>{
-  $('MonScreen').classList.add('on');
-  _monLsnrs.forEach(r=>{try{off(r);}catch(e){}});_monLsnrs=[];
-  // mark monitor tab active
-  document.querySelectorAll('.mob-btn').forEach(b=>b.classList.remove('on','sup-on'));
-  const mb=$('mbn-monitor');if(mb)mb.classList.add('sup-on');
-  const renderMon=()=>{
-    const grid=$('monGrid');if(!grid)return;
-    const all=Object.entries(allDrvs);
-    const on=all.filter(([,d])=>getTCS(d).mcls==='mc-online').length;
-    const bu=all.filter(([,d])=>getTCS(d).mcls==='mc-busy').length;
-    const br=all.filter(([,d])=>getTCS(d).mcls==='mc-break').length;
-    const of=all.filter(([,d])=>getTCS(d).mcls==='mc-offline').length;
-    const td=all.reduce((s,[,d])=>s+(d.totalDeliveries||d.deliveries||0),0);
-    const upd=(id,v)=>{const e=$(id);if(e)e.textContent=v;};
-    upd('mn-on',on);upd('mn-busy',bu);upd('mn-brk',br);upd('mn-off',of);upd('mn-tot',all.length);upd('mn-del',td);
-    if(!all.length){grid.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:40px;color:rgba(255,255,255,.3);font-size:13px;font-family:'Cairo',sans-serif">لا يوجد سائقون مسجلون</div>`;return;}
-const sorted = [...all].sort((a, b) => {
-  const order = { 'mc-online': 0, 'mc-busy': 1, 'mc-break': 2, 'mc-offline': 3 };
-  const clsA = getTCS(a[1]).mcls || 'mc-offline';
-  const clsB = getTCS(b[1]).mcls || 'mc-offline';
-  const orderA = order[clsA] !== undefined ? order[clsA] : 3;
-  const orderB = order[clsB] !== undefined ? order[clsB] : 3;
-  if (orderA !== orderB) return orderA - orderB;
-  return (a[1].name || '').localeCompare(b[1].name || '');
-});
-
-grid.innerHTML = sorted.map(([id, d]) => {
-  const cs = getTCS(d);
-  const av = d.avatar ? `<img src="${d.avatar}" style="width:100%;height:100%;object-fit:cover">` : '🚕';
-  const del = d.totalDeliveries || d.deliveries || 0;
-  const sh = (d.shiftStart && cs.mcls !== 'mc-offline') ? `<div class="mon-meta">⏱ ${fmtElapsed(Date.now() - d.shiftStart)}</div>` : '';
-  const shadowStyle = (cs.mcls === 'mc-online') ? `;box-shadow:0 0 5px ${cs.dot}88` : '';
-  return `<div class="mon-card ${cs.mcls}">
-    <div class="mon-av">${av}</div>
-    <div style="flex:1;min-width:0">
-      <div class="mon-nm">${esc(d.name || '-')}</div>
-      <div class="mon-lbl" style="color:${cs.dot}"><div class="mon-dot-el" style="background:${cs.dot}${shadowStyle}"></div>${cs.label}</div>
-      <div style="display:flex;flex-wrap:wrap;gap:4px;align-items:center">
-        <span class="mon-tag ${cs.mtag}"><i class="fas fa-box" style="font-size:8px"></i>${del}</span>
-        ${d.carNumber ? `<span class="mon-meta">🚗 ${esc(d.carNumber)}</span>` : ''}
-      </div>
-      ${sh}
-      ${d.phone ? `<div class="mon-meta">${d.phone}</div>` : ''}
-    </div>
-  </div>`;
-}).join('');  };
-  dbs.forEach((sdb,sIdx)=>{
-    const r=ref(sdb,'drivers');
-    onValue(r,snap=>{
-      Object.keys(allDrvs).forEach(id=>{if(allDrvs[id]._shard===sIdx)delete allDrvs[id];});
-      if(snap.exists())Object.entries(snap.val()).forEach(([id,d])=>{allDrvs[id]={...d,_shard:sIdx};});
-      renderMon();
-    });
-    _monLsnrs.push(r);
-  });
-};
-window.closeMonitor=()=>{
-  $('MonScreen').classList.remove('on');
-  _monLsnrs.forEach(r=>{try{off(r);}catch(e){}});_monLsnrs=[];
-};
-
-/* ═══ MOBILE BOTTOM NAV ═══ */
-const buildMobNav=(role)=>{
-  const nav=$('mobNav'),inner=$('mobNavInner');
-  if(!nav||!inner)return;
-  nav.style.display='block';
-  if(role==='driver'){
-    inner.innerHTML=`
-      <button class="mob-btn on" id="mbn-reqs" onclick="nTab('reqs')"><i class="fas fa-inbox"></i>الطلبات</button>
-      <button class="mob-btn" id="mbn-reports" onclick="nTab('reports')"><i class="fas fa-chart-bar"></i>تقاريري</button>
-      <button class="mob-btn" id="mbn-support" onclick="nTab('support')"><i class="fas fa-headset"></i>دعم فني</button>
-      <button class="mob-btn" id="mbn-profile" onclick="nTab('profile')"><i class="fas fa-user-cog"></i>حسابي</button>`;
-  } else {
-    inner.innerHTML=`
-      <button class="mob-btn sup-on" id="mbn-reqs" onclick="nTab('reqs')"><i class="fas fa-inbox"></i>الطلبات</button>
-      <button class="mob-btn" id="mbn-map" onclick="nTab('map')"><i class="fas fa-map-location-dot"></i>الخريطة</button>
-      <button class="mob-btn" id="mbn-notifs" onclick="nTab('notifs')"><span class="mob-badge" id="mob-notif-badge">0</span><i class="fas fa-bell"></i>التنبيهات</button>
-      <button class="mob-btn" id="mbn-reports" onclick="nTab('reports')"><i class="fas fa-chart-bar"></i>التقارير</button>
-      <button class="mob-btn" id="mbn-accounts" onclick="nTab('accounts')"><i class="fas fa-users"></i>السائقون</button>
-      <button class="mob-btn" id="mbn-support" onclick="nTab('support')"><i class="fas fa-headset"></i>دعم فني</button>
-      <button class="mob-btn red-btn" id="mbn-monitor" onclick="openMonitor()"><i class="fas fa-tv"></i>مراقبة</button>
-      <button class="mob-btn" id="mbn-profile" onclick="nTab('profile')"><i class="fas fa-user-cog"></i>حسابي</button>`;
-  }
-};
-const syncMobNav=(t)=>{
-  document.querySelectorAll('.mob-btn').forEach(b=>b.classList.remove('on','sup-on'));
-  const mb=$('mbn-'+t);if(mb)mb.classList.add(CR==='supervisor'?'sup-on':'on');
-};
-
-/* ═══ LOGOUT ═══ */
+/* ──────── LOGOUT ──────── */
 window.logout=async()=>{
   if(locWatcher)clearInterval(locWatcher);locWatcher=null;
   clearInterval(reqCountdownTimer);
+  if(monitorInterval){clearInterval(monitorInterval);monitorInterval=null;}
   $('ReqNotif').classList.remove('on');
   $('SosBroadcastNotif').classList.remove('on');
-  if($('MonScreen'))$('MonScreen').classList.remove('on');
-  _monLsnrs.forEach(r=>{try{off(r);}catch(e){}});_monLsnrs=[];
+  $('MonitorScreen').classList.remove('on');
   if(CR==='driver'&&CU){
     await update(ref(dbs[CU._shard||0],`drivers/${CU.id}`),{status:'offline',lastSeen:Date.now()}).catch(()=>{});
   }
-  clrListeners(false);CU=null;CR=null;avData='';shiftStartTime=null;allDrvs={};
+  clrListeners(false);CU=null;CR=null;avData='';shiftStartTime=null;allDrvs={};IS_RECV=false;
   $('PD').style.display='none';$('PL').style.display='block';
   $('ntabs').innerHTML='';$('navav').textContent='👤';$('navav').classList.remove('sup-av');
-  const mn=$('mobNav');if(mn)mn.style.display='none';
-  if(window._inlineMap){try{window._inlineMap.remove();}catch(e){}window._inlineMap=null;window._inlineMarkers={};}
+  const monBtn=$('monitorBtn');if(monBtn)monBtn.remove();
+  const mn=$('mobileNav');if(mn)mn.style.display='none';
+  const mb=$('mobTabs');if(mb)mb.innerHTML='';
 };
 </script>
 </body>
