@@ -124,21 +124,29 @@ button,textarea,input,select{font-family:'Cairo',sans-serif}
 #PR{display:none;min-height:100vh;background:var(--bg2)}
 .dnav{position:fixed;top:0;right:0;left:0;z-index:100;height:60px;background:var(--bg);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 18px;gap:10px;box-shadow:var(--shadow)}
 .dnav .logo{flex:0 0 auto}
-.ntabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;flex:1;margin:0 8px}
+.ntabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;flex:1;margin:0 6px;-webkit-overflow-scrolling:touch}
 .ntabs::-webkit-scrollbar{display:none}
-.ntab{padding:7px 14px;border:none;border-radius:9px;background:transparent;color:var(--text3);font-size:12px;font-weight:700;cursor:pointer;transition:var(--tr);white-space:nowrap;display:flex;align-items:center;gap:6px;flex-shrink:0}
+.ntab{padding:7px 12px;border:none;border-radius:9px;background:transparent;color:var(--text3);font-size:12px;font-weight:700;cursor:pointer;transition:var(--tr);white-space:nowrap;display:flex;align-items:center;gap:5px;flex-shrink:0;min-width:0}
 .ntab:hover{background:var(--bg2);color:var(--text2)}
 .ntab.on{background:var(--primary-l);color:var(--primary);font-weight:800}
 .ntab.sup-on{background:var(--amber-l);color:var(--amber);font-weight:800}
-.navr{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.navr{display:flex;align-items:center;gap:6px;flex-shrink:0}
 .navav{width:34px;height:34px;border-radius:10px;border:2px solid var(--border2);overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:15px;cursor:pointer;background:var(--bg2)}
 .navav img{width:100%;height:100%;object-fit:cover}
 .navav.sup-av{border-color:var(--amber)}
-.bout{padding:7px 13px;background:var(--red-l);border:1px solid var(--red-m);border-radius:9px;color:var(--red);font-size:11px;font-weight:700;cursor:pointer;transition:var(--tr)}
+.bout{padding:7px 11px;background:var(--red-l);border:1px solid var(--red-m);border-radius:9px;color:var(--red);font-size:11px;font-weight:700;cursor:pointer;transition:var(--tr)}
 .bout:hover{background:var(--red-m)}
 .dbody{padding-top:60px;height:100vh;overflow:hidden}
 .ntab-badge{background:var(--red);color:#fff;font-size:9px;font-weight:800;padding:1px 5px;border-radius:8px;min-width:16px;text-align:center}
 .panel{padding:20px;overflow-y:auto;height:calc(100vh - 60px)}
+/* MOBILE NAV - bottom tabs for mobile */
+.mobile-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:200;background:var(--bg);border-top:1px solid var(--border);box-shadow:0 -2px 10px rgba(0,0,0,.06);padding:6px 4px 8px;-webkit-padding-bottom:env(safe-area-inset-bottom)}
+.mobile-nav .mob-tabs{display:flex;justify-content:space-around;align-items:flex-end;gap:2px}
+.mob-tab{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 10px;border:none;background:transparent;color:var(--text4);font-family:'Cairo',sans-serif;font-size:10px;font-weight:700;cursor:pointer;border-radius:10px;transition:var(--tr);flex:1;position:relative;min-width:0}
+.mob-tab.on{color:var(--primary);background:var(--primary-l)}
+.mob-tab.sup-on{color:var(--amber);background:var(--amber-l)}
+.mob-tab i{font-size:18px}
+.mob-tab-badge{position:absolute;top:3px;right:10px;background:var(--red);color:#fff;font-size:8px;font-weight:800;padding:1px 4px;border-radius:6px;min-width:14px;text-align:center}
 
 /* DRIVER LAYOUT */
 .dlayout{display:flex;height:calc(100vh - 60px)}
@@ -367,16 +375,62 @@ button,textarea,input,select{font-family:'Cairo',sans-serif}
 .sos-sup-modal.on{opacity:1;visibility:visible}
 .sos-sup-box{background:var(--bg);border:2px solid var(--red-m);border-radius:var(--rll);padding:28px 24px;width:100%;max-width:420px;box-shadow:var(--shadow-xl)}
 
+/* MONITORING SCREEN */
+.monitor-screen{position:fixed;inset:0;background:#0F172A;z-index:900;display:flex;flex-direction:column;opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+.monitor-screen.on{opacity:1;visibility:visible}
+.monitor-hd{padding:14px 20px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.monitor-title{font-family:'Tajawal',sans-serif;font-size:18px;font-weight:900;color:#fff;display:flex;align-items:center;gap:10px}
+.monitor-close{padding:8px 16px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:9px;color:#fff;font-family:'Cairo',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:var(--tr)}
+.monitor-close:hover{background:rgba(220,38,38,.3);border-color:rgba(220,38,38,.4)}
+.monitor-stats{display:flex;gap:10px;padding:12px 20px;border-bottom:1px solid rgba(255,255,255,.06);overflow-x:auto;scrollbar-width:none;flex-shrink:0}
+.monitor-stats::-webkit-scrollbar{display:none}
+.monitor-stat{display:flex;align-items:center;gap:8px;padding:9px 14px;border-radius:var(--r);white-space:nowrap;flex-shrink:0}
+.ms-green{background:rgba(5,150,105,.15);border:1px solid rgba(5,150,105,.3)}
+.ms-red{background:rgba(220,38,38,.15);border:1px solid rgba(220,38,38,.3)}
+.ms-orange{background:rgba(234,88,12,.15);border:1px solid rgba(234,88,12,.3)}
+.ms-gray{background:rgba(148,163,184,.1);border:1px solid rgba(148,163,184,.2)}
+.monitor-grid{flex:1;overflow-y:auto;padding:16px 20px;display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;align-content:start;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.1) transparent}
+.monitor-taxi-card{border-radius:var(--rl);padding:16px;display:flex;align-items:center;gap:12px;transition:var(--tr)}
+.monitor-taxi-card.st-online{background:rgba(5,150,105,.12);border:1.5px solid rgba(5,150,105,.35)}
+.monitor-taxi-card.st-busy{background:rgba(220,38,38,.12);border:1.5px solid rgba(220,38,38,.35)}
+.monitor-taxi-card.st-break{background:rgba(234,88,12,.12);border:1.5px solid rgba(234,88,12,.35)}
+.monitor-taxi-card.st-offline{background:rgba(148,163,184,.08);border:1.5px solid rgba(148,163,184,.2)}
+.monitor-taxi-av{width:46px;height:46px;border-radius:13px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;border:2px solid transparent}
+.monitor-taxi-av img{width:100%;height:100%;object-fit:cover}
+.monitor-taxi-info{flex:1;min-width:0}
+.monitor-taxi-name{font-size:13px;font-weight:800;color:#fff;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.monitor-taxi-status{font-size:11px;font-weight:700;display:flex;align-items:center;gap:5px;margin-bottom:3px}
+.monitor-taxi-phone{font-size:11px;color:rgba(255,255,255,.45)}
+.monitor-status-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.msd-green{background:#34D399;box-shadow:0 0 6px rgba(52,211,153,.5);animation:msdPulse 1.5s infinite}
+.msd-red{background:#F87171}
+.msd-orange{background:#FB923C}
+.msd-gray{background:#64748B}
+@keyframes msdPulse{0%,100%{opacity:1}50%{opacity:.5}}
+.monitor-taxi-badge{font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;display:inline-flex;align-items:center;gap:3px}
+.mtb-green{background:rgba(52,211,153,.15);color:#34D399;border:1px solid rgba(52,211,153,.3)}
+.mtb-red{background:rgba(248,113,113,.15);color:#F87171;border:1px solid rgba(248,113,113,.3)}
+.mtb-orange{background:rgba(251,146,60,.15);color:#FB923C;border:1px solid rgba(251,146,60,.3)}
+.mtb-gray{background:rgba(100,116,139,.15);color:#94A3B8;border:1px solid rgba(100,116,139,.3)}
+
 @media(max-width:640px){
   .dlayout,.sup-req-layout{flex-direction:column}
-  .dside{width:100%;flex:0 0 auto;max-height:42vh;border-left:none;border-bottom:1px solid var(--border)}
-  .sup-req-col{width:100%;max-height:42vh;border-left:none;border-bottom:1px solid var(--border)}
-  .ntab span{display:none}.ntab{padding:7px 10px}
+  .dside{width:100%;flex:0 0 auto;max-height:45vh;border-left:none;border-bottom:1px solid var(--border)}
+  .sup-req-col{width:100%;max-height:40vh;border-left:none;border-bottom:1px solid var(--border)}
+  /* hide top ntabs on mobile, show bottom nav instead */
+  .ntabs{display:none}
+  .bout{display:none}
+  .mobile-nav{display:block}
+  .dbody{padding-top:60px;padding-bottom:70px}
+  .panel{height:calc(100vh - 60px - 70px)}
+  .dreq-wrap{height:calc(100vh - 60px - 70px)}
   .acc-grid,.support-grid{grid-template-columns:1fr}
   .hero-cards{flex-direction:column;align-items:center}
+  .monitor-grid{grid-template-columns:1fr 1fr}
 }
 @media(min-width:641px) and (max-width:900px){
   .dside{width:210px}.sup-req-col{width:290px}
+  .monitor-grid{grid-template-columns:repeat(3,1fr)}
 }
 </style>
 </head>
@@ -657,6 +711,29 @@ button,textarea,input,select{font-family:'Cairo',sans-serif}
 </div>
 
 <div class="toasts" id="toasts"></div>
+
+<!-- MOBILE BOTTOM NAV -->
+<div class="mobile-nav" id="mobileNav" style="display:none">
+  <div class="mob-tabs" id="mobTabs"></div>
+</div>
+
+<!-- MONITORING SCREEN -->
+<div class="monitor-screen" id="MonitorScreen">
+  <div class="monitor-hd">
+    <div class="monitor-title"><span style="font-size:22px">🚕</span> شاشة المراقبة المباشرة</div>
+    <button class="monitor-close" onclick="closeMonitor()"><i class="fas fa-times"></i> إغلاق</button>
+  </div>
+  <div class="monitor-stats" id="monStats">
+    <div class="monitor-stat ms-green"><span class="monitor-status-dot msd-green"></span><span style="color:#34D399;font-weight:700;font-size:13px" id="mon-online">0</span><span style="color:rgba(255,255,255,.5);font-size:11px"> متاح</span></div>
+    <div class="monitor-stat ms-red"><span class="monitor-status-dot msd-red"></span><span style="color:#F87171;font-weight:700;font-size:13px" id="mon-busy">0</span><span style="color:rgba(255,255,255,.5);font-size:11px"> مشغول</span></div>
+    <div class="monitor-stat ms-orange"><span class="monitor-status-dot msd-orange"></span><span style="color:#FB923C;font-weight:700;font-size:13px" id="mon-break">0</span><span style="color:rgba(255,255,255,.5);font-size:11px"> استراحة/صلاة</span></div>
+    <div class="monitor-stat ms-gray"><span class="monitor-status-dot msd-gray"></span><span style="color:#94A3B8;font-weight:700;font-size:13px" id="mon-offline">0</span><span style="color:rgba(255,255,255,.5);font-size:11px"> غير متصل</span></div>
+    <div class="monitor-stat" style="background:rgba(29,78,216,.15);border:1px solid rgba(29,78,216,.3)"><i class="fas fa-box" style="color:#93C5FD;font-size:12px"></i><span style="color:#93C5FD;font-weight:700;font-size:13px" id="mon-total-del">0</span><span style="color:rgba(255,255,255,.5);font-size:11px"> توصيلة كلية</span></div>
+  </div>
+  <div class="monitor-grid" id="monGrid">
+    <div style="text-align:center;padding:40px;color:rgba(255,255,255,.3);grid-column:1/-1"><div class="spin wh" style="width:28px;height:28px;margin:0 auto"></div></div>
+  </div>
+</div>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
@@ -966,6 +1043,7 @@ const listenSupNotifs=()=>{
     if(!snap.exists())return;
     const unread=Object.values(snap.val()).filter(n=>!n.read).length;
     const b=$('notif-badge');if(b){b.textContent=unread;b.style.display=unread>0?'inline':'none';}
+    const mb=$('mob-notif-badge');if(mb){mb.textContent=unread;mb.style.display=unread>0?'inline':'none';}
     const urgent=Object.values(snap.val()).filter(n=>!n.read&&(n.type==='reject'||n.type==='timeout'||n.type==='sos'));
     if(urgent.length>0){vibrate([200,100,200]);playSound('notif');}
   });
@@ -980,23 +1058,49 @@ const initDash=()=>{
   else nav.textContent=CR==='driver'?'🚕':'👨‍💼';
   if(CR==='supervisor')nav.classList.add('sup-av');
   const tabs=$('ntabs');
+  const mobNav=$('mobileNav');const mobTabs=$('mobTabs');
   if(CR==='driver'){
-    tabs.innerHTML=`
-      <button class="ntab on" id="nt-reqs" onclick="nTab('reqs')"><i class="fas fa-inbox"></i><span> الطلبات</span></button>
-      <button class="ntab" id="nt-map" onclick="nTab('map')"><i class="fas fa-map-location-dot"></i><span> موقعي</span></button>
-      <button class="ntab" id="nt-reports" onclick="nTab('reports')"><i class="fas fa-chart-bar"></i><span> تقاريري</span></button>
-      <button class="ntab" id="nt-support" onclick="nTab('support')"><i class="fas fa-headset"></i><span> دعم فني</span></button>
-      <button class="ntab" id="nt-profile" onclick="nTab('profile')"><i class="fas fa-user-cog"></i><span> حسابي</span></button>`;
+    const driverTabsCfg=[
+      {id:'reqs',icon:'fas fa-inbox',label:'الطلبات'},
+      {id:'map',icon:'fas fa-map-location-dot',label:'موقعي'},
+      {id:'reports',icon:'fas fa-chart-bar',label:'تقاريري'},
+      {id:'support',icon:'fas fa-headset',label:'دعم فني'},
+      {id:'profile',icon:'fas fa-user-cog',label:'حسابي'}
+    ];
+    tabs.innerHTML=driverTabsCfg.map((t,i)=>`<button class="ntab${i===0?' on':''}" id="nt-${t.id}" onclick="nTab('${t.id}')"><i class="${t.icon}"></i><span> ${t.label}</span></button>`).join('');
+    if(mobNav&&mobTabs){
+      mobNav.style.display='block';
+      mobTabs.innerHTML=driverTabsCfg.map((t,i)=>`<button class="mob-tab${i===0?' on':''}" id="mnt-${t.id}" onclick="nTab('${t.id}')"><i class="${t.icon}"></i>${t.label}</button>`).join('');
+    }
     renderDriverReqs();
   } else {
-    tabs.innerHTML=`
-      <button class="ntab on" id="nt-reqs" onclick="nTab('reqs')"><i class="fas fa-inbox"></i><span> الطلبات</span></button>
-      <button class="ntab" id="nt-map" onclick="nTab('map')"><i class="fas fa-map-location-dot"></i><span> الخريطة</span></button>
-      <button class="ntab" id="nt-notifs" onclick="nTab('notifs')"><i class="fas fa-bell"></i><span> التنبيهات <span class="ntab-badge" id="notif-badge" style="display:none">0</span></span></button>
-      <button class="ntab" id="nt-reports" onclick="nTab('reports')"><i class="fas fa-chart-bar"></i><span> التقارير</span></button>
-      <button class="ntab" id="nt-accounts" onclick="nTab('accounts')"><i class="fas fa-users"></i><span> السائقون</span></button>
-      <button class="ntab" id="nt-support" onclick="nTab('support')"><i class="fas fa-headset"></i><span> دعم فني</span></button>
-      <button class="ntab" id="nt-profile" onclick="nTab('profile')"><i class="fas fa-user-cog"></i><span> حسابي</span></button>`;
+    const supTabsCfg=[
+      {id:'reqs',icon:'fas fa-inbox',label:'الطلبات'},
+      {id:'map',icon:'fas fa-map-location-dot',label:'الخريطة'},
+      {id:'notifs',icon:'fas fa-bell',label:'التنبيهات',badge:true},
+      {id:'reports',icon:'fas fa-chart-bar',label:'التقارير'},
+      {id:'accounts',icon:'fas fa-users',label:'السائقون'},
+      {id:'support',icon:'fas fa-headset',label:'دعم فني'},
+      {id:'profile',icon:'fas fa-user-cog',label:'حسابي'}
+    ];
+    tabs.innerHTML=supTabsCfg.map((t,i)=>`<button class="ntab${i===0?' sup-on':''}" id="nt-${t.id}" onclick="nTab('${t.id}')"><i class="${t.icon}"></i><span> ${t.label}${t.badge?` <span class="ntab-badge" id="notif-badge" style="display:none">0</span>`:''}</span></button>`).join('');
+    // Add monitor button in desktop nav
+    const existingMonBtn=$('monitorBtn');
+    if(!existingMonBtn){
+      const monBtn=document.createElement('button');
+      monBtn.id='monitorBtn';
+      monBtn.className='btn-primary';
+      monBtn.style.cssText='padding:7px 13px;font-size:11px;flex-shrink:0';
+      monBtn.innerHTML='<i class="fas fa-tv"></i> <span class="ntab-span">شاشة المراقبة</span>';
+      monBtn.onclick=openMonitor;
+      $('navr').insertBefore(monBtn,$('navr').firstChild);
+    }
+    if(mobNav&&mobTabs){
+      mobNav.style.display='block';
+      mobTabs.innerHTML=supTabsCfg.map((t,i)=>`<button class="mob-tab${i===0?' sup-on':''}" id="mnt-${t.id}" onclick="nTab('${t.id}')">${t.badge?`<span class="mob-tab-badge" id="mob-notif-badge" style="display:none">0</span>`:''}<i class="${t.icon}"></i>${t.label}</button>`).join('');
+      // Monitor button at end
+      mobTabs.innerHTML+=`<button class="mob-tab" onclick="openMonitor()" style="background:rgba(29,78,216,.1);color:var(--primary)"><i class="fas fa-tv"></i>مراقبة</button>`;
+    }
     renderSupReqs();
     loadSupDrivers();
   }
@@ -1005,8 +1109,12 @@ const initDash=()=>{
 let _tabBusy=false;
 window.nTab=t=>{
   if(_tabBusy)return;_tabBusy=true;
+  // Update desktop tabs
   document.querySelectorAll('#ntabs .ntab').forEach(b=>b.classList.remove('on','sup-on'));
   const el=$('nt-'+t);if(el)el.classList.add(CR==='supervisor'?'sup-on':'on');
+  // Update mobile tabs
+  document.querySelectorAll('#mobTabs .mob-tab').forEach(b=>b.classList.remove('on','sup-on'));
+  const mel=$('mnt-'+t);if(mel)mel.classList.add(CR==='supervisor'?'sup-on':'on');
   clrListeners(true);
   if(CR==='driver'){
     if(t==='reqs')renderDriverReqs();
@@ -1034,10 +1142,14 @@ const clrListeners=(keepDrvs=false)=>{
 const addL=(r,keep=false)=>LSNRS.push({r,keep});
 
 const getTCS=d=>{
-  if(d.taxiColor==='red'||d.status==='busy')return{border:'#DC2626',dot:'#DC2626',label:'مشغول 🔴',cls:'sb-red'};
-  if(d.taxiColor==='orange'||d.status==='break'||d.status==='pray'||d.status==='waiting'||d.status==='near')return{border:'#EA580C',dot:'#EA580C',label:d.status==='near'?'قريب ⚠️':'بالانتظار 🟠',cls:'sb-orange'};
-  if(d.status==='online'||d.taxiColor==='green')return{border:'#059669',dot:'#059669',label:'متاح 🟢',cls:'sb-green'};
-  return{border:'#94A3B8',dot:'#94A3B8',label:'غير متصل ⚫',cls:'sb-gray'};
+  if(d.taxiColor==='red'||d.status==='busy')return{border:'#DC2626',dot:'#DC2626',label:'مشغول 🔴',cls:'sb-red',monCls:'st-busy',dotCls:'msd-red',badgeCls:'mtb-red'};
+  if(d.taxiColor==='orange'||d.status==='break'||d.status==='pray'||d.status==='waiting'||d.status==='near'){
+    const lbl=d.status==='near'?'قريب ⚠️':d.status==='waiting'?'بالانتظار 🟠':d.status==='pray'?'صلاة 🕌':'استراحة 🟠';
+    return{border:'#EA580C',dot:'#EA580C',label:lbl,cls:'sb-orange',monCls:'st-break',dotCls:'msd-orange',badgeCls:'mtb-orange'};
+  }
+  if(d.status==='offline'||d.taxiColor==='offline')return{border:'#64748B',dot:'#64748B',label:'غير متصل ⚫',cls:'sb-gray',monCls:'st-offline',dotCls:'msd-gray',badgeCls:'mtb-gray'};
+  // Default: online or green or any registered driver = available (green)
+  return{border:'#059669',dot:'#059669',label:'متاح 🟢',cls:'sb-green',monCls:'st-online',dotCls:'msd-green',badgeCls:'mtb-green'};
 };
 
 const loadSupDrivers=()=>{
@@ -1552,7 +1664,13 @@ const updateMarker=(id,d,sIdx)=>{
 
 /* NOTIFICATIONS */
 const renderNotifs=()=>{
-  $('dbody').innerHTML=`<div class="panel"><div class="atitle"><i class="fas fa-bell"></i> التنبيهات</div><div id="NLIST"><div style="text-align:center;padding:32px;color:var(--text4)"><div class="spin"></div></div></div></div>`;
+  $('dbody').innerHTML=`<div class="panel">
+    <div class="atitle" style="justify-content:space-between">
+      <span style="display:flex;align-items:center;gap:10px"><i class="fas fa-bell"></i> التنبيهات</span>
+      <button onclick="clearAllNotifs()" style="padding:7px 14px;background:var(--red-l);border:1px solid var(--red-m);border-radius:9px;color:var(--red);font-size:11px;font-weight:700;cursor:pointer"><i class="fas fa-trash"></i> حذف الكل</button>
+    </div>
+    <div id="NLIST"><div style="text-align:center;padding:32px;color:var(--text4)"><div class="spin"></div></div></div>
+  </div>`;
   const r=ref(dbs[0],'notifications');
   onValue(r,snap=>{
     const list=$('NLIST');if(!list)return;
@@ -1561,19 +1679,30 @@ const renderNotifs=()=>{
     list.innerHTML=items.map(([nid,n])=>{
       const ic={accept:'ni-green',reject:'ni-red',timeout:'ni-red',done:'ni-green',waiting:'ni-amber',near:'ni-amber',sos:'ni-red',cancel:'ni-red',edit:'ni-amber',info:'ni-blue'}[n.type]||'ni-blue';
       const icon={accept:'check',reject:'times',timeout:'clock',done:'flag-checkered',waiting:'hourglass-half',near:'map-pin',sos:'triangle-exclamation',cancel:'ban',edit:'pen',info:'info'}[n.type]||'bell';
-      return`<div class="notif-item ${n.read?'':'unread'}">
+      return`<div class="notif-item ${n.read?'':'unread'}" style="position:relative">
         <div class="notif-ic ${ic}"><i class="fas fa-${icon}"></i></div>
         <div class="notif-body">
           <div class="notif-title">${esc(n.msg||'')}</div>
           ${n.reason?`<div class="notif-sub">السبب: ${esc(n.reason)}</div>`:''}
           <div class="notif-time">${fmt(n.ts||Date.now())}</div>
         </div>
+        <button onclick="delNotif('${nid}')" style="position:absolute;top:8px;left:8px;width:28px;height:28px;background:var(--red-l);border:1px solid var(--red-m);border-radius:7px;color:var(--red);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0" title="حذف"><i class="fas fa-times"></i></button>
       </div>`;
     }).join('');
     items.filter(([,n])=>!n.read).forEach(([nid])=>update(ref(dbs[0],`notifications/${nid}`),{read:true}));
     const b=$('notif-badge');if(b){b.style.display='none';}
+    const mb=$('mob-notif-badge');if(mb){mb.style.display='none';}
   });
   addL(r);
+};
+
+window.delNotif=async nid=>{
+  await remove(ref(dbs[0],`notifications/${nid}`)).catch(()=>{});
+};
+window.clearAllNotifs=async()=>{
+  if(!confirm('حذف جميع التنبيهات؟'))return;
+  await remove(ref(dbs[0],'notifications')).catch(()=>{});
+  toast('ok','تم حذف جميع التنبيهات','');
 };
 
 /* SUPPORT (دعم فني) */
