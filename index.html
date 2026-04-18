@@ -1968,27 +1968,36 @@ window.openMonitor=()=>{
     const upd=(id,v)=>{const e=$(id);if(e)e.textContent=v;};
     upd('mn-on',on);upd('mn-busy',bu);upd('mn-brk',br);upd('mn-off',of);upd('mn-tot',all.length);upd('mn-del',td);
     if(!all.length){grid.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:40px;color:rgba(255,255,255,.3);font-size:13px;font-family:'Cairo',sans-serif">لا يوجد سائقون مسجلون</div>`;return;}
-    const sorted=[...all].sort((a,b)=>{const o={mc-online:0,'mc-busy':1,'mc-break':2,'mc-offline':3};return(o[getTCS(a[1]).mcls]??3)-(o[getTCS(b[1]).mcls]??3)||(a[1].name||'').localeCompare(b[1].name||'');});
-    grid.innerHTML=sorted.map(([id,d])=>{
-      const cs=getTCS(d);
-      const av=d.avatar?`<img src="${d.avatar}" style="width:100%;height:100%;object-fit:cover">`:'🚕';
-      const del=d.totalDeliveries||d.deliveries||0;
-      const sh=d.shiftStart&&cs.mcls!=='mc-offline'?`<div class="mon-meta">⏱ ${fmtElapsed(Date.now()-d.shiftStart)}</div>`:'';
-      return`<div class="mon-card ${cs.mcls}">
-        <div class="mon-av">${av}</div>
-        <div style="flex:1;min-width:0">
-          <div class="mon-nm">${esc(d.name||'-')}</div>
-          <div class="mon-lbl" style="color:${cs.dot}"><div class="mon-dot-el" style="background:${cs.dot}${cs.mcls==='mc-online'?';box-shadow:0 0 5px '+cs.dot+'88':''}"></div>${cs.label}</div>
-          <div style="display:flex;flex-wrap:wrap;gap:4px;align-items:center">
-            <span class="mon-tag ${cs.mtag}"><i class="fas fa-box" style="font-size:8px"></i>${del}</span>
-            ${d.carNumber?`<span class="mon-meta">🚗 ${esc(d.carNumber)}</span>`:''}
-          </div>
-          ${sh}
-          ${d.phone?`<div class="mon-meta">${d.phone}</div>`:''}
-        </div>
-      </div>`;
-    }).join('');
-  };
+const sorted = [...all].sort((a, b) => {
+  const order = { 'mc-online': 0, 'mc-busy': 1, 'mc-break': 2, 'mc-offline': 3 };
+  const clsA = getTCS(a[1]).mcls || 'mc-offline';
+  const clsB = getTCS(b[1]).mcls || 'mc-offline';
+  const orderA = order[clsA] !== undefined ? order[clsA] : 3;
+  const orderB = order[clsB] !== undefined ? order[clsB] : 3;
+  if (orderA !== orderB) return orderA - orderB;
+  return (a[1].name || '').localeCompare(b[1].name || '');
+});
+
+grid.innerHTML = sorted.map(([id, d]) => {
+  const cs = getTCS(d);
+  const av = d.avatar ? `<img src="${d.avatar}" style="width:100%;height:100%;object-fit:cover">` : '🚕';
+  const del = d.totalDeliveries || d.deliveries || 0;
+  const sh = (d.shiftStart && cs.mcls !== 'mc-offline') ? `<div class="mon-meta">⏱ ${fmtElapsed(Date.now() - d.shiftStart)}</div>` : '';
+  const shadowStyle = (cs.mcls === 'mc-online') ? `;box-shadow:0 0 5px ${cs.dot}88` : '';
+  return `<div class="mon-card ${cs.mcls}">
+    <div class="mon-av">${av}</div>
+    <div style="flex:1;min-width:0">
+      <div class="mon-nm">${esc(d.name || '-')}</div>
+      <div class="mon-lbl" style="color:${cs.dot}"><div class="mon-dot-el" style="background:${cs.dot}${shadowStyle}"></div>${cs.label}</div>
+      <div style="display:flex;flex-wrap:wrap;gap:4px;align-items:center">
+        <span class="mon-tag ${cs.mtag}"><i class="fas fa-box" style="font-size:8px"></i>${del}</span>
+        ${d.carNumber ? `<span class="mon-meta">🚗 ${esc(d.carNumber)}</span>` : ''}
+      </div>
+      ${sh}
+      ${d.phone ? `<div class="mon-meta">${d.phone}</div>` : ''}
+    </div>
+  </div>`;
+}).join('');  };
   dbs.forEach((sdb,sIdx)=>{
     const r=ref(sdb,'drivers');
     onValue(r,snap=>{
