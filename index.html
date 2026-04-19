@@ -814,62 +814,71 @@ let swReg = null; // Service Worker registration
 const NOTIF_ICON = `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#D97706"/><text y=".9em" font-size="70" x="15">🚕</text></svg>`)}`;
 
 // ── تسجيل Service Worker ──
+/* ══════════════════════════════════════════════════
+   نظام الإشعارات — صوت + رسالة من الخارج
+   يعمل حتى لو الشاشة مقفلة أو المتصفح في الخلفية
+   ══════════════════════════════════════════════════ */
+
+// ── تسجيل Service Worker من inline script داخل الصفحة نفسها ──
 const registerSW = async () => {
   if (!('serviceWorker' in navigator)) return null;
   try {
-    // نكتب السيرفس وركر مباشرة كـ Blob بدون ملف خارجي
-    const swCode = `
-self.addEventListener('push', e => {
-  const d = e.data ? e.data.json() : {};
+    // نبني ملف SW كـ blob ونسجله
+    const swSrc = `
+const CACHE='taxi-sw-v1';
+self.addEventListener('install', e => self.skipWaiting());
+self.addEventListener('activate', e => e.waitUntil(clients.claim()));
+
+// استقبال رسائل من الصفحة وإظهار الإشعار
+self.addEventListener('message', e => {
+  if (!e.data || e.data.action !== 'NOTIFY') return;
+  const d = e.data;
   const opts = {
-    body: d.body || 'لديك إشعار جديد',
-    icon: d.icon || '${NOTIF_ICON}',
-    badge: d.icon || '${NOTIF_ICON}',
+    body: d.body || '',
+    icon: d.icon,
+    badge: d.badge,
     dir: 'rtl',
     lang: 'ar',
     vibrate: d.vibrate || [300,100,300],
-    requireInteraction: true,
-    tag: d.tag || 'taxi',
-    data: d.data || {},
-    actions: d.actions || []
+    requireInteraction: d.require || false,
+    tag: d.tag || ('notif_' + Date.now()),
+    silent: false,
+    data: d.extra || {}
   };
-  e.waitUntil(self.registration.showNotification(d.title || 'منصة الطلبات 🚕', opts));
+  e.waitUntil(
+    self.registration.showNotification(d.title || 'منصة الطلبات', opts)
+  );
 });
+
+// عند النقر على الإشعار — فتح/تركيز التطبيق
 self.addEventListener('notificationclick', e => {
   e.notification.close();
   e.waitUntil(
-    clients.matchAll({type:'window',includeUncontrolled:true}).then(cls => {
-      for(const c of cls){ if(c.url && 'focus' in c){ c.focus(); return; } }
-      return clients.openWindow('/');
+    clients.matchAll({type:'window', includeUncontrolled:true}).then(list => {
+      for (const c of list) {
+        if (c.url && 'focus' in c) { c.focus(); return; }
+      }
+      return clients.openWindow(self.location.origin + '/');
     })
   );
 });
-self.addEventListener('message', e => {
-  if(e.data && e.data.type === 'SHOW_NOTIF'){
-    const d = e.data;
-    const opts = {
-      body: d.body,
-      icon: d.icon || '${NOTIF_ICON}',
-      badge: d.icon || '${NOTIF_ICON}',
-      dir: 'rtl',
-      lang: 'ar',
-      vibrate: d.vibrate || [300,100,300],
-      requireInteraction: d.requireInteraction !== false,
-      tag: d.tag || 'taxi',
-      data: d.data || {},
-      actions: d.actions || []
-    };
-    self.registration.showNotification(d.title || 'منصة الطلبات 🚕', opts);
-  }
-});
 `;
-    const blob = new Blob([swCode], {type:'application/javascript'});
-    const swUrl = URL.createObjectURL(blob);
-    swReg = await navigator.serviceWorker.register(swUrl, {scope:'/'});
-    console.log('✅ Service Worker registered');
+    const blob = new Blob([swSrc], {type: 'text/javascript'});
+    const url = URL.createObjectURL(blob);
+    // تسجيل SW بدون scope محدد ليقبله Chrome/Firefox
+    swReg = await navigator.serviceWorker.register(url);
+    await swReg.update();
+    // انتظر حتى يصبح active
+    await new Promise(res => {
+      if (swReg.active) { res(); return; }
+      const w = swReg.installing || swReg.waiting;
+      if (w) w.addEventListener('statechange', () => { if(w.state==='activated') res(); });
+      else setTimeout(res, 1500);
+    });
+    console.log('[SW] registered & active');
     return swReg;
-  } catch(err) {
-    console.warn('SW register failed:', err);
+  } catch (err) {
+    console.warn('[SW] registration failed:', err.message);
     return null;
   }
 };
@@ -879,54 +888,58 @@ const reqPushPermission = async () => {
   if (!('Notification' in window)) return false;
   if (Notification.permission === 'granted') return true;
   if (Notification.permission === 'denied') return false;
-  const perm = await Notification.requestPermission();
-  return perm === 'granted';
+  const p = await Notification.requestPermission();
+  return p === 'granted';
 };
 
-// ── إرسال إشعار (يعمل من الخلفية عبر SW) ──
+// ── إنشاء أيقونة SVG حسب نوع الإشعار ──
+const makeIcon = emoji => `data:image/svg+xml,${encodeURIComponent(
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><rect width="128" height="128" rx="26" fill="#1D4ED8"/><text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" font-size="72">${emoji}</text></svg>`
+)}`;
+
+// ── إرسال إشعار الهاتف (صوت + رسالة معاً) ──
 const showPushNotif = async (title, body, type = 'info', extra = {}) => {
   if (!('Notification' in window)) return;
   if (Notification.permission !== 'granted') return;
 
-  // تحديد الأيقونة والإعدادات حسب النوع
-  const typeConfig = {
-    new_request: { icon:'📦', vibrate:[400,100,400,100,400], requireInteraction:true,  actions:[{action:'view',title:'👀 عرض الطلب'}] },
-    edit_request: { icon:'✏️', vibrate:[200,100,200],          requireInteraction:true,  actions:[{action:'view',title:'👀 عرض التعديل'}] },
-    cancel:       { icon:'🚫', vibrate:[300,100,100],          requireInteraction:false, actions:[] },
-    sos:          { icon:'🆘', vibrate:[500,100,500,100,500,100,500], requireInteraction:true, actions:[] },
-    done:         { icon:'✅', vibrate:[200],                   requireInteraction:false, actions:[] },
-    info:         { icon:'ℹ️', vibrate:[100],                   requireInteraction:false, actions:[] },
-  };
-  const cfg = typeConfig[type] || typeConfig.info;
+  const cfg = {
+    new_request: { emoji:'📦', vibrate:[400,100,400,100,400,100,400], require:true  },
+    edit_request: { emoji:'✏️', vibrate:[200,100,200,100,200],         require:true  },
+    cancel:       { emoji:'🚫', vibrate:[300,150,150],                  require:false },
+    sos:          { emoji:'🆘', vibrate:[500,100,500,100,500,100,500], require:true  },
+    done:         { emoji:'✅', vibrate:[200],                           require:false },
+    info:         { emoji:'🔔', vibrate:[150],                           require:false },
+  }[type] || { emoji:'🔔', vibrate:[150], require:false };
 
-  const notifPayload = {
-    type: 'SHOW_NOTIF',
-    title,
-    body,
-    icon: `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="20" fill="#1D4ED8"/><text y=".9em" font-size="65" x="10">${cfg.icon}</text></svg>`)}`,
-    vibrate: cfg.vibrate,
-    requireInteraction: cfg.requireInteraction,
-    tag: type + '_' + Date.now(),
-    actions: cfg.actions,
-    data: extra
-  };
+  const icon = makeIcon(cfg.emoji);
+  const tag  = type + '_' + Date.now();
 
-  // إرسال عبر Service Worker (يعمل في الخلفية)
-  if (swReg && navigator.serviceWorker.controller) {
-    navigator.serviceWorker.controller.postMessage(notifPayload);
-  } else {
-    // fallback: إشعار مباشر لو SW غير جاهز
-    try {
-      new Notification(title, {
-        body,
-        icon: notifPayload.icon,
-        tag: notifPayload.tag,
-        requireInteraction: cfg.requireInteraction,
-        dir: 'rtl'
+  // الطريقة ١: عبر Service Worker (تعمل حتى لو الشاشة مقفلة)
+  const sw = swReg && (swReg.active || swReg.waiting || swReg.installing);
+  const controller = navigator.serviceWorker.controller;
+
+  if (sw || controller) {
+    const target = controller || swReg.active || swReg.waiting;
+    if (target) {
+      target.postMessage({
+        action: 'NOTIFY',
+        title, body, icon,
+        badge: makeIcon('🚕'),
+        vibrate: cfg.vibrate,
+        require: cfg.require,
+        tag, extra
       });
-    } catch(e) {}
+      return;
+    }
   }
-};
+
+  // الطريقة ٢: إشعار مباشر (fallback)
+  try {
+    new Notification(title, { body, icon, tag, dir:'rtl', requireInteraction: cfg.require });
+  } catch(e) {
+    console.warn('Notification fallback failed:', e);
+  }
+}; 
 
 // ── الاستماع للرسائل من SW ──
 if ('serviceWorker' in navigator) {
@@ -1291,22 +1304,36 @@ const initRecvDash=()=>{
   $('PR').style.display='block';
   const nav=$('recv-navav');
   nav.textContent='👨‍💼';
-  // Build recv tabs
   const recvTabsCfg=[
-    {id:'requests',icon:'fas fa-inbox',label:'الطلبات الواردة'},
+    {id:'requests',icon:'fas fa-inbox',label:'الطلبات',badge:true},
+    {id:'map',icon:'fas fa-map-location-dot',label:'الخريطة'},
     {id:'add',icon:'fas fa-plus-circle',label:'إضافة طلب'},
     {id:'history',icon:'fas fa-history',label:'السجل'}
   ];
   const ntabs=$('recv-ntabs');
   const mobNav=$('mobileNav');const mobTabs=$('mobTabs');
-  ntabs.innerHTML=recvTabsCfg.map((t,i)=>`<button class="ntab${i===0?' sup-on':''}" id="rnt-${t.id}" onclick="recvTab('${t.id}')"><i class="${t.icon}"></i><span> ${t.label}</span></button>`).join('');
+  ntabs.innerHTML=recvTabsCfg.map((t,i)=>`<button class="ntab${i===0?' sup-on':''}" id="rnt-${t.id}" onclick="recvTab('${t.id}')"><i class="${t.icon}"></i><span> ${t.label}${t.badge?` <span class="ntab-badge" id="recv-notif-badge" style="display:none">0</span>`:''}</span></button>`).join('');
   if(mobNav&&mobTabs){
     mobNav.style.display='block';
-    mobTabs.innerHTML=recvTabsCfg.map((t,i)=>`<button class="mob-tab${i===0?' sup-on':''}" id="rmnt-${t.id}" onclick="recvTab('${t.id}')"><i class="${t.icon}"></i>${t.label}</button>`).join('');
+    mobTabs.innerHTML=recvTabsCfg.map((t,i)=>`<button class="mob-tab${i===0?' sup-on':''}" id="rmnt-${t.id}" onclick="recvTab('${t.id}')">${t.badge?`<span class="mob-tab-badge" id="mob-recv-badge" style="display:none">0</span>`:''}<i class="${t.icon}"></i>${t.label}</button>`).join('');
   }
+  registerSW().then(()=>reqPushPermission());
   recvTab('requests');
-  // listen for new requests and notify receiver
   listenRecvNewRequests();
+  loadRecvDrivers();
+};
+
+let recvAllDrvs={};
+const loadRecvDrivers=()=>{
+  recvAllDrvs={};
+  dbs.forEach((sdb,sIdx)=>{
+    const r=ref(sdb,'drivers');
+    onValue(r,snap=>{
+      Object.keys(recvAllDrvs).forEach(id=>{if(recvAllDrvs[id]._shard===sIdx)delete recvAllDrvs[id];});
+      if(snap.exists())Object.entries(snap.val()).forEach(([id,d])=>{recvAllDrvs[id]={...d,_shard:sIdx};});
+    });
+    LSNRS.push({r,keep:true});
+  });
 };
 
 const listenRecvNewRequests=()=>{
@@ -1316,13 +1343,13 @@ const listenRecvNewRequests=()=>{
     const count=snap.exists()?Object.keys(snap.val()).length:0;
     if(lastCount!==null&&count>lastCount){
       playSound('notif');vibrate([200,100,200]);
-      toast('info','طلب جديد وارد','📥');
-      showPushNotif('📥 طلب جديد وارد!','تم استلام طلب جديد في منصة المستقبل','📥');
+      toast('info','📥 طلب جديد وارد!','');
+      showPushNotif('📥 طلب جديد وارد!','تم استلام طلب جديد','info');
     }
     lastCount=count;
-    // update badge
-    const badge=$('recv-req-badge');
-    if(badge){badge.textContent=count;badge.style.display=count>0?'inline':'none';}
+    ['recv-notif-badge','mob-recv-badge','recv-req-badge'].forEach(bid=>{
+      const b=$(bid);if(b){b.textContent=count>0?count:'';b.style.display=count>0?'inline':'none';}
+    });
   });
   LSNRS.push({r});
 };
@@ -1332,21 +1359,107 @@ window.recvTab=t=>{
   const el=$('rnt-'+t);if(el)el.classList.add('sup-on');
   document.querySelectorAll('#mobTabs .mob-tab').forEach(b=>b.classList.remove('on','sup-on'));
   const mel=$('rmnt-'+t);if(mel)mel.classList.add('sup-on');
+  if(window._recvMap){try{window._recvMap.remove();}catch(e){}window._recvMap=null;window._recvMarkers={};}
   const body=$('recv-dbody');
   if(t==='requests')renderRecvRequests(body);
+  else if(t==='map')renderRecvMap(body);
   else if(t==='add')renderRecvAdd(body);
   else renderRecvHistory(body);
+};
+
+const renderRecvMap=body=>{
+  body.innerHTML=`
+  <div style="height:calc(100vh - 60px - 70px);display:flex;flex-direction:column;position:relative">
+    <div class="ststrip" style="flex-shrink:0">
+      <div class="st"><div class="stic" style="background:var(--green-l)"><i class="fas fa-circle" style="color:var(--green)"></i></div><div><div class="stv" id="rmG">0</div><div class="stl">متاح 🟢</div></div></div>
+      <div class="st"><div class="stic" style="background:var(--red-l)"><i class="fas fa-car" style="color:var(--red)"></i></div><div><div class="stv" id="rmR">0</div><div class="stl">مشغول 🔴</div></div></div>
+      <div class="st"><div class="stic" style="background:var(--orange-l)"><i class="fas fa-hourglass-half" style="color:var(--orange)"></i></div><div><div class="stv" id="rmO">0</div><div class="stl">استراحة 🟠</div></div></div>
+      <div class="st"><div class="stic" style="background:var(--primary-l)"><i class="fas fa-users" style="color:var(--primary)"></i></div><div><div class="stv" id="rmT">0</div><div class="stl">المجموع</div></div></div>
+    </div>
+    <div id="recvMap" style="flex:1;min-height:0"></div>
+    <div class="map-legend">
+      <div style="font-size:11px;font-weight:800;color:var(--text);margin-bottom:6px">حالات السائقين</div>
+      <div class="map-legend-item"><div class="leg-dot" style="background:#059669"></div>متاح 🟢</div>
+      <div class="map-legend-item"><div class="leg-dot" style="background:#EA580C"></div>استراحة 🟠</div>
+      <div class="map-legend-item"><div class="leg-dot" style="background:#DC2626"></div>مشغول 🔴</div>
+      <div class="map-legend-item"><div class="leg-dot" style="background:#64748B"></div>غير متصل ⚫</div>
+    </div>
+  </div>`;
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    const el=$('recvMap');if(!el)return;
+    try{
+      window._recvMap=L.map('recvMap',{zoomControl:true}).setView([32.31,35.03],12);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:19}).addTo(window._recvMap);
+      window._recvMarkers={};
+      dbs.forEach(sdb=>{
+        const r=ref(sdb,'drivers');
+        onValue(r,snap=>{
+          if(!window._recvMap||!snap.exists())return;
+          const ent=Object.entries(recvAllDrvs);
+          const upd=(id,v)=>{const e=$(id);if(e)e.textContent=v;};
+          upd('rmT',ent.length);
+          upd('rmG',ent.filter(([,d])=>getTCS(d).monCls==='st-online').length);
+          upd('rmR',ent.filter(([,d])=>getTCS(d).monCls==='st-busy').length);
+          upd('rmO',ent.filter(([,d])=>getTCS(d).monCls==='st-break').length);
+          Object.entries(snap.val()).forEach(([id,d])=>{
+            if(!d.lat||!d.lng)return;
+            const cs=getTCS(d);
+            const av=d.avatar?`<img src="${d.avatar}" style="width:34px;height:34px;border-radius:50%;object-fit:cover">`:`<span style="font-size:18px">🚕</span>`;
+            let shiftLbl='';if(d.shiftStart&&d.status!=='offline')shiftLbl=`<div class="drv-marker-time">⏱ ${fmtElapsed(Date.now()-d.shiftStart)}</div>`;
+            const icon=L.divIcon({html:`<div class="drv-marker-wrap"><div class="drv-marker" style="border-color:${cs.border}">${av}</div><div class="drv-marker-name">${d.name} ${cs.emoji}</div>${shiftLbl}</div>`,className:'',iconSize:[60,72],iconAnchor:[30,72]});
+            const delivCount=d.totalDeliveries||d.deliveries||0;
+            const dname=encodeURIComponent(d.name||'');
+            const pop=`<div style="text-align:center;padding:4px;min-width:150px;font-family:'Cairo',sans-serif">
+              <div style="font-weight:800;font-size:13px;margin-bottom:4px">${d.name}</div>
+              <div style="font-size:11px;color:${cs.dot};margin-bottom:4px">${cs.label}</div>
+              ${d.phone?`<div style="font-size:11px;color:var(--text3);margin-bottom:4px">${d.phone}</div>`:''}
+              <div style="font-size:11px;color:var(--primary);font-weight:700;margin-bottom:8px">📦 ${delivCount} توصيلة</div>
+              <button onclick="recvSendToDriver('${id}','${d.name.replace(/'/g,'')}')" style="width:100%;padding:8px;background:var(--primary);color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:Cairo,sans-serif"><i class="fas fa-paper-plane"></i> إرسال طلب</button>
+            </div>`;
+            if(window._recvMarkers[id]){window._recvMarkers[id].setLatLng([d.lat,d.lng]);window._recvMarkers[id].setIcon(icon);window._recvMarkers[id].getPopup()?.setContent(pop);}
+            else{window._recvMarkers[id]=L.marker([d.lat,d.lng],{icon}).addTo(window._recvMap).bindPopup(pop);}
+          });
+        });
+        LSNRS.push({r});
+      });
+    }catch(e){console.warn('recv map',e);}
+  }));
+};
+
+window.recvSendToDriver=async(drvId,drvName)=>{
+  const phone=prompt('📞 رقم هاتف الزبون:','');
+  if(!phone||!phone.trim())return;
+  const details=prompt('📍 التفاصيل والموقع:','');
+  if(!details||!details.trim())return;
+  const msg=prompt('💬 رسالة للسائق (اختياري، إلغاء للتخطي):','');
+  try{
+    await push(ref(dbs[0],'recvRequests'),{phone:phone.trim(),details:details.trim(),ts:Date.now(),addedBy:CU?CU.name:'المستقبل'});
+    const payload={phone:phone.trim(),details:details.trim(),status:'pending',ts:Date.now(),sentBy:CU?CU.name:'المستقبل',sentAt:Date.now()};
+    if(msg&&msg.trim())payload.message=msg.trim();
+    await push(ref(dbs[0],`driverRequests/${drvId}`),payload);
+    await push(ref(dbs[0],`driverPushNotifs/${drvId}`),{
+      title:'📦 طلب جديد من المستقبل',
+      body:`📞 ${phone.trim()}\n📍 ${details.trim()}${msg&&msg.trim()?'\n💬 '+msg.trim():''}`,
+      type:'new_request',ts:Date.now(),read:false
+    });
+    toast('ok',`✅ تم إرسال الطلب لـ ${drvName}`,'');
+    playSound('notif');
+    if(window._recvMap)window._recvMap.closePopup();
+  }catch(err){toast('err','خطأ',err.message||'');}
 };
 
 const renderRecvRequests=body=>{
   body.innerHTML=`
   <div style="padding:16px;overflow-y:auto;height:calc(100vh - 60px - 70px)">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px">
       <div style="font-family:'Tajawal',sans-serif;font-size:18px;font-weight:900;color:var(--text);display:flex;align-items:center;gap:8px">
         <i class="fas fa-inbox" style="color:var(--primary)"></i> الطلبات الواردة
         <span id="recv-req-badge" class="ntab-badge" style="display:none">0</span>
       </div>
-      <button onclick="recvTab('add')" style="padding:8px 14px;background:var(--primary);border:none;border-radius:9px;color:#fff;font-size:12px;font-weight:700;cursor:pointer;font-family:'Cairo',sans-serif"><i class="fas fa-plus"></i> إضافة طلب</button>
+      <div style="display:flex;gap:7px;flex-wrap:wrap">
+        <button onclick="recvTab('add')" style="padding:8px 14px;background:var(--primary);border:none;border-radius:9px;color:#fff;font-size:12px;font-weight:700;cursor:pointer;font-family:'Cairo',sans-serif"><i class="fas fa-plus"></i> إضافة</button>
+        <button onclick="recvTab('map')" style="padding:8px 14px;background:var(--green-l);border:1px solid var(--green-m);border-radius:9px;color:var(--green);font-size:12px;font-weight:700;cursor:pointer;font-family:'Cairo',sans-serif"><i class="fas fa-map-location-dot"></i> الخريطة</button>
+      </div>
     </div>
     <div id="RECV_LIST"><div style="text-align:center;padding:32px;color:var(--text4)"><div class="spin dark"></div></div></div>
   </div>`;
@@ -1365,12 +1478,36 @@ const renderRecvRequests=body=>{
         <div style="font-size:12px;color:var(--text2);margin-bottom:10px;display:flex;align-items:flex-start;gap:6px"><i class="fas fa-map-marker-alt" style="color:var(--amber);margin-top:3px;flex-shrink:0"></i>${esc(d.details||'-')}</div>
         ${d.addedBy?`<div style="font-size:10px;color:var(--text4);margin-bottom:8px"><i class="fas fa-user" style="margin-left:3px"></i>${esc(d.addedBy)}</div>`:''}
         <div style="display:flex;gap:7px;flex-wrap:wrap">
-          <button class="rca rca-amber" onclick="recvEditReq('${id}','${eAt(d.phone||'')}','${eAt(d.details||'')}')"><i class="fas fa-pen"></i> تعديل</button>
-          <button class="rca rca-red" onclick="recvDelReq('${id}')"><i class="fas fa-trash"></i> حذف</button>
+          <button class="rca rca-primary" onclick="recvSendReqToTaxi('${id}','${eAt(d.phone||'')}','${eAt(d.details||'')}')"><i class="fas fa-car-side"></i> إرسال لسائق</button>
+          <button class="rca rca-amber" onclick="recvEditReq('${id}','${eAt(d.phone||'')}','${eAt(d.details||'')}')"><i class="fas fa-pen"></i></button>
+          <button class="rca rca-red" onclick="recvDelReq('${id}')"><i class="fas fa-trash"></i></button>
         </div>
       </div>`).join('');
   });
   LSNRS.push({r});
+};
+
+window.recvSendReqToTaxi=(reqId,phone,details)=>{
+  selTaxiId=null;
+  selReqData={id:reqId,phone:phone.replace(/&#39;/g,"'"),details:details.replace(/&#39;/g,"'"),fromRecv:true};
+  const avail=Object.entries(recvAllDrvs);
+  const list=$('sel-taxi-list');
+  if(!avail.length){list.innerHTML=`<div style="text-align:center;padding:20px;color:var(--text3)">لا يوجد سائقون مسجلون</div>`;$('SelTaxiModal').classList.add('on');return;}
+  list.innerHTML=avail.map(([id,d])=>{
+    const cs=getTCS(d);
+    return`<div class="sel-taxi-item" id="stitem-${id}" onclick="selectTaxi('${id}')">
+      <div class="sel-taxi-av" style="border-color:${cs.border}">${d.avatar?`<img src="${d.avatar}">`:'🚕'}</div>
+      <div style="flex:1">
+        <div style="font-weight:800;font-size:13px;color:var(--text)">${esc(d.name)}</div>
+        <div style="font-size:11px;color:${cs.dot};margin-top:2px">${cs.label}</div>
+        ${d.carNumber?`<div style="font-size:10px;color:var(--text4)">🚗 ${esc(d.carNumber)}</div>`:''}
+        <div style="margin-top:3px"><span class="deliv-badge" style="font-size:10px;padding:2px 7px"><i class="fas fa-box"></i> ${d.totalDeliveries||d.deliveries||0}</span></div>
+      </div>
+      <i class="fas fa-check-circle" id="stchk-${id}" style="display:none;color:var(--primary);font-size:18px"></i>
+    </div>`;
+  }).join('');
+  $('SelTaxiModal').classList.add('on');
+  $('confirmSelBtn').disabled=true;$('confirmSelBtn').style.opacity='.5';
 };
 
 const renderRecvAdd=body=>{
@@ -1385,15 +1522,34 @@ const renderRecvAdd=body=>{
       <div class="fg"><label class="fl"><i class="fas fa-map-marker-alt"></i> التفاصيل والموقع</label><textarea class="fi" id="recv-details" rows="4" placeholder="من شارع فلسطين إلى مستشفى طولكرم..."></textarea></div>
       <button class="ba" onclick="addRecvReq()"><i class="fas fa-paper-plane"></i> حفظ الطلب</button>
     </div>
+    <div class="cbox">
+      <div style="font-family:'Tajawal',sans-serif;font-size:15px;font-weight:900;color:var(--text);margin-bottom:12px;display:flex;align-items:center;gap:8px"><i class="fas fa-car-side" style="color:var(--amber)"></i> إرسال مباشر لسائق</div>
+      <div id="RECV_DRV_QUICK" style="display:flex;flex-direction:column;gap:7px">
+        <div style="text-align:center;padding:14px;color:var(--text4);font-size:13px">جار التحميل...</div>
+      </div>
+    </div>
   </div>`;
+  setTimeout(()=>{
+    const dl=$('RECV_DRV_QUICK');if(!dl)return;
+    const avail=Object.entries(recvAllDrvs);
+    if(!avail.length){dl.innerHTML=`<div style="color:var(--text4);font-size:13px;text-align:center">لا يوجد سائقون مسجلون</div>`;return;}
+    dl.innerHTML=avail.map(([id,d])=>{
+      const cs=getTCS(d);
+      return`<div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--bg2);border:1.5px solid ${cs.border};border-radius:var(--r)">
+        <div style="width:38px;height:38px;border-radius:10px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:17px;background:var(--bg3);flex-shrink:0">${d.avatar?`<img src="${d.avatar}" style="width:100%;height:100%;object-fit:cover">`:'🚕'}</div>
+        <div style="flex:1;min-width:0"><div style="font-weight:800;font-size:13px;color:var(--text)">${esc(d.name)}</div><div style="font-size:11px;color:${cs.dot}">${cs.label}</div></div>
+        <button onclick="recvSendToDriver('${id}','${(d.name||'').replace(/'/g,'')}')" style="padding:7px 12px;background:var(--primary);border:none;border-radius:8px;color:#fff;font-size:11px;font-weight:700;cursor:pointer;font-family:'Cairo',sans-serif"><i class="fas fa-paper-plane"></i> إرسال</button>
+      </div>`;
+    }).join('');
+  },400);
 };
 
 const renderRecvHistory=body=>{
   body.innerHTML=`
   <div style="padding:16px;overflow-y:auto;height:calc(100vh - 60px - 70px)">
-    <div style="font-family:'Tajawal',sans-serif;font-size:18px;font-weight:900;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:8px">
-      <i class="fas fa-history" style="color:var(--amber)"></i> سجل التنبيهات
-      <button onclick="clearAllNotifs()" style="margin-right:auto;padding:7px 14px;background:var(--red-l);border:1px solid var(--red-m);border-radius:9px;color:var(--red);font-size:11px;font-weight:700;cursor:pointer;font-family:'Cairo',sans-serif"><i class="fas fa-trash"></i> حذف الكل</button>
+    <div style="font-family:'Tajawal',sans-serif;font-size:18px;font-weight:900;color:var(--text);margin-bottom:14px;display:flex;align-items:center;justify-content:space-between">
+      <span style="display:flex;align-items:center;gap:8px"><i class="fas fa-history" style="color:var(--amber)"></i> سجل التنبيهات</span>
+      <button onclick="clearAllNotifs()" style="padding:7px 14px;background:var(--red-l);border:1px solid var(--red-m);border-radius:9px;color:var(--red);font-size:11px;font-weight:700;cursor:pointer;font-family:'Cairo',sans-serif"><i class="fas fa-trash"></i> حذف الكل</button>
     </div>
     <div id="RECV_HIST"><div style="text-align:center;padding:32px;color:var(--text4)"><div class="spin dark"></div></div></div>
   </div>`;
@@ -1432,10 +1588,12 @@ window.recvEditReq=(id,phone,details)=>{
 };
 
 window.logoutRecv=()=>{
-  clrListeners(false);CU=null;CR=null;IS_RECV=false;
+  clrListeners(false);CU=null;CR=null;IS_RECV=false;recvAllDrvs={};
+  if(window._recvMap){try{window._recvMap.remove();}catch(e){}window._recvMap=null;window._recvMarkers={};}
   $('PR').style.display='none';$('PL').style.display='block';
   $('recv-ntabs').innerHTML='';
   const mn=$('mobileNav');if(mn)mn.style.display='none';
+  const mb=$('mobTabs');if(mb)mb.innerHTML='';
 };
 
 /* ──────── INIT SUPERVISOR/DRIVER DASHBOARD ──────── */
